@@ -1,0 +1,40 @@
+.note {
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-warning-fill);
+  border-radius: var(--radius-md);
+  background: var(--color-warning-tint);
+}
+.head {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-warning-fg);
+  margin-bottom: var(--space-2);
+}
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-5);
+}
+.list li {
+  position: relative;
+  padding-left: var(--space-3);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  cursor: help;
+}
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-warning-fg);
+}

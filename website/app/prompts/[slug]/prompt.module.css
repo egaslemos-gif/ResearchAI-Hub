@@ -1,0 +1,101 @@
+.page {
+  max-width: var(--container-prose);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: fit-content;
+}
+.back:hover {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.tags {
+  display: flex;
+  gap: var(--space-2);
+}
+.title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  letter-spacing: -0.02em;
+}
+.objective {
+  font-size: 1.0625rem;
+  line-height: 1.625rem;
+  color: var(--color-text-muted);
+}
+.compat {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.compatLabel {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+.chip {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+}
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-brand);
+  border-radius: var(--radius-md);
+  background: var(--color-brand-subtle);
+}
+.resultLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-brand-hover);
+}
+.result p {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.related {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 500;
+}
+.related:hover {
+  border-color: var(--brand-300);
+  text-decoration: none;
+}
+.related span {
+  flex: 1;
+}

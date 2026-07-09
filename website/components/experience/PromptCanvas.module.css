@@ -1,0 +1,106 @@
+.canvas {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+.withForm {
+  grid-template-columns: minmax(200px, 260px) 1fr;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.fieldLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+.req {
+  color: var(--color-danger-fg);
+}
+.input {
+  height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.9375rem;
+}
+.input:focus-visible {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-subtle);
+}
+
+.previewWrap {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-sunken);
+  overflow: hidden;
+  min-width: 0;
+}
+.previewHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.copyBtn:hover {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+.preview {
+  margin: 0;
+  padding: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 420px;
+  overflow: auto;
+}
+.token {
+  color: var(--color-brand);
+  background: var(--color-brand-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0 4px;
+  font-weight: 600;
+}
+.filled {
+  color: var(--color-brand-hover);
+  background: var(--color-brand-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0 4px;
+}
+
+@media (max-width: 767px) {
+  .withForm {
+    grid-template-columns: 1fr;
+  }
+}

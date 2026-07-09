@@ -1,0 +1,17 @@
+{
+  "id": "PR-001",
+  "name": "Definição do Tema de Investigação",
+  "version": "1.0.0",
+  "protocol": "LIT-RL-01",
+  "activity": "ACT-001",
+  "category": "literature-review",
+  "objective": "Auxiliar o investigador a definir e delimitar o tema de investigação.",
+  "compatibleTools": ["chatgpt", "claude", "gemini"],
+  "variables": [
+    { "name": "study_area", "type": "string", "required": true, "description": "Área de estudo do investigador" },
+    { "name": "research_interest", "type": "string", "required": true, "description": "Tópico ou interesse de investigação" },
+    { "name": "academic_level", "type": "enum", "values": ["licenciatura", "mestrado", "doutoramento"], "required": true, "description": "Nível académico" }
+  ],
+  "expectedOutput": "Tema definido com delimitação e avaliação de exequibilidade",
+  "language": "pt"
+}

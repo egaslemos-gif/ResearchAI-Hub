@@ -1,0 +1,219 @@
+.page {
+  max-width: var(--container-content);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: fit-content;
+}
+.back:hover {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+
+/* ---- Hero ---- */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: var(--container-prose);
+}
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--color-brand-subtle);
+  color: var(--color-brand);
+}
+.heroTags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.title {
+  font-size: 2.25rem;
+  line-height: 2.625rem;
+  letter-spacing: -0.02em;
+}
+.desc {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  color: var(--color-text-muted);
+}
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+}
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.progress {
+  margin-top: var(--space-2);
+}
+.ctaWrap {
+  align-self: flex-start;
+}
+
+/* ---- Secções ---- */
+.h2 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  margin-bottom: var(--space-4);
+}
+.cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-8);
+}
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+}
+.list li svg {
+  color: var(--color-text-subtle);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ---- Ferramentas ---- */
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+a.tool:hover {
+  border-color: var(--brand-300);
+  text-decoration: none;
+}
+.toolLogo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+}
+.toolText {
+  display: flex;
+  flex-direction: column;
+}
+.toolRole {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+/* ---- Passos ---- */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  counter-reset: none;
+}
+.stepCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  transition: border-color var(--duration-base) var(--ease-out);
+}
+.stepCard:hover {
+  border-color: var(--brand-300);
+}
+.stepNum {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-brand-subtle);
+  color: var(--color-brand-hover);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.stepBody {
+  flex: 1;
+  min-width: 0;
+}
+.stepName {
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  margin-bottom: var(--space-2);
+}
+.stepMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+}
+.stepMeta div {
+  display: flex;
+  flex-direction: column;
+}
+.stepMeta dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+.stepMeta dd {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 767px) {
+  .cols {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  .title {
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+  }
+  .stepCard {
+    flex-wrap: wrap;
+  }
+}

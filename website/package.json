@@ -1,0 +1,25 @@
+{
+  "name": "researchai-hub-web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend MVP do ResearchAI Hub — consome exclusivamente os activos Content-First. Sem conteúdo hardcoded.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "lucide-react": "^1.24.0",
+    "next": "^16.2.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "playwright-core": "^1.61.1",
+    "typescript": "^5.9.3"
+  }
+}

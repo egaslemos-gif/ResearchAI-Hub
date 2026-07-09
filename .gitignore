@@ -1,0 +1,6 @@
+# Artefacto gerado pelo Content Runtime Validator
+/validation-report.json
+
+# Node
+node_modules/
+npm-debug.log*

@@ -1,0 +1,35 @@
+.page {
+  max-width: var(--container-prose);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  width: fit-content;
+}
+.back:hover {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  letter-spacing: -0.02em;
+}
+.subtitle {
+  font-size: 1.0625rem;
+  line-height: 1.625rem;
+  color: var(--color-text-muted);
+}

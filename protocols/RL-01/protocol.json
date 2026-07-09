@@ -1,0 +1,85 @@
+{
+  "id": "PRT-001",
+  "alias": "LIT-RL-01",
+  "legacyAlias": "RL-01",
+  "name": "Revisão da Literatura",
+  "type": "Protocol",
+  "version": "1.0.0",
+  "state": "PUBLISHED",
+  "family": "LIT",
+  "familyName": "Literature Intelligence",
+  "icon": "book-open",
+  "difficulty": "intermediate",
+  "estimatedTime": "4-8 horas",
+  "description": "Protocolo completo para conduzir uma revisão da literatura científica de forma estruturada e assistida por Inteligência Artificial. Guia o investigador desde a definição do tema até à produção de uma revisão preliminar validada.",
+  "objective": "Capacitar o investigador a realizar uma revisão da literatura completa, utilizando IA como assistente metodológico, garantindo rigor científico, reprodutibilidade e uso ético das ferramentas.",
+  "targetAudience": [
+    "Docentes universitários",
+    "Investigadores",
+    "Mestrandos",
+    "Doutorandos"
+  ],
+  "competencies": [
+    "Definir e delimitar um problema de investigação",
+    "Formular uma pergunta científica clara e exequível",
+    "Utilizar ferramentas de descoberta científica assistida por IA",
+    "Avaliar a qualidade e relevância de fontes científicas",
+    "Analisar artigos científicos de forma estruturada",
+    "Comparar evidências entre múltiplos estudos",
+    "Identificar lacunas na literatura existente",
+    "Sintetizar informação científica de forma coerente",
+    "Produzir uma revisão preliminar da literatura",
+    "Validar a qualidade do trabalho produzido"
+  ],
+  "deliverables": [
+    "Tema de investigação definido e delimitado",
+    "Pergunta de investigação formulada",
+    "Lista de artigos científicos seleccionados (mínimo 5)",
+    "Fichas de leitura individuais",
+    "Tabela comparativa de estudos",
+    "Lista de lacunas identificadas",
+    "Revisão preliminar da literatura redigida",
+    "Checklist de qualidade validada"
+  ],
+  "tools": [
+    {
+      "id": "TOL-004",
+      "alias": "consensus",
+      "role": "Descoberta científica e pesquisa de artigos",
+      "phase": "discovery"
+    },
+    {
+      "id": "TOL-001",
+      "alias": "chatgpt",
+      "role": "Análise, comparação e produção de texto",
+      "phase": "production"
+    }
+  ],
+  "prompts": [
+    "PR-001", "PR-002", "PR-003", "PR-004", "PR-005",
+    "PR-006", "PR-007", "PR-008", "PR-009", "PR-010"
+  ],
+  "workflow": "PRT-001.WFL-001",
+  "checklist": "PRT-001.CKL-001",
+  "prerequisites": [],
+  "nextProtocols": [
+    {
+      "id": "PRT-005",
+      "alias": "LIT-MC-01",
+      "name": "Mapeamento Conceitual",
+      "reason": "Aprofundar a organização temática da literatura encontrada"
+    },
+    {
+      "id": "PRT-002",
+      "alias": "LIT-SR-01",
+      "name": "Revisão Sistemática",
+      "reason": "Evoluir para uma revisão com metodologia PRISMA"
+    },
+    {
+      "id": "PRT-004",
+      "alias": "WRITE-AR-01",
+      "name": "Artigo Científico",
+      "reason": "Transformar a revisão num artigo publicável"
+    }
+  ]
+}

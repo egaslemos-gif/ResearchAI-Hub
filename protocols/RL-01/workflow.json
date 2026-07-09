@@ -1,0 +1,311 @@
+{
+  "id": "PRT-001.WFL-001",
+  "name": "Fluxo Principal — Revisão da Literatura",
+  "type": "linear",
+  "version": "1.0.0",
+  "totalActivities": 10,
+  "activities": [
+    {
+      "id": "PRT-001.WFL-001.ACT-001",
+      "order": 1,
+      "name": "Definir o Tema de Investigação",
+      "objective": "Escolher e delimitar o tema de investigação, identificando a área de estudo e o fenómeno a investigar.",
+      "instruction": "Utilize uma IA conversacional para explorar possíveis temas dentro da sua área de interesse. Descreva o seu contexto académico, a sua área de estudo e os tópicos que lhe interessam. A IA ajudará a delimitar o tema e a verificar se é exequível para uma revisão da literatura.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-001",
+      "expectedOutput": "Tema de investigação definido em 1-2 frases, com delimitação temporal, geográfica ou temática.",
+      "validation": {
+        "criteria": [
+          "O tema está formulado de forma clara e concisa",
+          "O tema possui delimitação (temporal, geográfica ou temática)",
+          "O tema é relevante para a área de estudo do investigador",
+          "O tema é exequível para uma revisão da literatura"
+        ],
+        "minimumCriteria": 4
+      },
+      "evidence": {
+        "type": "text",
+        "description": "Tema escrito pelo investigador após interacção com a IA"
+      },
+      "outputs": ["Tema de investigação definido e delimitado"],
+      "estimatedTime": "15-20 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-002"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-002",
+      "order": 2,
+      "name": "Refinar a Pergunta Científica",
+      "objective": "Transformar o tema definido numa pergunta de investigação clara, específica e respondível através da revisão da literatura.",
+      "instruction": "Com o tema definido na etapa anterior, utilize a IA para formular uma pergunta de investigação. Uma boa pergunta deve ser específica, delimitada, relevante e respondível com base na literatura existente. Defina também 2-3 objectivos específicos e identifique 5-8 palavras-chave em português e inglês.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-002",
+      "expectedOutput": "Pergunta de investigação formulada, objectivos específicos definidos e palavras-chave listadas.",
+      "validation": {
+        "criteria": [
+          "A pergunta é específica e não genérica",
+          "A pergunta é respondível com base na literatura",
+          "Os objectivos são mensuráveis e alinhados com a pergunta",
+          "As palavras-chave estão definidas em PT e EN",
+          "Existem pelo menos 5 palavras-chave"
+        ],
+        "minimumCriteria": 4
+      },
+      "evidence": {
+        "type": "text",
+        "description": "Pergunta de investigação, objectivos e palavras-chave"
+      },
+      "outputs": [
+        "Pergunta de investigação formulada",
+        "2-3 objectivos específicos",
+        "5-8 palavras-chave (PT e EN)"
+      ],
+      "estimatedTime": "20-30 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-003"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-003",
+      "order": 3,
+      "name": "Pesquisar Literatura no Consensus",
+      "objective": "Utilizar a ferramenta Consensus para encontrar artigos científicos relevantes com base na pergunta de investigação formulada.",
+      "instruction": "Abra o Consensus (consensus.app) e introduza a sua pergunta de investigação em inglês. O Consensus pesquisa directamente em bases de dados científicas e apresenta resultados com indicação de consenso entre os estudos. Explore diferentes formulações da pergunta para maximizar os resultados.",
+      "tool": "consensus",
+      "toolAlternatives": [],
+      "prompt": "PR-003",
+      "expectedOutput": "Lista de 10-20 artigos científicos relevantes encontrados no Consensus.",
+      "validation": {
+        "criteria": [
+          "Foram encontrados pelo menos 10 artigos relevantes",
+          "Os artigos são de fontes científicas (journals peer-reviewed)",
+          "Os artigos estão alinhados com a pergunta de investigação",
+          "Foram testadas pelo menos 2 formulações diferentes da pesquisa"
+        ],
+        "minimumCriteria": 3
+      },
+      "evidence": {
+        "type": "list",
+        "description": "Lista de artigos encontrados com título, autores e ano"
+      },
+      "outputs": ["Lista de artigos candidatos (10-20)"],
+      "estimatedTime": "20-30 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-004"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-004",
+      "order": 4,
+      "name": "Seleccionar os Melhores Artigos",
+      "objective": "Avaliar os artigos encontrados e seleccionar os 5-8 mais relevantes para a revisão da literatura.",
+      "instruction": "Com a lista de artigos obtida, utilize a IA para definir critérios de inclusão e exclusão. Avalie cada artigo quanto à relevância para a sua pergunta, qualidade da fonte, ano de publicação e contribuição para o tema. Seleccione os 5-8 artigos mais relevantes.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-004",
+      "expectedOutput": "Lista final de 5-8 artigos seleccionados com justificação da selecção.",
+      "validation": {
+        "criteria": [
+          "Foram definidos critérios de inclusão e exclusão",
+          "Foram seleccionados entre 5 e 8 artigos",
+          "Cada selecção possui justificação",
+          "Os artigos são de fontes confiáveis e actuais (preferencialmente dos últimos 5 anos)",
+          "Os artigos cobrem diferentes perspectivas do tema"
+        ],
+        "minimumCriteria": 4
+      },
+      "evidence": {
+        "type": "table",
+        "description": "Tabela com artigos seleccionados e critérios aplicados"
+      },
+      "outputs": [
+        "Critérios de inclusão e exclusão definidos",
+        "Lista final de 5-8 artigos seleccionados",
+        "Justificação de cada selecção"
+      ],
+      "estimatedTime": "20-30 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-005"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-005",
+      "order": 5,
+      "name": "Analisar Artigos Individualmente",
+      "objective": "Ler e analisar cada artigo seleccionado de forma estruturada, extraindo informações-chave.",
+      "instruction": "Para cada artigo seleccionado, utilize a IA para criar uma ficha de leitura estruturada. Insira o resumo ou as secções principais do artigo e peça à IA para extrair: objectivo do estudo, metodologia, principais resultados, limitações e contribuição para o seu tema. Repita para cada artigo.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-005",
+      "expectedOutput": "Fichas de leitura individuais para cada artigo seleccionado.",
+      "validation": {
+        "criteria": [
+          "Cada artigo possui uma ficha de leitura completa",
+          "As fichas contêm: objectivo, metodologia, resultados, limitações",
+          "A informação extraída é fiel ao artigo original",
+          "O investigador validou pessoalmente cada ficha"
+        ],
+        "minimumCriteria": 4
+      },
+      "evidence": {
+        "type": "document",
+        "description": "Fichas de leitura individuais (uma por artigo)"
+      },
+      "outputs": ["Fichas de leitura individuais (5-8 fichas)"],
+      "estimatedTime": "40-60 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-006"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-006",
+      "order": 6,
+      "name": "Comparar Estudos",
+      "objective": "Criar uma tabela comparativa que confronte os artigos seleccionados em dimensões-chave.",
+      "instruction": "Reúna as fichas de leitura e utilize a IA para gerar uma tabela comparativa. A tabela deverá cruzar os artigos nas seguintes dimensões: objectivo, metodologia, amostra, principais resultados e limitações. Identifique convergências e divergências entre os estudos.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-006",
+      "expectedOutput": "Tabela comparativa completa com todos os artigos seleccionados.",
+      "validation": {
+        "criteria": [
+          "A tabela inclui todos os artigos seleccionados",
+          "As dimensões de comparação são consistentes",
+          "Convergências entre estudos estão identificadas",
+          "Divergências entre estudos estão identificadas",
+          "A tabela é legível e bem organizada"
+        ],
+        "minimumCriteria": 4
+      },
+      "evidence": {
+        "type": "table",
+        "description": "Tabela comparativa de estudos"
+      },
+      "outputs": [
+        "Tabela comparativa de estudos",
+        "Lista de convergências",
+        "Lista de divergências"
+      ],
+      "estimatedTime": "30-40 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-007"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-007",
+      "order": 7,
+      "name": "Identificar Lacunas na Literatura",
+      "objective": "Detectar o que a literatura existente ainda não responde, fundamentando a relevância da investigação.",
+      "instruction": "Com base na tabela comparativa e nas fichas de leitura, utilize a IA para identificar lacunas: perguntas não respondidas, metodologias não testadas, populações não estudadas ou contextos geográficos inexplorados. As lacunas identificadas são a justificação científica para a sua investigação.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-007",
+      "expectedOutput": "Lista estruturada de lacunas identificadas na literatura.",
+      "validation": {
+        "criteria": [
+          "Foram identificadas pelo menos 3 lacunas",
+          "As lacunas são fundamentadas nos artigos analisados",
+          "As lacunas são relevantes para a pergunta de investigação",
+          "Pelo menos uma lacuna pode ser endereçada pelo investigador"
+        ],
+        "minimumCriteria": 3
+      },
+      "evidence": {
+        "type": "text",
+        "description": "Lista de lacunas com justificação"
+      },
+      "outputs": [
+        "Lista de lacunas na literatura (mínimo 3)",
+        "Justificação de cada lacuna",
+        "Ligação entre lacunas e a pergunta de investigação"
+      ],
+      "estimatedTime": "20-30 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-008"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-008",
+      "order": 8,
+      "name": "Sintetizar a Literatura",
+      "objective": "Organizar tematicamente as evidências encontradas, construindo uma narrativa coerente.",
+      "instruction": "Utilize a IA para organizar os achados por temas ou categorias, em vez de por artigo. Uma boa síntese não resume artigo por artigo — agrupa evidências por tópico, mostrando como os diferentes estudos contribuem para o entendimento do fenómeno. Identifique tendências, padrões e contradições.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-008",
+      "expectedOutput": "Síntese temática da literatura organizada por categorias.",
+      "validation": {
+        "criteria": [
+          "A síntese está organizada por temas e não por artigos",
+          "Os principais temas estão claramente identificados",
+          "Cada tema é suportado por múltiplas referências",
+          "Tendências e padrões estão explicitados",
+          "Contradições entre estudos estão identificadas"
+        ],
+        "minimumCriteria": 4
+      },
+      "evidence": {
+        "type": "document",
+        "description": "Síntese temática organizada"
+      },
+      "outputs": [
+        "Síntese temática da literatura",
+        "Categorias identificadas",
+        "Tendências e padrões"
+      ],
+      "estimatedTime": "30-40 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-009"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-009",
+      "order": 9,
+      "name": "Produzir a Revisão Preliminar",
+      "objective": "Redigir o texto da revisão da literatura num formato académico, pronto para integrar num trabalho científico.",
+      "instruction": "Utilize a IA para auxiliar na redacção da revisão da literatura. O texto deverá: (1) introduzir o tema e a sua importância, (2) apresentar os achados organizados tematicamente, (3) discutir convergências e divergências, (4) identificar lacunas e (5) concluir com a relevância da investigação proposta. Revise cuidadosamente o texto gerado pela IA, verificando a precisão das citações e a coerência argumentativa.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-009",
+      "expectedOutput": "Texto da revisão da literatura redigido (1500-3000 palavras).",
+      "validation": {
+        "criteria": [
+          "O texto possui introdução, desenvolvimento temático e conclusão",
+          "As afirmações são suportadas por referências",
+          "O texto está organizado por temas e não por artigos",
+          "As lacunas estão identificadas no texto",
+          "O texto está escrito em linguagem académica clara",
+          "O investigador verificou todas as citações e factos",
+          "Não existem afirmações sem suporte bibliográfico"
+        ],
+        "minimumCriteria": 6
+      },
+      "evidence": {
+        "type": "document",
+        "description": "Revisão da literatura redigida"
+      },
+      "outputs": [
+        "Revisão preliminar da literatura (1500-3000 palavras)",
+        "Lista de referências utilizadas"
+      ],
+      "estimatedTime": "40-60 minutos",
+      "nextActivity": "PRT-001.WFL-001.ACT-010"
+    },
+    {
+      "id": "PRT-001.WFL-001.ACT-010",
+      "order": 10,
+      "name": "Validar com Checklist Final",
+      "objective": "Verificar a qualidade e completude de toda a revisão da literatura produzida.",
+      "instruction": "Percorra cada item do checklist final e avalie se o seu trabalho cumpre o critério. Seja honesto na avaliação. Se algum item não estiver cumprido, volte à etapa correspondente e corrija antes de concluir o protocolo.",
+      "tool": "chatgpt",
+      "toolAlternatives": ["claude", "gemini"],
+      "prompt": "PR-010",
+      "expectedOutput": "Checklist completo com todos os itens validados.",
+      "validation": {
+        "criteria": [
+          "Todos os itens do checklist foram avaliados",
+          "Pelo menos 90% dos itens estão cumpridos",
+          "O investigador confirmou pessoalmente cada item"
+        ],
+        "minimumCriteria": 3
+      },
+      "evidence": {
+        "type": "checklist",
+        "description": "Checklist de qualidade preenchido"
+      },
+      "outputs": [
+        "Checklist de qualidade validado",
+        "Protocolo oficialmente concluído"
+      ],
+      "estimatedTime": "15-20 minutos",
+      "nextActivity": null
+    }
+  ]
+}
