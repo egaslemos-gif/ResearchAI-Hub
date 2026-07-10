@@ -11,9 +11,10 @@
   align-items: center;
   gap: var(--space-2);
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   width: fit-content;
+  letter-spacing: 0.01em;
 }
 .back:hover {
   color: var(--color-brand);
@@ -33,7 +34,7 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-2xl);
   background: var(--color-brand-subtle);
   color: var(--color-brand);
 }
@@ -43,13 +44,15 @@
   gap: var(--space-3);
 }
 .title {
-  font-size: 2.25rem;
-  line-height: 2.625rem;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 2.375rem;
   letter-spacing: -0.02em;
+  font-weight: 500;
 }
 .desc {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   color: var(--color-text-muted);
 }
 .meta {
@@ -73,9 +76,11 @@
 
 /* ---- Secções ---- */
 .h2 {
+  font-family: var(--font-serif);
   font-size: 1.25rem;
-  line-height: 1.75rem;
-  margin-bottom: var(--space-4);
+  line-height: 1.625rem;
+  font-weight: 500;
+  margin-bottom: var(--space-5);
 }
 .cols {
   display: grid;
@@ -93,7 +98,7 @@
   gap: var(--space-3);
   color: var(--color-text);
   font-size: 0.9375rem;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 .list li svg {
   color: var(--color-text-subtle);
@@ -113,12 +118,15 @@
   gap: var(--space-3);
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: var(--color-surface);
   color: var(--color-text);
+  transition: border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
 }
 a.tool:hover {
-  border-color: var(--brand-300);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-warm);
   text-decoration: none;
 }
 .toolLogo {
@@ -127,9 +135,8 @@ a.tool:hover {
   justify-content: center;
   width: 34px;
   height: 34px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
   font-weight: 600;
 }
 .toolText {
@@ -141,25 +148,29 @@ a.tool:hover {
   color: var(--color-text-muted);
 }
 
-/* ---- Passos ---- */
+/* ---- Passos (timeline visual) ---- */
 .steps {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: 0;
   counter-reset: none;
+  position: relative;
 }
 .stepCard {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-5) var(--space-5);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: var(--color-surface);
-  transition: border-color var(--duration-base) var(--ease-out);
+  margin-bottom: var(--space-3);
+  transition: border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
 }
 .stepCard:hover {
-  border-color: var(--brand-300);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-warm);
 }
 .stepNum {
   display: inline-flex;
@@ -170,8 +181,9 @@ a.tool:hover {
   flex-shrink: 0;
   border-radius: var(--radius-full);
   background: var(--color-brand-subtle);
-  color: var(--color-brand-hover);
+  color: var(--color-brand);
   font-weight: 600;
+  font-size: 0.875rem;
   font-variant-numeric: tabular-nums;
 }
 .stepBody {
@@ -179,8 +191,10 @@ a.tool:hover {
   min-width: 0;
 }
 .stepName {
+  font-family: var(--font-serif);
   font-size: 1.0625rem;
-  line-height: 1.4;
+  line-height: 1.35;
+  font-weight: 500;
   margin-bottom: var(--space-2);
 }
 .stepMeta {
@@ -210,8 +224,8 @@ a.tool:hover {
     gap: var(--space-8);
   }
   .title {
-    font-size: 1.75rem;
-    line-height: 2.125rem;
+    font-size: 1.625rem;
+    line-height: 2rem;
   }
   .stepCard {
     flex-wrap: wrap;

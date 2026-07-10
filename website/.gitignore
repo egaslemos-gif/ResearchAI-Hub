@@ -11,3 +11,6 @@ next-env.d.ts
 
 # screenshots de evidência (geradas localmente)
 /.evidence/
+
+.vercel
+.env*

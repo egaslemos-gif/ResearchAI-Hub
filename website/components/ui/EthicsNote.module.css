@@ -1,19 +1,19 @@
 .note {
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5);
   border-left: 3px solid var(--color-warning-fill);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   background: var(--color-warning-tint);
 }
 .head {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-warning-fg);
-  margin-bottom: var(--space-2);
+  margin-bottom: var(--space-3);
 }
 .list {
   display: flex;
@@ -24,7 +24,7 @@
   position: relative;
   padding-left: var(--space-3);
   font-size: 0.875rem;
-  line-height: 1.4;
+  line-height: 1.5;
   color: var(--color-text);
   cursor: help;
 }

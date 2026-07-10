@@ -10,6 +10,21 @@ import styles from "./tool.module.css";
 
 export const dynamicParams = false;
 
+/** Mapeia categoria de ferramenta para ícone Lucide. */
+const CATEGORY_ICONS: Record<string, string> = {
+  discovery: "search",
+  production: "pen-tool",
+  organization: "folder-open",
+  reading: "book-open",
+  review: "check-circle",
+  analysis: "bar-chart-3",
+  writing: "file-text",
+};
+function toolIcon(category: string | null): string {
+  if (!category) return "box";
+  return CATEGORY_ICONS[category.toLowerCase()] ?? "box";
+}
+
 export function generateStaticParams() {
   return allToolSlugs().map((slug) => ({ slug }));
 }
@@ -40,7 +55,9 @@ export default async function ToolPage({
       </Link>
 
       <header className={styles.hero}>
-        <span className={styles.logo}>{t.name.charAt(0)}</span>
+        <span className={styles.logo} aria-hidden>
+          <Icon name={toolIcon(t.category)} size={24} />
+        </span>
         <div className={styles.heroMain}>
           <div className={styles.heroTags}>
             {categoryLabel(t.category) && (

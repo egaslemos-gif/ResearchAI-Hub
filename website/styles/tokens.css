@@ -2,22 +2,24 @@
    ResearchAI Hub — Design Tokens
    Fonte de verdade: docs/design-system/Design-System.md (v1.0)
    Nenhum componente usa hex crus — apenas tokens semânticos.
+
+   v1.0-beta.2 — Sprint A: Warm editorial palette
    ============================================================ */
 
 :root {
-  /* ---- Neutral (cinza frio) — §6.1 ---- */
-  --neutral-25: #fcfcfd;
-  --neutral-50: #f7f8fa;
-  --neutral-100: #eff1f4;
-  --neutral-200: #dde1e7;
-  --neutral-300: #c4cad4;
-  --neutral-400: #97a0ae;
-  --neutral-500: #6c7686;
-  --neutral-600: #515a69;
-  --neutral-700: #3b4351;
-  --neutral-800: #262c37;
-  --neutral-900: #171b22;
-  --neutral-950: #0c0e13;
+  /* ---- Neutral (warm gray) — §6.1 ---- */
+  --neutral-25: #faf9f7;
+  --neutral-50: #f5f3f0;
+  --neutral-100: #eceae6;
+  --neutral-200: #ddd9d3;
+  --neutral-300: #c5c0b8;
+  --neutral-400: #9a9488;
+  --neutral-500: #6f6962;
+  --neutral-600: #544f49;
+  --neutral-700: #3d3935;
+  --neutral-800: #282522;
+  --neutral-900: #1a1816;
+  --neutral-950: #0e0d0c;
 
   /* ---- Brand — Research Indigo — §6.2 ---- */
   --brand-50: #eef2ff;
@@ -34,7 +36,7 @@
 
   /* ---- Tipografia — §5 ---- */
   --font-sans: "Inter", "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-serif: "Source Serif 4", "Georgia", "Times New Roman", serif;
   --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", "Consolas", monospace;
 
   /* ---- Spacing — §4 ---- */
@@ -49,9 +51,11 @@
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
+  --space-20: 5rem;
   --space-24: 6rem;
 
   /* ---- Contentores — §3.2 ---- */
+  --container-reading: 38rem;
   --container-prose: 42rem;
   --container-content: 64rem;
   --container-wide: 80rem;
@@ -61,19 +65,21 @@
   --radius-md: 6px;
   --radius-lg: 8px;
   --radius-xl: 12px;
+  --radius-2xl: 16px;
   --radius-full: 9999px;
 
-  /* ---- Elevação ---- */
-  --shadow-xs: 0 1px 2px rgba(16, 18, 23, 0.04);
-  --shadow-sm: 0 1px 3px rgba(16, 18, 23, 0.08), 0 1px 2px rgba(16, 18, 23, 0.04);
-  --shadow-md: 0 4px 12px rgba(16, 18, 23, 0.1);
-  --shadow-lg: 0 12px 32px rgba(16, 18, 23, 0.14);
+  /* ---- Elevação (subtil, editorial) ---- */
+  --shadow-xs: 0 1px 2px rgba(26, 24, 22, 0.03);
+  --shadow-sm: 0 1px 3px rgba(26, 24, 22, 0.05), 0 1px 2px rgba(26, 24, 22, 0.03);
+  --shadow-md: 0 4px 12px rgba(26, 24, 22, 0.06);
+  --shadow-lg: 0 12px 32px rgba(26, 24, 22, 0.08);
 
   /* ---- Movimento ---- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
   --duration-fast: 120ms;
   --duration-base: 180ms;
-  --duration-slow: 240ms;
+  --duration-slow: 280ms;
 
   /* ---- Foco ---- */
   --focus-ring-width: 2px;
@@ -81,14 +87,17 @@
 
   /* ============================================================
      Tokens semânticos (LIGHT) — §7.1
+     Warm editorial palette
      ============================================================ */
   --color-bg: var(--neutral-25);
-  --color-surface: #ffffff;
-  --color-surface-raised: #ffffff;
+  --color-surface: #fffffe;
+  --color-surface-raised: #fffffe;
   --color-surface-sunken: var(--neutral-50);
+  --color-surface-warm: #f8f6f3;
 
   --color-border: var(--neutral-200);
   --color-border-strong: var(--neutral-300);
+  --color-border-subtle: rgba(26, 24, 22, 0.06);
 
   --color-text: var(--neutral-900);
   --color-text-muted: var(--neutral-500);
@@ -118,37 +127,40 @@
 
 /* ============================================================
    Dark Mode — §17
+   Warm darks for editorial feel
    ============================================================ */
 [data-theme="dark"] {
-  --color-bg: var(--neutral-950);
-  --color-surface: #14171d;
-  --color-surface-raised: #1b1f27;
-  --color-surface-sunken: #0f1218;
+  --color-bg: #0f0e0d;
+  --color-surface: #191715;
+  --color-surface-raised: #1f1d1a;
+  --color-surface-sunken: #121110;
+  --color-surface-warm: #161413;
 
-  --color-border: #262b34;
-  --color-border-strong: #333a45;
+  --color-border: #2a2725;
+  --color-border-strong: #383432;
+  --color-border-subtle: rgba(255, 255, 254, 0.06);
 
-  --color-text: #e7eaf0;
-  --color-text-muted: #99a2b2;
-  --color-text-subtle: #6c7686;
+  --color-text: #ebe8e4;
+  --color-text-muted: #9c968e;
+  --color-text-subtle: #6f6962;
 
   --color-brand: var(--brand-400);
   --color-brand-hover: var(--brand-300);
-  --color-brand-subtle: rgba(99, 102, 241, 0.14);
-  --color-on-brand: #0c0e13;
+  --color-brand-subtle: rgba(99, 102, 241, 0.12);
+  --color-on-brand: #0e0d0c;
   --color-link: var(--brand-300);
   --color-focus-ring: var(--brand-400);
 
   --color-success-fg: #6ee7b7;
   --color-success-fill: #059669;
-  --color-success-tint: rgba(5, 150, 105, 0.15);
+  --color-success-tint: rgba(5, 150, 105, 0.12);
   --color-warning-fg: #fcd34d;
   --color-warning-fill: #d97706;
-  --color-warning-tint: rgba(217, 119, 6, 0.15);
+  --color-warning-tint: rgba(217, 119, 6, 0.12);
   --color-danger-fg: #fca5a5;
   --color-danger-fill: #dc2626;
-  --color-danger-tint: rgba(220, 38, 38, 0.15);
+  --color-danger-tint: rgba(220, 38, 38, 0.12);
   --color-info-fg: #93c5fd;
   --color-info-fill: #2563eb;
-  --color-info-tint: rgba(37, 99, 235, 0.15);
+  --color-info-tint: rgba(37, 99, 235, 0.12);
 }

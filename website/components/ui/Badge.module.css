@@ -3,11 +3,11 @@
   align-items: center;
   gap: var(--space-1);
   padding: 2px 8px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.6875rem;
   line-height: 1rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   border: 1px solid transparent;
   white-space: nowrap;
 }
@@ -15,11 +15,11 @@
 .neutral {
   background: var(--color-surface-sunken);
   color: var(--color-text-muted);
-  border-color: var(--color-border);
+  border-color: var(--color-border-subtle);
 }
 .brand {
   background: var(--color-brand-subtle);
-  color: var(--color-brand-hover);
+  color: var(--color-brand);
 }
 .success {
   background: var(--color-success-tint);
@@ -40,5 +40,5 @@
 .outline {
   background: transparent;
   color: var(--color-text-muted);
-  border-color: var(--color-border-strong);
+  border-color: var(--color-border);
 }

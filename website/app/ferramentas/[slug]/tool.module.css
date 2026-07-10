@@ -10,9 +10,10 @@
   align-items: center;
   gap: var(--space-2);
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   width: fit-content;
+  letter-spacing: 0.01em;
 }
 .back:hover {
   color: var(--color-brand);
@@ -28,14 +29,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   flex-shrink: 0;
-  border-radius: var(--radius-lg);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  font-weight: 600;
-  font-size: 1.75rem;
+  border-radius: var(--radius-2xl);
+  background: var(--color-brand-subtle);
+  color: var(--color-brand);
 }
 .heroMain {
   display: flex;
@@ -50,9 +49,11 @@
   flex-wrap: wrap;
 }
 .title {
-  font-size: 2rem;
-  line-height: 2.375rem;
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  letter-spacing: -0.015em;
+  font-weight: 500;
 }
 .desc {
   font-size: 1.0625rem;
@@ -72,8 +73,10 @@
 }
 
 .h2 {
+  font-family: var(--font-serif);
   font-size: 1.25rem;
-  margin-bottom: var(--space-4);
+  font-weight: 500;
+  margin-bottom: var(--space-5);
 }
 .cols {
   display: grid;
@@ -83,7 +86,7 @@
 .panel {
   padding: var(--space-6);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: var(--color-surface);
 }
 .list {
@@ -96,7 +99,7 @@
   align-items: flex-start;
   gap: var(--space-3);
   font-size: 0.9375rem;
-  line-height: 1.45;
+  line-height: 1.5;
 }
 .list li svg {
   margin-top: 2px;
@@ -119,35 +122,40 @@
 }
 .bullets li {
   font-size: 0.9375rem;
-  line-height: 1.55;
+  line-height: 1.6;
   padding-left: var(--space-1);
 }
 
 .useCases {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
 }
 .useCase {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-5) var(--space-5);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   background: var(--color-surface);
   color: var(--color-text);
+  transition: border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
 }
 a.useCase:hover {
-  border-color: var(--brand-300);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-warm);
   text-decoration: none;
 }
 .ucName {
+  font-family: var(--font-serif);
   font-size: 1rem;
+  font-weight: 500;
 }
 .ucDesc {
   font-size: 0.875rem;
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--color-text-muted);
 }
 .ucLink {
@@ -175,9 +183,12 @@ a.useCase:hover {
   color: var(--color-text);
   font-size: 0.9375rem;
   font-weight: 500;
+  transition: border-color var(--duration-base) var(--ease-out),
+    background var(--duration-base) var(--ease-out);
 }
 .alt:hover {
-  border-color: var(--brand-300);
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-warm);
   text-decoration: none;
 }
 .altLogo {
@@ -186,9 +197,8 @@ a.useCase:hover {
   justify-content: center;
   width: 24px;
   height: 24px;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
   font-size: 0.75rem;
   font-weight: 600;
 }
@@ -198,7 +208,7 @@ a.useCase:hover {
     grid-template-columns: 1fr;
   }
   .title {
-    font-size: 1.625rem;
-    line-height: 2rem;
+    font-size: 1.5rem;
+    line-height: 1.875rem;
   }
 }

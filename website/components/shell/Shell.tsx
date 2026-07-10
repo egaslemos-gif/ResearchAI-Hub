@@ -42,7 +42,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
         <Link href="/" className={styles.brand}>
           <span className={styles.brandMark} aria-hidden>
-            ◫
+            R
           </span>
           <span className={styles.brandName}>{ui.product.name}</span>
         </Link>
@@ -75,7 +75,7 @@ export function Shell({ children }: { children: ReactNode }) {
           })}
         </ul>
         <div className={styles.sidebarFooter}>
-          <span className="overline">MVP · Formação</span>
+          <span className="overline">ResearchAI Hub · Beta</span>
         </div>
       </nav>
 

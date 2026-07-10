@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Icon } from "./Icon";
 import { Badge } from "./Badge";
 import type { PromptSummary } from "@/lib/content";
 import styles from "./PromptCard.module.css";
@@ -7,7 +8,9 @@ export function PromptCard({ p }: { p: PromptSummary }) {
   return (
     <Link href={`/prompts/${p.slug}`} className={styles.card}>
       <div className={styles.top}>
-        <span className={`overline ${styles.id}`}>{p.id}</span>
+        <span className={styles.icon} aria-hidden>
+          <Icon name="file-text" size={18} />
+        </span>
         {p.language && <Badge tone="outline">{p.language.toUpperCase()}</Badge>}
       </div>
 

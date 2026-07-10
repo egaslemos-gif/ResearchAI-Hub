@@ -17,10 +17,10 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: 0 var(--space-4);
-  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-  backdrop-filter: saturate(180%) blur(8px);
-  border-bottom: 1px solid var(--color-border);
+  padding: 0 var(--space-5);
+  background: color-mix(in srgb, var(--color-bg) 92%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--color-border-subtle);
 }
 .brand {
   display: inline-flex;
@@ -28,6 +28,7 @@
   gap: var(--space-2);
   color: var(--color-text);
   font-weight: 600;
+  font-size: 0.9375rem;
   letter-spacing: -0.01em;
 }
 .brand:hover {
@@ -37,12 +38,17 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-md);
   background: var(--color-brand);
   color: var(--color-on-brand);
-  font-size: 15px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: var(--font-serif);
+}
+.brandName {
+  font-family: var(--font-sans);
 }
 .topbarRight {
   margin-left: auto;
@@ -60,6 +66,8 @@
   border-radius: var(--radius-md);
   background: transparent;
   color: var(--color-text-muted);
+  transition: background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
 }
 .menuBtn:hover {
   background: var(--color-surface-sunken);
@@ -76,8 +84,8 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-4) var(--space-3);
-  border-right: 1px solid var(--color-border);
-  background: var(--color-bg);
+  border-right: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-warm);
 }
 .navList {
   display: flex;
@@ -91,7 +99,7 @@
   gap: var(--space-3);
   height: 40px;
   padding: 0 var(--space-3);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   color: var(--color-text-muted);
   font-size: 0.9375rem;
   font-weight: 500;
@@ -106,21 +114,16 @@
 }
 .navItemActive {
   background: var(--color-brand-subtle);
-  color: var(--color-brand-hover);
+  color: var(--color-brand);
+  font-weight: 600;
 }
-.navItemActive::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 8px;
-  bottom: 8px;
-  width: 2px;
-  border-radius: var(--radius-full);
-  background: var(--color-brand);
+.navItemActive:hover {
+  background: var(--color-brand-subtle);
+  color: var(--color-brand);
 }
 .sidebarFooter {
   padding: var(--space-3);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border-subtle);
   margin-top: var(--space-2);
 }
 
@@ -128,7 +131,7 @@
 .main {
   grid-area: main;
   min-width: 0;
-  padding: var(--space-8) var(--space-6) var(--space-16);
+  padding: var(--space-10) var(--space-8) var(--space-16);
 }
 
 .overlay {
@@ -164,7 +167,7 @@
     position: fixed;
     inset: 56px 0 0 0;
     z-index: 45;
-    background: rgba(12, 14, 19, 0.4);
+    background: rgba(14, 13, 12, 0.35);
   }
   .main {
     padding: var(--space-6) var(--space-4) var(--space-12);

@@ -3,27 +3,29 @@
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
+  gap: var(--space-20);
 }
 
 /* ---- Hero ---- */
 .hero {
-  max-width: 46rem;
+  max-width: 44rem;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding-top: var(--space-4);
+  padding-top: var(--space-8);
 }
 .heroTitle {
-  font-size: 2.25rem;
-  line-height: 2.625rem;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  font-weight: 600;
+  font-weight: 500;
 }
 .heroIntro {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   color: var(--color-text-muted);
+  max-width: 38rem;
 }
 .heroCta {
   display: flex;
@@ -43,7 +45,7 @@
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
 }
 .sectionHead {
   display: flex;
@@ -52,14 +54,17 @@
   gap: var(--space-4);
 }
 .sectionTitle {
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  line-height: 1.875rem;
   letter-spacing: -0.01em;
+  font-weight: 500;
   margin-top: var(--space-1);
 }
 .sectionSub {
   color: var(--color-text-muted);
   font-size: 0.9375rem;
+  line-height: 1.6;
   margin-top: 2px;
 }
 .viewAll {
@@ -68,8 +73,9 @@
   gap: var(--space-1);
   flex-shrink: 0;
   color: var(--color-text-muted);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
+  letter-spacing: 0.01em;
 }
 .viewAll:hover {
   color: var(--color-brand);
@@ -80,7 +86,7 @@
 .grid3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  gap: var(--space-5);
 }
 
 @media (max-width: 1023px) {
@@ -88,7 +94,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .page {
-    gap: var(--space-12);
+    gap: var(--space-16);
   }
 }
 @media (max-width: 639px) {
@@ -96,7 +102,7 @@
     grid-template-columns: 1fr;
   }
   .heroTitle {
-    font-size: 1.75rem;
-    line-height: 2.125rem;
+    font-size: 1.625rem;
+    line-height: 2rem;
   }
 }
