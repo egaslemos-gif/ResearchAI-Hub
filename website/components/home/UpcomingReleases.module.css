@@ -1,0 +1,49 @@
+.wrapper {
+  padding-top: var(--gap-block);
+  margin-top: var(--gap-section);
+  border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-warning);
+  background: var(--color-warning-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-2);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4) var(--space-6);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.icon {
+  color: var(--color-success);
+}

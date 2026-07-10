@@ -21,18 +21,33 @@
   --neutral-900: #1a1816;
   --neutral-950: #0e0d0c;
 
-  /* ---- Brand — Research Indigo — §6.2 ---- */
-  --brand-50: #eef2ff;
-  --brand-100: #e0e7ff;
-  --brand-200: #c7d2fe;
-  --brand-300: #a5b4fc;
-  --brand-400: #818cf8;
-  --brand-500: #6366f1;
-  --brand-600: #4f46e5;
-  --brand-700: #4338ca;
-  --brand-800: #3730a3;
-  --brand-900: #312e81;
-  --brand-950: #1e1b4b;
+  /* 
+   * Brand: Research Indigo 
+   * Azul desaturado profundo, lembrando tinta de caneta-tinteiro clássica.
+   */
+  --brand-50: #f0f4f8;
+  --brand-100: #d9e2ec;
+  --brand-200: #bcccdc;
+  --brand-300: #9fb3c8;
+  --brand-400: #829ab1;
+  --brand-500: #627d98;
+  --brand-600: #334e68;  /* Base */
+  --brand-700: #243b53;  /* Hover */
+  --brand-800: #102a43;
+  --brand-900: #0a1f33;
+
+  /* Semânticas Editoriais (SPEC-009) */
+  --color-success: #4a7c59;      /* Verde Sálvia (Disponível) */
+  --color-success-bg: #eaf1eb;
+  
+  --color-warning: #c2883a;      /* Âmbar/Ocre suave (Em desenvolvimento) */
+  --color-warning-bg: #fdf5e6;
+  
+  --color-danger: #b33939;       /* Vermelho tijolo (Erro) */
+  --color-danger-bg: #fbecec;
+  
+  --color-info: #5c7285;         /* Cinza frio (Brevemente/Info) */
+  --color-info-bg: #f2f5f7;
 
   /* ---- Tipografia — §5 ---- */
   --font-sans: "Inter", "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;

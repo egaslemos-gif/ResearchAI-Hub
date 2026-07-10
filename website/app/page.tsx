@@ -6,6 +6,7 @@ import { PromptCard } from "@/components/ui/PromptCard";
 import { WelcomeBackCard } from "@/components/experience/WelcomeBackCard";
 import { EcosystemGrid } from "@/components/home/EcosystemGrid";
 import { PlatformStatus } from "@/components/home/PlatformStatus";
+import { UpcomingReleases } from "@/components/home/UpcomingReleases";
 import { Icon } from "@/components/ui/Icon";
 import styles from "./home.module.css";
 
@@ -27,40 +28,53 @@ export default function HomePage() {
         <EcosystemGrid />
       </section>
 
-      {/* ---- Ferramentas ---- */}
-      {tools.length > 0 && (
+      {/* ---- Recursos para Investigar ---- */}
+      {(tools.length > 0 || prompts.length > 0) && (
         <section className={styles.section}>
-          <SectionHead
-            title="Ferramentas mais utilizadas"
-            subtitle={ui.home.toolsSubtitle}
-            href="/ferramentas"
-          />
-          <div className={styles.grid3}>
-            {tools.map((t) => (
-              <ToolCard key={t.slug} t={t} />
-            ))}
+          <div className={styles.sectionHead}>
+            <div>
+              <h2 className={styles.sectionTitle}>Recursos para Investigar</h2>
+              <p className={styles.sectionSub}>Software, serviços e ativos intelectuais que compõem a plataforma.</p>
+            </div>
           </div>
-        </section>
-      )}
+          
+          <div className={styles.resourcesGrid}>
+            <div className={styles.resourceBlock}>
+              <div className={styles.resourceBlockHead}>
+                <h3 className={styles.resourceBlockTitle}>Ferramentas</h3>
+                <Link href="/ferramentas" className={styles.viewAll}>
+                  Ver todas <Icon name="arrow-right" size={14} />
+                </Link>
+              </div>
+              <div className={styles.resourceList}>
+                {tools.slice(0, 4).map((t) => (
+                  <ToolCard key={t.slug} t={t} />
+                ))}
+              </div>
+            </div>
 
-      {/* ---- Biblioteca de Prompts (pré-visualização) ---- */}
-      {prompts.length > 0 && (
-        <section className={styles.section}>
-          <SectionHead
-            title="Biblioteca de Prompts"
-            subtitle={ui.home.promptsSubtitle}
-            href="/prompts"
-          />
-          <div className={styles.grid3}>
-            {prompts.slice(0, 6).map((p) => (
-              <PromptCard key={p.id} p={p} />
-            ))}
+            <div className={styles.resourceBlock}>
+              <div className={styles.resourceBlockHead}>
+                <h3 className={styles.resourceBlockTitle}>Biblioteca de Prompts</h3>
+                <Link href="/prompts" className={styles.viewAll}>
+                  Ver todos <Icon name="arrow-right" size={14} />
+                </Link>
+              </div>
+              <div className={styles.resourceList}>
+                {prompts.slice(0, 4).map((p) => (
+                  <PromptCard key={p.id} p={p} />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       )}
 
       {/* ---- Estado da Plataforma ---- */}
       <PlatformStatus />
+      
+      {/* ---- Próximos Lançamentos ---- */}
+      <UpcomingReleases />
     </div>
   );
 }

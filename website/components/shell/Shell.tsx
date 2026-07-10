@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { Home, GraduationCap, Wrench, MessageSquareText, Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import { Logo } from "@/components/ui/Logo";
 import { ui } from "@/lib/labels";
 import styles from "./Shell.module.css";
 
@@ -41,9 +42,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </button>
 
         <Link href="/" className={styles.brand}>
-          <span className={styles.brandMark} aria-hidden>
-            R
-          </span>
+          <Logo className={styles.brandMark} />
           <span className={styles.brandName}>{ui.product.name}</span>
         </Link>
 

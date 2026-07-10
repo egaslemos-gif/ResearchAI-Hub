@@ -83,10 +83,46 @@
 }
 
 /* ---- Grelhas ---- */
-.grid3 {
+.resourcesGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-5);
+  grid-template-columns: 1fr;
+  gap: var(--gap-block);
+  margin-top: var(--gap-component);
+}
+
+@media (min-width: 1024px) {
+  .resourcesGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.resourceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: var(--color-surface-sunken);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.resourceBlockHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resourceBlockTitle {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.resourceList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 @media (max-width: 1023px) {
