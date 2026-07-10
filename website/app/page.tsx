@@ -1,61 +1,30 @@
 import Link from "next/link";
-import { getCompetencies, getTools, getPrompts } from "@/lib/content";
+import { getTools, getPrompts } from "@/lib/content";
 import { ui } from "@/lib/labels";
-import { CompetencyCard } from "@/components/ui/CompetencyCard";
 import { ToolCard } from "@/components/ui/ToolCard";
 import { PromptCard } from "@/components/ui/PromptCard";
 import { WelcomeBackCard } from "@/components/experience/WelcomeBackCard";
-import { Button } from "@/components/ui/Button";
+import { EcosystemGrid } from "@/components/home/EcosystemGrid";
 import { Icon } from "@/components/ui/Icon";
 import styles from "./home.module.css";
 
 export default function HomePage() {
-  const competencies = getCompetencies();
   const tools = getTools();
   const prompts = getPrompts();
 
-  const [featured, ...rest] = competencies;
-
   return (
     <div className={styles.page}>
-      {/* ---- Hero: responde "O que pretende fazer hoje?" + CTA principal ---- */}
+      <WelcomeBackCard />
+
       <section className={styles.hero}>
         <span className="overline">{ui.product.name}</span>
         <h1 className={styles.heroTitle}>{ui.home.question}</h1>
         <p className={styles.heroIntro}>{ui.product.intro}</p>
-        {featured && (
-          <div className={styles.heroCta}>
-            <Button size="lg" href={`/competencias/${featured.slug}`}>
-              {ui.actions.startWith(featured.name)}
-              <Icon name="arrow-right" size={18} />
-            </Button>
-            <Button size="lg" variant="secondary" href="/competencias">
-              {ui.actions.viewCompetencies}
-            </Button>
-          </div>
-        )}
       </section>
 
-      {/* ---- Competência em destaque + restantes (tudo dos activos) ---- */}
-      <WelcomeBackCard />
-      {featured && (
-        <section className={styles.section}>
-          <SectionHead
-            kicker={ui.home.featuredKicker}
-            title={ui.home.competenciesTitle}
-            subtitle={ui.home.competenciesSubtitle}
-            href="/competencias"
-          />
-          <CompetencyCard c={featured} featured />
-          {rest.length > 0 && (
-            <div className={styles.grid3}>
-              {rest.map((c) => (
-                <CompetencyCard key={c.slug} c={c} />
-              ))}
-            </div>
-          )}
-        </section>
-      )}
+      <section className={styles.section}>
+        <EcosystemGrid />
+      </section>
 
       {/* ---- Ferramentas ---- */}
       {tools.length > 0 && (
