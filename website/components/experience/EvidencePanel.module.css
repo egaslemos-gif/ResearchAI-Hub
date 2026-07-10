@@ -23,9 +23,9 @@
   gap: var(--space-3);
   font-size: 0.9375rem;
   line-height: 1.4;
-  color: var(--color-text);
 }
-.check {
+
+.iconWrap {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -33,11 +33,40 @@
   height: 18px;
   flex-shrink: 0;
   margin-top: 1px;
-  border-radius: var(--radius-sm);
-  background: var(--color-success-fill);
-  color: #fff;
 }
-.empty {
-  font-size: 0.875rem;
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* States */
+.done {
+  color: var(--color-text);
+}
+.done .iconWrap {
+  color: var(--color-success-fg);
+}
+
+.current {
+  color: var(--color-text);
+  font-weight: 500;
+}
+.current .iconWrap {
+  color: var(--color-brand);
+}
+
+.pending {
   color: var(--color-text-subtle);
+}
+.pending .iconWrap {
+  color: var(--color-border-strong);
 }

@@ -56,8 +56,9 @@ export default async function StepPage({
 
   const stepMinutes = c.steps.map((s) => s.minutes);
   const evidenceItems = c.steps.map((s) => ({
-    order: s.order,
-    label: s.outputs[0] || s.expectedOutput || s.name,
+    id: `ev-${s.order}`,
+    title: s.outputs[0] || s.expectedOutput || s.name,
+    producedBy: [s.order],
   }));
   // TR-1: avisos éticos contextuais nos passos com IA (regras críticas do validation.json).
   const criticalRules = c.qualityRules.filter(
@@ -153,8 +154,8 @@ export default async function StepPage({
         </section>
       )}
 
-      {/* O que já produziste (Recomendação 3) */}
-      <EvidencePanel slug={c.slug} items={evidenceItems} />
+      {/* Evidências da Investigação */}
+      <EvidencePanel slug={c.slug} currentStep={step.order} items={evidenceItems} />
 
       <StepAdvance
         slug={c.slug}

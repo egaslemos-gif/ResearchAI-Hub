@@ -91,8 +91,8 @@ export const ui = {
     guideMeta: (total: number) => `Guia Prático · ${total} passos`,
     done: (done: number, total: number) => `${done} de ${total} concluídos`,
     remaining: (t: string) => `faltam ${t}`,
-    produced: "O que já produziste",
-    willProduce: "Ainda vais produzir os resultados de cada passo.",
+    produced: "Evidências da Investigação",
+    willProduce: "As evidências serão registadas à medida que avança.",
   },
 
   checklist: {

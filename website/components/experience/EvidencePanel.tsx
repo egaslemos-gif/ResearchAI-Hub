@@ -4,38 +4,61 @@ import { Icon } from "@/components/ui/Icon";
 import { ui } from "@/lib/labels";
 import styles from "./EvidencePanel.module.css";
 
+export type Evidence = {
+  id: string;
+  title: string;
+  producedBy: number[]; // Passos responsáveis por esta evidência
+};
+
 /**
- * "O que já produziste" (Recomendação 3): lista os resultados concretos dos passos
- * já concluídos, reforçando a sensação de progresso. Os rótulos vêm dos activos
- * (workflow.json → outputs / expectedOutput).
+ * Painel que indica o progresso real da investigação.
+ * Mapeia os estados (Concluída, Em curso, Por iniciar) de acordo com os passos realizados.
  */
 export function EvidencePanel({
   slug,
+  currentStep,
   items,
 }: {
   slug: string;
-  items: { order: number; label: string }[];
+  currentStep: number;
+  items: Evidence[];
 }) {
   const { ready, steps } = useProgress(slug);
-  const done = items.filter((it) => steps.includes(it.order));
+
+  if (!ready || items.length === 0) return null;
 
   return (
     <section className={styles.panel}>
       <h2 className={styles.title}>{ui.progress.produced}</h2>
-      {ready && done.length > 0 ? (
-        <ul className={styles.list}>
-          {done.map((it) => (
-            <li key={it.order} className={styles.item}>
-              <span className={styles.check}>
-                <Icon name="check" size={13} />
+      <ul className={styles.list}>
+        {items.map((it) => {
+          // Uma evidência está concluída se TODOS os seus producedBy estiverem em steps
+          const isDone = it.producedBy.every((stepNum) => steps.includes(stepNum));
+          
+          // Está em curso se não estiver concluída, E o currentStep for um dos passos produtores
+          const isCurrent = !isDone && it.producedBy.includes(currentStep);
+
+          let stateClass = styles.pending;
+          let icon = "circle";
+
+          if (isDone) {
+            stateClass = styles.done;
+            icon = "check-circle-2";
+          } else if (isCurrent) {
+            stateClass = styles.current;
+            icon = "loader-2";
+          }
+
+          return (
+            <li key={it.id} className={`${styles.item} ${stateClass}`}>
+              <span className={styles.iconWrap}>
+                <Icon name={icon} size={15} className={isCurrent ? styles.spin : ""} />
               </span>
-              <span>{it.label}</span>
+              <span className={styles.itemTitle}>{it.title}</span>
             </li>
-          ))}
-        </ul>
-      ) : (
-        <p className={styles.empty}>{ui.progress.willProduce}</p>
-      )}
+          );
+        })}
+      </ul>
     </section>
   );
 }
