@@ -39,7 +39,14 @@
   --font-serif: "Source Serif 4", "Georgia", "Times New Roman", serif;
   --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, "SF Mono", "Consolas", monospace;
 
-  /* ---- Spacing — §4 ---- */
+  /* ---- Escala Oficial de Espaçamento (SPEC-006) ---- */
+  --gap-section: 72px;
+  --gap-block: 40px;
+  --gap-component: 24px;
+  --gap-internal: 16px;
+  --gap-field: 12px;
+
+  /* ---- Spacing (Utilities) — §4 ---- */
   --space-0: 0;
   --space-1: 0.25rem;
   --space-2: 0.5rem;

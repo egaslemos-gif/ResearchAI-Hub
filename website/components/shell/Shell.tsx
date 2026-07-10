@@ -56,24 +56,77 @@ export function Shell({ children }: { children: ReactNode }) {
         className={`${styles.sidebar} ${open ? styles.sidebarOpen : ""}`}
         aria-label="Navegação principal"
       >
-        <ul className={styles.navList}>
-          {NAV.map((item) => {
-            const Ico = item.icon;
-            const active = isActive(item.href, item.exact);
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`${styles.navItem} ${active ? styles.navItemActive : ""}`}
-                  aria-current={active ? "page" : undefined}
-                >
-                  <Ico size={18} strokeWidth={1.75} />
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <div className={styles.navGroup}>
+          <span className={styles.navGroupTitle}>Workspace</span>
+          <ul className={styles.navList}>
+            <li>
+              <Link
+                href="/"
+                className={`${styles.navItem} ${isActive("/", true) ? styles.navItemActive : ""}`}
+              >
+                Início
+              </Link>
+            </li>
+            {/* O "Investigação Atual" apenas encaminhará para as competências por enquanto se não houver contexto específico na App router mas a ideia é ter aqui o link direto */}
+            <li>
+              <Link
+                href="/competencias"
+                className={`${styles.navItem} ${isActive("/competencias/RL-01", false) ? styles.navItemActive : ""}`}
+              >
+                Investigação Atual
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.navGroup}>
+          <span className={styles.navGroupTitle}>Percursos</span>
+          <ul className={styles.navList}>
+            <li>
+              <Link
+                href="/competencias"
+                className={`${styles.navItem} ${isActive("/competencias", true) ? styles.navItemActive : ""}`}
+              >
+                Competências
+              </Link>
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.navGroup}>
+          <span className={styles.navGroupTitle}>Biblioteca</span>
+          <ul className={styles.navList}>
+            <li>
+              <Link
+                href="/ferramentas"
+                className={`${styles.navItem} ${isActive("/ferramentas") ? styles.navItemActive : ""}`}
+              >
+                Ferramentas
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/prompts"
+                className={`${styles.navItem} ${isActive("/prompts") ? styles.navItemActive : ""}`}
+              >
+                Prompts
+              </Link>
+            </li>
+            <li>
+              <span className={`${styles.navItem} ${styles.navItemDisabled}`}>Recursos</span>
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.navGroup}>
+          <span className={styles.navGroupTitle}>Academy</span>
+          <ul className={styles.navList}>
+            <li>
+              <span className={`${styles.navItem} ${styles.navItemDisabled}`}>Brevemente</span>
+            </li>
+          </ul>
+        </div>
+
         <div className={styles.sidebarFooter}>
           <span className="overline">ResearchAI Hub · Beta</span>
         </div>

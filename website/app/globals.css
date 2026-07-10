@@ -46,12 +46,11 @@ h3, h4, h5, h6 {
 a {
   color: var(--color-link);
   text-decoration: none;
-  transition: color var(--duration-fast) var(--ease-out);
+  transition: all 150ms var(--ease-out);
 }
-a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
+
+button {
+  transition: all 150ms var(--ease-out);
 }
 
 button {
@@ -109,6 +108,12 @@ img, svg {
   font-size: 1.0625rem;
   line-height: 1.75;
   color: var(--color-text);
+}
+
+.prose a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 /* ---- Movimento reduzido — Apêndice C ---- */

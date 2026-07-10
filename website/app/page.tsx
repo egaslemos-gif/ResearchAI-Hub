@@ -5,6 +5,7 @@ import { ToolCard } from "@/components/ui/ToolCard";
 import { PromptCard } from "@/components/ui/PromptCard";
 import { WelcomeBackCard } from "@/components/experience/WelcomeBackCard";
 import { EcosystemGrid } from "@/components/home/EcosystemGrid";
+import { PlatformStatus } from "@/components/home/PlatformStatus";
 import { Icon } from "@/components/ui/Icon";
 import styles from "./home.module.css";
 
@@ -30,7 +31,7 @@ export default function HomePage() {
       {tools.length > 0 && (
         <section className={styles.section}>
           <SectionHead
-            title={ui.home.toolsTitle}
+            title="Ferramentas mais utilizadas"
             subtitle={ui.home.toolsSubtitle}
             href="/ferramentas"
           />
@@ -46,7 +47,7 @@ export default function HomePage() {
       {prompts.length > 0 && (
         <section className={styles.section}>
           <SectionHead
-            title={ui.home.promptsTitle}
+            title="Biblioteca de Prompts"
             subtitle={ui.home.promptsSubtitle}
             href="/prompts"
           />
@@ -57,6 +58,9 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      {/* ---- Estado da Plataforma ---- */}
+      <PlatformStatus />
     </div>
   );
 }

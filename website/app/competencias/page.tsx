@@ -1,29 +1,18 @@
 import type { Metadata } from "next";
-import { getCompetencies } from "@/lib/content";
 import { ui } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/PageHeader";
-import { CatalogGrid, EmptyState } from "@/components/ui/CatalogGrid";
-import { CompetencyCard } from "@/components/ui/CompetencyCard";
+import { EcosystemGrid } from "@/components/home/EcosystemGrid";
 
 export const metadata: Metadata = { title: ui.nav.competencies };
 
 export default function CompetenciasPage() {
-  const competencies = getCompetencies();
   return (
     <div className="container-wide">
       <PageHeader
-        title={ui.home.competenciesTitle}
-        subtitle={ui.home.competenciesSubtitle}
+        title="Percursos de Investigação"
+        subtitle="Escolhe o que precisas de fazer e a plataforma guia-te, passo a passo, até um resultado concreto."
       />
-      {competencies.length > 0 ? (
-        <CatalogGrid>
-          {competencies.map((c) => (
-            <CompetencyCard key={c.slug} c={c} />
-          ))}
-        </CatalogGrid>
-      ) : (
-        <EmptyState>Ainda não há competências publicadas.</EmptyState>
-      )}
+      <EcosystemGrid />
     </div>
   );
 }

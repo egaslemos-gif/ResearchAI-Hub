@@ -29,23 +29,22 @@ export function WelcomeBackCard() {
 
   return (
     <div className={styles.card}>
-      <div className={styles.iconWrap}>
-        <Icon name="microscope" size={24} />
+      <div className={styles.meta}>
+        <span className="overline">Investigação Atual</span>
       </div>
       <div className={styles.content}>
-        <h2 className={styles.title}>Bem-vindo novamente.</h2>
-        <p className={styles.text}>
-          Encontrámos uma investigação em curso sobre <strong>{context.researchTopic}</strong> 
-          {context.studyArea ? ` na área de ${context.studyArea}` : ""}.
-        </p>
-        <div className={styles.actions}>
-          <Button variant="primary" onClick={handleContinue}>
-            <Icon name="play" size={16} /> Continuar
-          </Button>
-          <Button variant="secondary" onClick={handleNew}>
-            Nova investigação
-          </Button>
-        </div>
+        <h2 className={styles.title}>{context.researchTopic}</h2>
+        {context.studyArea && (
+          <p className={styles.subtitle}>{context.studyArea}</p>
+        )}
+      </div>
+      <div className={styles.actions}>
+        <Button variant="primary" onClick={handleContinue}>
+          <Icon name="play" size={16} /> Continuar
+        </Button>
+        <Button variant="secondary" onClick={handleNew}>
+          Nova investigação
+        </Button>
       </div>
     </div>
   );
