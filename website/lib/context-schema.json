@@ -1,0 +1,21 @@
+[
+  {
+    "id": "studyArea",
+    "label": "Área de estudo",
+    "type": "string",
+    "required": true
+  },
+  {
+    "id": "researchTopic",
+    "label": "Tema de investigação",
+    "type": "string",
+    "required": true
+  },
+  {
+    "id": "academicLevel",
+    "label": "Nível académico",
+    "type": "enum",
+    "options": ["licenciatura", "mestrado", "doutoramento"],
+    "required": true
+  }
+]

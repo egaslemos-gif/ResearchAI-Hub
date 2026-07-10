@@ -4,6 +4,7 @@ import { ui } from "@/lib/labels";
 import { CompetencyCard } from "@/components/ui/CompetencyCard";
 import { ToolCard } from "@/components/ui/ToolCard";
 import { PromptCard } from "@/components/ui/PromptCard";
+import { WelcomeBackCard } from "@/components/experience/WelcomeBackCard";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import styles from "./home.module.css";
@@ -36,6 +37,7 @@ export default function HomePage() {
       </section>
 
       {/* ---- Competência em destaque + restantes (tudo dos activos) ---- */}
+      <WelcomeBackCard />
       {featured && (
         <section className={styles.section}>
           <SectionHead

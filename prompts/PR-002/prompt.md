@@ -2,11 +2,11 @@
 
 Actua como orientador de investigação científica.
 
-O meu tema de investigação é: **{{research_topic}}**
+O meu tema de investigação é: **{{researchTopic}}**
 
-A minha área de estudo é: **{{study_area}}**
+A minha área de estudo é: **{{studyArea}}**
 
-O meu nível académico é: **{{academic_level}}**
+O meu nível académico é: **{{academicLevel}}**
 
 Ajuda-me a:
 

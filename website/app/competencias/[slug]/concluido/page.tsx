@@ -4,6 +4,7 @@ import { getCompetency, allCompetencySlugs } from "@/lib/content";
 import { ui } from "@/lib/labels";
 import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
+import { ConclusionActions } from "@/components/experience/ConclusionActions";
 import styles from "./done.module.css";
 
 export const dynamicParams = false;
@@ -66,14 +67,7 @@ export default async function DonePage({
         </section>
       )}
 
-      <div className={styles.actions}>
-        <Button href="/" size="lg">
-          {ui.actions.backHome}
-        </Button>
-        <Button href="/competencias" variant="secondary" size="lg">
-          {ui.actions.viewCompetencies}
-        </Button>
-      </div>
+      <ConclusionActions />
     </div>
   );
 }

@@ -2,11 +2,11 @@
 
 Actua como orientador de investigação científica numa universidade.
 
-Sou um investigador na área de **{{study_area}}**.
+Sou um investigador na área de **{{studyArea}}**.
 
-Tenho interesse em estudar o tópico: **{{research_interest}}**.
+Tenho interesse em estudar o tópico: **{{researchTopic}}**.
 
-O meu nível académico é **{{academic_level}}** (licenciatura / mestrado / doutoramento).
+O meu nível académico é **{{academicLevel}}** (licenciatura / mestrado / doutoramento).
 
 Ajuda-me a:
 
