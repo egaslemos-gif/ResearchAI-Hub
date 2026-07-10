@@ -3,7 +3,7 @@
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--space-20);
+  gap: var(--space-16);
 }
 
 /* ---- Hero ---- */
@@ -130,7 +130,7 @@
     grid-template-columns: repeat(2, 1fr);
   }
   .page {
-    gap: var(--space-16);
+    gap: var(--space-12);
   }
 }
 @media (max-width: 639px) {
