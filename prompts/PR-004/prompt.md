@@ -1,5 +1,7 @@
 # PR-004 — Selecção dos Melhores Artigos
 
+---
+
 Actua como bibliotecário científico especializado em revisões da literatura.
 
 Tenho uma lista de artigos encontrados sobre o tema: **{{research_topic}}**
@@ -24,6 +26,9 @@ Ajuda-me a definir critérios de selecção e a escolher os artigos mais relevan
 
 {{article_list}}
 
+---
+
+## Formato esperado
 Formato da resposta:
 - Tabela com colunas: Artigo | Decisão (Incluir/Excluir) | Justificação
 - Lista final dos artigos seleccionados (5-8)

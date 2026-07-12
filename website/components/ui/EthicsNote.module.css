@@ -1,8 +1,7 @@
 .note {
-  padding: var(--space-4) var(--space-5);
-  border-left: 3px solid var(--color-warning-fill);
-  border-radius: var(--radius-lg);
-  background: var(--color-warning-tint);
+  padding: var(--space-4) 0;
+  border: none;
+  background: transparent;
 }
 .head {
   display: inline-flex;
@@ -12,7 +11,7 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--color-warning-fg);
+  color: var(--color-text-subtle);
   margin-bottom: var(--space-3);
 }
 .list {
@@ -36,5 +35,5 @@
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: var(--color-warning-fg);
+  background: var(--color-text-subtle);
 }

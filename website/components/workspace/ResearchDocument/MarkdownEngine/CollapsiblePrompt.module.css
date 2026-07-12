@@ -1,0 +1,213 @@
+.flowContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+  width: 100%;
+}
+
+.promptWrapper {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.promptHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-bg);
+}
+
+.promptLabel {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+}
+
+.promptActionsTop {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.textBtn {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  font-weight: 500;
+}
+
+.textBtn:hover {
+  color: var(--color-text);
+}
+
+.content {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-4);
+}
+
+.collapsed {
+  max-height: 45vh;
+}
+
+@media (max-width: 1024px) {
+  .collapsed {
+    max-height: 35vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .collapsed {
+    max-height: 30vh;
+  }
+}
+
+.expanded {
+  max-height: none;
+}
+
+.promptActionsBottom {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border-subtle);
+  justify-content: flex-end;
+}
+
+.actionBtn {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionBtn:hover {
+  background: var(--color-border-subtle);
+}
+
+.actionBtnPrimary {
+  background: var(--color-brand);
+  color: #fff;
+  border: 1px solid var(--color-brand);
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.actionBtnPrimary:hover {
+  background: var(--color-brand-hover);
+}
+
+.actionBtnSuccess {
+  background: var(--color-surface);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border, var(--color-success));
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.actionBtnSuccess:hover {
+  background: var(--color-success-tint, #f0fdf4);
+}
+
+.flowSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.progressiveSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+  opacity: 0.3;
+  pointer-events: none;
+  filter: blur(2px);
+  max-height: 200px;
+  overflow: hidden;
+  transition: all 0.5s ease-out;
+}
+
+.progressiveSection.revealed {
+  display: block;
+}
+
+.toolInlineBlock {
+  padding: var(--space-4);
+  background: var(--color-surface-sunken);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.toolInlineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+}
+
+.toolInlineLabel {
+  font-weight: 500;
+  color: var(--color-text-subtle);
+}
+
+.toolInlineValue {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.toolCatText {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.ethicsWrapper {
+  padding: var(--space-4);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.progressiveSection.revealed {
+  opacity: 1;
+  pointer-events: auto;
+  filter: none;
+  max-height: 2000px;
+}
+
+.unconfirmedPlaceholder {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+  font-style: italic;
+  background: var(--color-bg);
+}

@@ -1,0 +1,96 @@
+/* ---- Nível 2: Content Layouts ---- */
+
+.compact {
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.reading {
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.protocol {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 var(--space-stack-lg);
+}
+
+.execution {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.wide {
+  max-width: 100%;
+  width: 100%;
+}
+
+/* ---- Regions ---- */
+.headerRegion {
+  margin-bottom: var(--space-stack-lg);
+}
+
+.contentRegion {
+  flex-grow: 1;
+}
+
+.supportRegion {
+  margin-top: var(--space-stack-md);
+}
+
+.footerActions {
+  margin-top: var(--space-stack-xl);
+  padding-top: var(--space-stack-sm);
+  border-top: 1px solid var(--color-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ---- Execution Grid (Dentro do ExecutionLayout) ---- */
+.executionGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+  align-items: stretch;
+  width: 100%;
+}
+
+@media (min-width: 1200px) {
+  .executionGrid {
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) 1fr;
+    gap: var(--space-stack-xl);
+    align-items: start;
+  }
+
+  .executionGrid[data-variant="main-sidebar"] {
+    grid-template-columns: 1fr minmax(260px, 320px);
+  }
+}
+
+:global([data-left-panel="false"]) .executionGrid {
+  display: flex;
+}
+:global([data-left-panel="false"]) .executionLeft {
+  display: none;
+}
+
+.executionLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-md);
+}
+
+.executionRight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-md);
+}

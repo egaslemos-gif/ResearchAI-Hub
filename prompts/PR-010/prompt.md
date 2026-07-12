@@ -1,5 +1,7 @@
 # PR-010 — Checklist Final de Validação
 
+---
+
 Actua como revisor científico experiente.
 
 Acabei de concluir uma revisão da literatura sobre o tema: **{{research_topic}}**

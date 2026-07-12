@@ -61,6 +61,13 @@
   --gap-internal: 16px;
   --gap-field: 12px;
 
+  /* ---- Semantic Vertical Rhythm (Sprint J) ---- */
+  --space-stack-xs: var(--space-2);  /* 8px  */
+  --space-stack-sm: var(--space-4);  /* 16px */
+  --space-stack-md: var(--space-6);  /* 24px */
+  --space-stack-lg: var(--space-8);  /* 32px */
+  --space-stack-xl: var(--space-12); /* 48px */
+
   /* ---- Spacing (Utilities) — §4 ---- */
   --space-0: 0;
   --space-1: 0.25rem;
@@ -152,11 +159,11 @@
    Warm darks for editorial feel
    ============================================================ */
 [data-theme="dark"] {
-  --color-bg: #0f0e0d;
-  --color-surface: #191715;
-  --color-surface-raised: #1f1d1a;
-  --color-surface-sunken: #121110;
-  --color-surface-warm: #161413;
+  --color-bg: #171717;
+  --color-surface: #1e1e1e;
+  --color-surface-raised: #252525;
+  --color-surface-sunken: #121212;
+  --color-surface-warm: #1a1a1a;
 
   --color-border: #2a2725;
   --color-border-strong: #383432;

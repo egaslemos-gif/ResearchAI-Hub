@@ -1,10 +1,3 @@
-.page {
-  max-width: var(--container-prose);
-  margin-inline: auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
 
 .top {
   display: flex;
@@ -25,127 +18,82 @@
   text-decoration: none;
 }
 
-.header {
+/* Removed header, artifactBadge, toolTextual, documentFlow unused styles */
+
+.docSection {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  margin-top: var(--space-2);
+  gap: var(--space-3);
+  padding: var(--space-6) 0;
+  border-bottom: 1px solid var(--color-border-subtle);
 }
-.title {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
-  letter-spacing: -0.02em;
-}
-.time {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--color-text-muted);
-  font-size: 0.9375rem;
+.docSection:last-child {
+  border-bottom: none;
 }
 
-/* Porquê este passo — frase-guia (Recomendação 2) */
-.why {
-  font-size: 1.1875rem;
-  line-height: 1.65;
-  color: var(--color-text);
-  padding-left: var(--space-4);
-  border-left: 3px solid var(--color-brand);
-}
-
-.block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-.blockLabel {
+.docSectionTitle {
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--color-text-subtle);
 }
-.blockText {
+
+.docSectionBody {
   font-size: 1.0625rem;
   line-height: 1.7;
   color: var(--color-text);
 }
 
-/* ---- Ferramenta ---- */
-.toolCard {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-4);
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
-}
-.toolInfo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  flex: 1;
-  min-width: 0;
-}
-.toolLogo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-md);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-.toolName {
-  display: block;
-  font-size: 1.0625rem;
-}
-.toolCat {
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
-  text-transform: capitalize;
-}
-.toolActions {
-  display: flex;
-  gap: var(--space-2);
-}
-.alt {
-  flex-basis: 100%;
-  margin-top: var(--space-1);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
-  font-size: 0.8125rem;
-  color: var(--color-text-muted);
+.docAdvance {
+  padding-top: var(--space-6);
 }
 
-/* ---- Resultado esperado ---- */
-.result {
+.verticalFlow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-2xl);
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+
+
+.preparationFlow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-xl);
+}
+
+.prepBlock {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--color-border);
-  border-left: 3px solid var(--color-brand);
-  border-radius: var(--radius-md);
-  background: var(--color-brand-subtle);
 }
-.resultLabel {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
+
+.prepTitle {
+  font-size: 0.875rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
+  color: var(--color-text-subtle);
   text-transform: uppercase;
-  color: var(--color-brand-hover);
+  letter-spacing: 0.02em;
+  margin: 0;
 }
-.result p {
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--color-text);
+.phaseExecutar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+}
+
+.phaseRecolher {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+}
+
+.phaseValidar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
 }

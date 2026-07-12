@@ -1,5 +1,7 @@
 # PR-003 — Pesquisa no Consensus
 
+---
+
 Este prompt NÃO é para a IA. É uma instrução directa para o investigador utilizar o Consensus.
 
 ---

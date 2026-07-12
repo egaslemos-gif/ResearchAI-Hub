@@ -1,5 +1,7 @@
 # PR-009 — Produção da Revisão da Literatura
 
+---
+
 Actua como redactor científico académico.
 
 Com base em toda a análise e síntese realizada sobre o tema **{{research_topic}}**, redige uma **revisão da literatura** completa.

@@ -1,5 +1,7 @@
 # PR-006 — Comparação entre Estudos
 
+---
+
 Actua como investigador sénior a preparar uma revisão da literatura.
 
 Tenho as fichas de leitura dos seguintes artigos seleccionados sobre o tema: **{{research_topic}}**

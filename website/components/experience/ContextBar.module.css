@@ -1,0 +1,35 @@
+.bar {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--space-5);
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border-subtle);
+  position: sticky;
+  top: 56px;
+  z-index: 30;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.segment {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.02em;
+}
+
+.separator {
+  color: var(--color-border-strong);
+  opacity: 0.5;
+}

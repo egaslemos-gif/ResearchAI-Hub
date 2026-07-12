@@ -1,5 +1,7 @@
 # PR-007 — Identificação de Lacunas na Literatura
 
+---
+
 Actua como investigador sénior a analisar o estado da arte.
 
 Com base na tabela comparativa e nas fichas de leitura que produzi sobre o tema **{{research_topic}}**, a minha pergunta de investigação é:

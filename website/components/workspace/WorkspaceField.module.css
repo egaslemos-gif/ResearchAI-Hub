@@ -1,0 +1,117 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-subtle);
+  transition: color 150ms ease;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-2) 0;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  outline: none;
+  line-height: 1.5;
+  transition: all 150ms ease;
+}
+
+.input::placeholder {
+  color: var(--color-text-subtle);
+  opacity: 0.5;
+}
+
+/* Base underline (not focused) */
+.underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-color: var(--color-border-subtle);
+  transition: background-color 200ms ease;
+}
+
+/* Hover effect */
+.input:hover ~ .underline {
+  background-color: var(--color-border);
+}
+
+/* Focus effect */
+.input:focus ~ .underline {
+  background-color: var(--color-brand);
+  height: 2px;
+}
+.input:focus {
+  color: var(--color-text);
+}
+
+.field:focus-within .label {
+  color: var(--color-brand);
+}
+
+/* Select specific styles */
+.select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: var(--space-6);
+}
+
+.selectIcon {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-text-subtle);
+  transition: color 150ms ease;
+}
+
+.input:focus ~ .selectIcon {
+  color: var(--color-brand);
+}
+
+/* States */
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.disabled .input {
+  cursor: not-allowed;
+}
+
+.disabled .underline {
+  background-color: transparent;
+  border-bottom: 1px dashed var(--color-border-subtle);
+}
+
+.hasError .label {
+  color: var(--color-danger-fg);
+}
+
+.hasError .underline {
+  background-color: var(--color-danger-fg);
+}
+
+.errorText {
+  font-size: 0.75rem;
+  color: var(--color-danger-fg);
+  margin-top: 4px;
+}

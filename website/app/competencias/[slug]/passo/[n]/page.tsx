@@ -8,8 +8,17 @@ import { Button } from "@/components/ui/Button";
 import { EthicsNote } from "@/components/ui/EthicsNote";
 import { ProgressTracker } from "@/components/experience/ProgressTracker";
 import { StepAdvance } from "@/components/experience/StepAdvance";
-import { PromptCanvas } from "@/components/experience/PromptCanvas";
-import { EvidencePanel } from "@/components/experience/EvidencePanel";
+import { ExecutionLayout, ExecutionGrid } from "@/components/layouts/Layouts";
+import { WorkspaceProvider } from "@/components/workspace/WorkspaceContext";
+import { ResearchWorkspace } from "@/components/workspace/ResearchWorkspace/ResearchWorkspace";
+import { ResearchDocument } from "@/components/workspace/ResearchDocument/ResearchDocument";
+import { Section } from "@/components/workspace/ResearchDocument/Sections/Section";
+import { DynamicPromptRenderer } from "@/components/workspace/ResearchDocument/MarkdownEngine/DynamicPromptRenderer";
+import { PromptCardContainer } from "@/components/workspace/PromptCard";
+import { WorkspacePlugins } from "@/components/workspace/Plugins/WorkspacePlugins";
+import { EvidencePlugin } from "@/components/workspace/Plugins/EvidencePlugin";
+import { DocumentProperties } from "@/components/workspace/DocumentProperties";
+import { ResearchStepHeader } from "@/components/experience/ResearchStepHeader";
 import styles from "./step.module.css";
 
 export const dynamicParams = false;
@@ -55,10 +64,16 @@ export default async function StepPage({
     : `/competencias/${c.slug}/passo/${step.order + 1}`;
 
   const stepMinutes = c.steps.map((s) => s.minutes);
+  const timelineSteps = c.steps.map(s => ({
+    order: s.order,
+    name: s.name,
+    minutes: s.minutes
+  }));
+
   const evidenceItems = c.steps.map((s) => ({
     id: `ev-${s.order}`,
-    title: s.outputs[0] || s.expectedOutput || s.name,
-    producedBy: [s.order],
+    label: s.outputs[0] || s.expectedOutput || s.name,
+    completed: s.order < step.order,
   }));
   // TR-1: avisos éticos contextuais nos passos com IA (regras críticas do validation.json).
   const criticalRules = c.qualityRules.filter(
@@ -67,103 +82,100 @@ export default async function StepPage({
   const isAiStep = step.tool?.toolType === "ai";
 
   return (
-    <div className={styles.page}>
-      <div className={styles.top}>
-        <Link href={`/competencias/${c.slug}`} className={styles.back}>
-          <Icon name="arrow-left" size={16} /> {c.name}
-        </Link>
-        <ProgressTracker
-          slug={c.slug}
-          totalSteps={total}
-          currentStep={step.order}
-          stepMinutes={stepMinutes}
-        />
-      </div>
+    <WorkspaceProvider>
+      <ResearchWorkspace initialMode="workspace">
+        <ExecutionLayout
+          header={
+            <>
+              <div className={styles.top}>
+              <ProgressTracker
+                slug={c.slug}
+                totalSteps={total}
+                currentStep={step.order}
+                stepMinutes={stepMinutes}
+                timelineSteps={timelineSteps}
+              />
+            </div>
 
-      <header className={styles.header}>
-        <span className="overline">{ui.step.label(step.order)}</span>
-        <h1 className={styles.title}>{step.name}</h1>
-        {step.estimatedTime && (
-          <span className={styles.time}>
-            <Icon name="clock" size={15} /> {step.estimatedTime}
-          </span>
-        )}
-      </header>
+            <ResearchStepHeader 
+              title={c.name}
+              expectedArtifact={step.outputs[0] || step.expectedOutput || null}
+            />
+          </>
+        }
+        content={
+          <div className={styles.verticalFlow}>
+            {/* FASE 1: PREPARAR */}
+            <Section id="preparation" title="Preparation Workspace" defaultOpen={true} collapsible={false}>
+                <div className={styles.preparationFlow}>
+                  {prompt && prompt.variables && prompt.variables.length > 0 && (
+                    <div className={styles.prepBlock}>
+                      <DocumentProperties variables={prompt.variables} />
+                    </div>
+                  )}
 
-      {/* Porquê este passo (Recomendação 2): o objectivo do activo como frase-guia */}
-      {step.objective && <p className={styles.why}>{step.objective}</p>}
+                  {step.objective && (
+                    <div className={styles.prepBlock}>
+                      <h4 className={styles.prepTitle}>Objetivo</h4>
+                      <div className={styles.docSectionBody}>{step.objective}</div>
+                    </div>
+                  )}
 
-      {step.instruction && (
-        <section className={styles.block}>
-          <h2 className={styles.blockLabel}>{ui.terms.instruction}</h2>
-          <p className={styles.blockText}>{step.instruction}</p>
-        </section>
-      )}
+                  {step.instruction && (
+                    <div className={styles.prepBlock}>
+                      <h4 className={styles.prepTitle}>O que fazer</h4>
+                      <div className={styles.docSectionBody}>{step.instruction}</div>
+                    </div>
+                  )}
+                </div>
+              </Section>
 
-      {/* ---- Ferramenta ---- */}
-      {step.tool && (
-        <section className={styles.toolCard}>
-          <div className={styles.toolInfo}>
-            <span className={styles.toolLogo}>{(step.tool.name ?? step.tool.alias).charAt(0)}</span>
-            <div>
-              <strong className={styles.toolName}>{step.tool.name ?? step.tool.alias}</strong>
-              {categoryLabel(step.tool.category) && (
-                <span className={styles.toolCat}>{categoryLabel(step.tool.category)}</span>
+            {/* FASE 2: EXECUTAR */}
+            <div className={styles.phaseExecutar}>
+              {prompt && prompt.body ? (
+                <PromptCardContainer 
+                  toolName={step.tool?.name ?? step.tool?.alias}
+                  toolUrl={step.tool?.url ?? undefined}
+                  hasEthicsWarning={isAiStep && criticalRules.length > 0}
+                  criticalRules={criticalRules}
+                  content={prompt.body}
+                />
+              ) : (
+                <div className={styles.docSectionBody}>Nenhum prompt associado a este passo.</div>
               )}
             </div>
-          </div>
-          <div className={styles.toolActions}>
-            {step.tool.url && (
-              <Button href={step.tool.url} external size="sm">
-                {ui.actions.openTool(step.tool.name ?? step.tool.alias)}
-                <Icon name="arrow-up-right" size={15} />
-              </Button>
+
+            {/* FASE 3: RECOLHER / RESULTADO ESPERADO */}
+            {step.expectedOutput && (
+              <div className={styles.phaseRecolher}>
+                <Section id="expected" title="Resultado esperado" defaultOpen={true}>
+                  <div className={styles.docSectionBody}>{step.expectedOutput}</div>
+                </Section>
+              </div>
             )}
-            {step.tool.available && (
-              <Button href={`/ferramentas/${step.tool.slug}`} variant="ghost" size="sm">
-                {ui.actions.view}
-              </Button>
-            )}
+
+            {/* FASE 4 & 5: VALIDAR E CONCLUIR */}
+            <div className={styles.phaseValidar}>
+              <Section id="checklist" title="Checklist de Validação" defaultOpen={true}>
+                <WorkspacePlugins>
+                  <EvidencePlugin items={evidenceItems} />
+                </WorkspacePlugins>
+                
+                <div className={styles.docAdvance}>
+                  <StepAdvance
+                    slug={c.slug}
+                    step={step.order}
+                    prevHref={prevHref}
+                    nextHref={nextHref}
+                    isLast={isLast}
+                  />
+                </div>
+              </Section>
+            </div>
           </div>
-          {step.toolAlternatives.length > 0 && (
-            <p className={styles.alt}>
-              {ui.step.alternatives}:{" "}
-              {step.toolAlternatives.map((a) => a.name ?? a.alias).join(" · ")} — {ui.step.withYourTool}
-            </p>
-          )}
-        </section>
-      )}
-
-      {/* Aviso ético contextual (TR-1): regras críticas ao usar IA */}
-      {isAiStep && criticalRules.length > 0 && <EthicsNote rules={criticalRules} />}
-
-      {/* ---- Prompt ---- */}
-      {prompt && prompt.body && (
-        <section className={styles.block}>
-          <PromptCanvas body={prompt.body} variables={prompt.variables} />
-        </section>
-      )}
-
-      {/* ---- Resultado esperado ---- */}
-      {step.expectedOutput && (
-        <section className={styles.result}>
-          <span className={styles.resultLabel}>
-            <Icon name="flag" size={15} /> {ui.terms.expectedResult}
-          </span>
-          <p>{step.expectedOutput}</p>
-        </section>
-      )}
-
-      {/* Evidências da Investigação */}
-      <EvidencePanel slug={c.slug} currentStep={step.order} items={evidenceItems} />
-
-      <StepAdvance
-        slug={c.slug}
-        step={step.order}
-        prevHref={prevHref}
-        nextHref={nextHref}
-        isLast={isLast}
+        }
       />
-    </div>
+      </ResearchWorkspace>
+    </WorkspaceProvider>
   );
 }

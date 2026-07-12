@@ -8,12 +8,31 @@ import path from "node:path";
  * Funciona quer o processo corra em website/ (next dev) quer na raiz.
  */
 export function repoRoot(): string {
-  let dir = process.cwd();
+  const cwd = process.cwd();
+  
+  // 1. Try parent of cwd (Standard Next.js execution where cwd is 'website/')
+  const parentOfCwd = path.join(cwd, "..");
+  if (
+    fs.existsSync(path.join(parentOfCwd, "protocols")) &&
+    fs.existsSync(path.join(parentOfCwd, "tools"))
+  ) {
+    return parentOfCwd;
+  }
+
+  // 2. Try cwd itself (If execution is happening from the monorepo root)
+  if (
+    fs.existsSync(path.join(cwd, "protocols")) &&
+    fs.existsSync(path.join(cwd, "tools"))
+  ) {
+    return cwd;
+  }
+
+  // 3. Fallback to searching upwards up to 8 levels (deeply nested scripts)
+  let dir = cwd;
   for (let i = 0; i < 8; i++) {
     if (
       fs.existsSync(path.join(dir, "protocols")) &&
-      fs.existsSync(path.join(dir, "tools")) &&
-      fs.existsSync(path.join(dir, "prompts"))
+      fs.existsSync(path.join(dir, "tools"))
     ) {
       return dir;
     }
@@ -21,7 +40,9 @@ export function repoRoot(): string {
     if (parent === dir) break;
     dir = parent;
   }
-  return process.cwd();
+  
+  // Default fallback
+  return parentOfCwd;
 }
 
 export const ASSET_DIRS = {

@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useProgress } from "./useProgress";
+import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { ui } from "@/lib/labels";
@@ -21,10 +21,13 @@ export function StepAdvance({
   isLast: boolean;
 }) {
   const router = useRouter();
-  const { markStep } = useProgress(slug);
+  const { updateSession, advanceStepState } = useResearchSession();
 
   const advance = () => {
-    markStep(step);
+    advanceStepState(step, "Completed");
+    if (!isLast) {
+      updateSession({ currentStep: step + 1 });
+    }
     router.push(nextHref);
   };
 

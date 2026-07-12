@@ -70,7 +70,7 @@ export function useResearchContext() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
         // Despachar evento para sincronizar outras abas e componentes
-        window.dispatchEvent(new Event("research_context_updated"));
+        window.dispatchEvent(new CustomEvent("research_context_updated", { detail: { source: "useResearchContext" } }));
       } catch {}
 
       return next;
@@ -87,7 +87,12 @@ export function useResearchContext() {
 
   // Ouve eventos locais disparados na mesma aba (storage event só funciona noutras abas)
   useEffect(() => {
-    const onLocalUpdate = () => setContext(getInitialContext());
+    const onLocalUpdate = (e: Event) => {
+      if (e instanceof CustomEvent && e.detail?.source === "useResearchContext") {
+        return; // Ignore events dispatched by ourselves to prevent double renders and cursor jumping
+      }
+      setContext(getInitialContext());
+    };
     window.addEventListener("research_context_updated", onLocalUpdate);
     return () => window.removeEventListener("research_context_updated", onLocalUpdate);
   }, []);

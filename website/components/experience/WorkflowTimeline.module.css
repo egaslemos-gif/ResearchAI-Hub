@@ -1,0 +1,142 @@
+.container {
+  width: 100%;
+  overflow-x: auto;
+  padding: var(--space-4) 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  background: var(--color-bg);
+}
+
+.container::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.scrollArea {
+  display: inline-flex;
+  min-width: 100%;
+  padding: 0 var(--space-8);
+}
+
+.track {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+  padding-right: var(--space-8);
+}
+
+.step:last-child {
+  padding-right: 0;
+}
+
+.step:last-child .line {
+  display: none;
+}
+
+.stepLink {
+  display: contents;
+  text-decoration: none;
+  color: inherit;
+}
+
+.stepCompleted .stepLink {
+  cursor: pointer;
+}
+
+.stepCompleted .stepLink:hover .name {
+  text-decoration: underline;
+}
+
+.stepActive .stepLink {
+  cursor: default;
+}
+
+.stepLocked .stepLink {
+  cursor: not-allowed;
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  position: relative;
+  z-index: 2;
+  background: var(--color-bg);
+  padding-right: var(--space-3);
+}
+
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-subtle);
+  border: 1px solid var(--color-border);
+  transition: all var(--duration-fast);
+}
+
+.stepActive .circle {
+  background: var(--color-brand);
+  color: var(--color-brand-contrast);
+  border-color: var(--color-brand);
+}
+
+.stepCompleted .circle {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-subtle);
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.stepActive .name {
+  color: var(--color-text);
+}
+
+.stepCompleted .name {
+  color: var(--color-text);
+}
+
+.time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+}
+
+.line {
+  position: absolute;
+  top: 16px; /* metade da altura do circle (32px) */
+  left: 32px;
+  right: 0;
+  height: 2px;
+  background: var(--color-border-subtle);
+  z-index: 1;
+}
+
+.stepCompleted .line {
+  background: var(--color-border-strong);
+}

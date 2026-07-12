@@ -1,7 +1,9 @@
 "use client";
+import { useState, useEffect } from "react";
 import { useProgress } from "./useProgress";
 import { ui } from "@/lib/labels";
 import styles from "./ProgressTracker.module.css";
+import { WorkflowTimeline, TimelineStep } from "./WorkflowTimeline";
 
 function formatMinutes(m: number): string {
   if (m <= 0) return "";
@@ -12,23 +14,34 @@ function formatMinutes(m: number): string {
 }
 
 /**
- * Barra de progresso persistente, sempre visível durante o Guia Prático (Ajuste 4).
- * Mostra também o tempo estimado em falta (Recomendação 1), calculado a partir dos
- * tempos de cada passo (activos) que ainda não foram concluídos.
+ * Barra de progresso persistente.
+ * Funciona como Wrapper: Renderiza a WorkflowTimeline em Desktop 
+ * e a barra de progresso simples em Mobile.
  */
 export function ProgressTracker({
   slug,
   totalSteps,
   currentStep,
   stepMinutes,
+  timelineSteps,
 }: {
   slug: string;
   totalSteps: number;
   currentStep?: number;
   stepMinutes?: number[];
+  timelineSteps?: TimelineStep[];
 }) {
   const { ready, stepsDone, steps } = useProgress(slug);
   const pct = totalSteps ? Math.round((stepsDone / totalSteps) * 100) : 0;
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 40);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   let remaining = "";
   if (stepMinutes && ready) {
@@ -40,19 +53,23 @@ export function ProgressTracker({
   }
 
   return (
-    <div className={styles.wrap} aria-live="polite">
-      <div className={styles.labels}>
-        <span className={styles.title}>
-          {currentStep ? ui.step.counter(currentStep, totalSteps) : ui.progress.guideMeta(totalSteps)}
-          {remaining && <span className={styles.remaining}> · {ui.progress.remaining(remaining)}</span>}
-        </span>
-        <span className={styles.count}>
-          {ready ? ui.progress.done(stepsDone, totalSteps) : " "}
-        </span>
+    <>
+      {timelineSteps && timelineSteps.length > 0 && currentStep && (
+        <div className={styles.desktopTimeline}>
+          <WorkflowTimeline steps={timelineSteps} currentStepIndex={currentStep - 1} />
+        </div>
+      )}
+      <div className={`${styles.wrap} ${isScrolled ? styles.scrolled : ""} ${timelineSteps?.length ? styles.mobileOnly : ""}`} aria-live="polite">
+        <div className={styles.labels}>
+          <span className={styles.title}>
+            {currentStep ? `Passo ${currentStep}/${totalSteps}` : `0/${totalSteps}`}
+          </span>
+          {!isScrolled && remaining && <span className={styles.remaining}>{remaining}</span>}
+        </div>
+        <div className={styles.track}>
+          <div className={styles.fill} style={{ width: `${ready ? pct : 0}%` }} />
+        </div>
       </div>
-      <div className={styles.track}>
-        <div className={styles.fill} style={{ width: `${ready ? pct : 0}%` }} />
-      </div>
-    </div>
+    </>
   );
 }

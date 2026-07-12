@@ -1,5 +1,7 @@
 # PR-002 — Refinamento da Pergunta Científica
 
+---
+
 Actua como orientador de investigação científica.
 
 O meu tema de investigação é: **{{researchTopic}}**
@@ -8,6 +10,9 @@ A minha área de estudo é: **{{studyArea}}**
 
 O meu nível académico é: **{{academicLevel}}**
 
+---
+
+## Objetivos
 Ajuda-me a:
 
 1. **Formular uma pergunta de investigação** que seja:
@@ -26,6 +31,9 @@ Ajuda-me a:
    - Em inglês
    - Incluindo sinónimos e termos relacionados
 
+---
+
+## Formato esperado
 Formato da resposta:
 - Pergunta de investigação (máximo 2 frases)
 - Objectivo geral (1)

@@ -1,5 +1,7 @@
 # PR-008 — Síntese da Literatura
 
+---
+
 Actua como redactor científico especializado em revisões da literatura.
 
 Com base em toda a análise realizada sobre o tema **{{research_topic}}**, organiza os achados por **temas** (não por artigos individuais).

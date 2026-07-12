@@ -2,10 +2,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  background: var(--color-surface);
+  padding: var(--space-2) 0;
+  transition: all 0.2s ease;
+  max-height: 48px;
+}
+
+.wrap.scrolled {
+  max-height: 36px;
+  gap: var(--space-1);
 }
 .labels {
   display: flex;
@@ -21,6 +25,7 @@
 .remaining {
   font-weight: 400;
   color: var(--color-text-muted);
+  margin-left: var(--space-2);
 }
 .count {
   font-size: 0.8125rem;
@@ -28,9 +33,9 @@
   font-variant-numeric: tabular-nums;
 }
 .track {
-  height: 6px;
+  height: 4px;
   border-radius: var(--radius-full);
-  background: var(--color-surface-sunken);
+  background: var(--color-border-subtle);
   overflow: hidden;
 }
 .fill {
@@ -38,4 +43,17 @@
   border-radius: var(--radius-full);
   background: var(--color-brand);
   transition: width var(--duration-slow) var(--ease-out);
+}
+
+.desktopTimeline {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktopTimeline {
+    display: block;
+  }
+  .mobileOnly {
+    display: none;
+  }
 }

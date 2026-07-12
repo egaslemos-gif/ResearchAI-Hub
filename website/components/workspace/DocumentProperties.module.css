@@ -1,0 +1,82 @@
+.properties {
+  display: flex;
+  flex-direction: column;
+}
+
+.propertiesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-stack-md);
+}
+
+.inspectorTitle {
+  display: none; /* Removed the title since it's redundant with Section title in page.tsx */
+}
+
+.editBtn {
+  background: transparent;
+  border: none;
+  color: var(--color-brand);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  padding: var(--space-inset-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.properties:hover .editBtn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.editBtn:hover {
+  background-color: var(--color-surface-hover);
+  text-decoration: none;
+}
+
+.ideSummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-md);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-md);
+}
+
+.ideSummaryRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-xs);
+}
+
+.ideSummaryLabel {
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.ideSummaryValue {
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+  line-height: 1.5;
+  font-family: var(--font-serif);
+}
+
+.inspectorFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+  background-color: var(--color-surface-sunken);
+  padding: var(--space-inset-lg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.saveBtn {
+  margin-top: var(--space-stack-md);
+  align-self: flex-start;
+}

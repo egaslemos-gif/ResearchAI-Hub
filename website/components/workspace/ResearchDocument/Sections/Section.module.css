@@ -1,0 +1,53 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--space-stack-lg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-stack-sm);
+  padding: var(--space-stack-sm) 0;
+  user-select: none;
+}
+
+.collapsible {
+  cursor: pointer;
+}
+
+.collapsible:hover .title {
+  color: var(--color-brand-primary);
+}
+
+.toggleIcon {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s ease;
+  width: 16px;
+  text-align: center;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.content {
+  padding-top: var(--space-stack-sm);
+  padding-left: 24px; /* Align with title, past toggle icon */
+  padding-bottom: var(--space-stack-md);
+}
+
+.contentNoToggle {
+  padding-left: 0;
+}
+
+.divider {
+  border: none;
+  border-bottom: 1px solid var(--color-border-subtle);
+  margin: var(--space-stack-md) 0 0 0;
+  width: 100%;
+}

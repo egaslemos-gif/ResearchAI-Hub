@@ -1,0 +1,115 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.header {
+  padding: var(--space-inset-md) var(--space-inset-lg);
+  border-bottom: 1px solid var(--color-border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-surface-sunken);
+}
+
+.title {
+  font-weight: 600;
+  font-size: var(--font-size-md);
+}
+
+.timeline {
+  display: flex;
+  gap: var(--space-inline-md);
+  padding: var(--space-inset-md) var(--space-inset-lg);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
+}
+
+.timelineStep {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-xs);
+}
+
+.timelineStep.active {
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.timelineStep.completed {
+  color: var(--color-brand);
+}
+
+.viewer {
+  padding: var(--space-inset-lg);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-inline-md);
+  padding: var(--space-inset-md) var(--space-inset-lg);
+  border-top: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-sunken);
+  align-items: center;
+}
+
+.btn {
+  padding: var(--space-inset-sm) var(--space-inset-md);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-inline-xs);
+  text-decoration: none;
+}
+
+.btnSecondary {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+.btnSecondary:hover {
+  background: var(--color-surface-hover);
+}
+
+.btnPrimary {
+  background: var(--color-brand);
+  color: white;
+}
+.btnPrimary:hover {
+  background: var(--color-brand-hover);
+}
+
+.btnSuccess {
+  background: transparent;
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+.btnSuccess:hover {
+  background: var(--color-success);
+  color: white;
+}
+.btnSuccess.active {
+  background: var(--color-success);
+  color: white;
+}
+
+.unconfirmedPlaceholder {
+  padding: var(--space-inset-xl);
+  text-align: center;
+  color: var(--color-text-subtle);
+  font-size: var(--font-size-md);
+  font-style: italic;
+}

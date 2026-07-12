@@ -1,5 +1,7 @@
 # PR-005 — Análise Individual de Artigos
 
+---
+
 Actua como investigador sénior especializado em análise de literatura científica.
 
 Vou fornecer-te o resumo (abstract) ou o texto de um artigo científico. Analisa-o de forma estruturada.

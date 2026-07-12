@@ -1,21 +1,19 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useResearchContext } from "@/lib/researchContext";
+import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
 import { Button } from "@/components/ui/Button";
 import { ui } from "@/lib/labels";
 
 export function ConclusionActions() {
-  const { context, ready, clearContext } = useResearchContext();
+  const { session, ready, updateSession } = useResearchSession();
   const router = useRouter();
 
   const handleNew = () => {
-    if (confirm("Isto irá limpar o contexto da investigação actual. Pretende continuar?")) {
-      clearContext();
-      router.push("/competencias");
-    }
+    updateSession({ status: "completed" });
+    router.push("/");
   };
 
-  const hasContext = ready && context.status === "active";
+  const hasContext = ready && session?.status === "active";
 
   return (
     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center", marginTop: "24px" }}>

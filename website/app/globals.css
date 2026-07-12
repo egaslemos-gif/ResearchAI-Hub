@@ -1,4 +1,4 @@
-@import "../styles/tokens.css";
+/* Tokens now imported directly in layout.tsx to prevent Turbopack issues */
 
 /* ---- Reset mínimo ---- */
 *,
@@ -62,7 +62,7 @@ ul, ol {
   list-style: none;
 }
 
-img, svg {
+img {
   display: block;
 }
 
