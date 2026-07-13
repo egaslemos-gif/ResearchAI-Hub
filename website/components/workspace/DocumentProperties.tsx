@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useWorkspace } from "./WorkspaceContext";
-import { useResearchSession, SessionState } from "./ResearchSessionContext";
+import { useWorkspaceStore, SessionState } from "./WorkspaceStoreContext";
 import schema from "@/lib/context-schema.json";
 import type { PromptVariable } from "@/lib/content";
 import { TextField, SelectField } from "./WorkspaceField";
@@ -9,7 +9,7 @@ import styles from "./DocumentProperties.module.css";
 import { Button } from "../ui/Button";
 
 export function DocumentProperties({ variables }: { variables: PromptVariable[] }) {
-  const { session, updateSession, updateStepProgress, advanceStepState } = useResearchSession();
+  const { session, updateStepProgress, advanceStepState } = useWorkspaceStore();
   const { setToastMessage } = useWorkspace();
   const [isEditing, setIsEditing] = useState(true);
   const [localValues, setLocalValues] = useState<Record<string, string>>({});
@@ -19,6 +19,23 @@ export function DocumentProperties({ variables }: { variables: PromptVariable[] 
   const currentStatus: SessionState = session.progress?.[step]?.status || "Draft";
   const documentProperties = session.progress?.[step]?.variables || {};
   const isContextConfirmed = ["ContextConfirmed", "PromptGenerated", "PromptExecuted", "EvidenceValidated", "Completed"].includes(currentStatus);
+
+  // Separate global (workspace) variables from step-specific variables
+  const globalVars = variables.filter(v => schema.some((s: any) => s.id === v.name));
+  const stepVars = variables.filter(v => !schema.some((s: any) => s.id === v.name));
+
+  // Check if all global variables are already filled in the workspace
+  const globalVarsFilled = globalVars.every(v => {
+    const val = (session as any)[v.name];
+    return val !== undefined && val !== null && String(val).trim() !== "";
+  });
+
+  // Auto-confirm context if all global vars are filled AND there are no step-specific vars
+  useEffect(() => {
+    if (globalVarsFilled && stepVars.length === 0 && currentStatus === "Draft") {
+      advanceStepState(step, "ContextConfirmed");
+    }
+  }, [globalVarsFilled, stepVars.length, currentStatus, step, advanceStepState]);
 
   // Initialize localValues from global state when opening edit mode
   useEffect(() => {
@@ -31,7 +48,6 @@ export function DocumentProperties({ variables }: { variables: PromptVariable[] 
       });
       
       setLocalValues(prev => {
-        // Only update state if values actually changed to prevent infinite loops
         const keys = Object.keys(initialLocal);
         const prevKeys = Object.keys(prev);
         if (keys.length !== prevKeys.length) return initialLocal;
@@ -58,32 +74,39 @@ export function DocumentProperties({ variables }: { variables: PromptVariable[] 
   };
 
   const handleSave = () => {
-    // Sync localValues to global state
-    const globalUpdates: any = {};
-    const localUpdates: Record<string, string> = { ...documentProperties };
-    
-    variables.forEach(v => {
-      const isGlobal = schema.some((s: any) => s.id === v.name);
-      if (isGlobal) {
-        globalUpdates[v.name] = localValues[v.name] || "";
-      } else {
-        localUpdates[v.name] = localValues[v.name] || "";
+    // Validate required step-specific fields
+    const missing: string[] = [];
+    stepVars.forEach(v => {
+      if (v.required) {
+        const val = (localValues[v.name] || "").trim();
+        if (!val) {
+          missing.push(v.description || v.name);
+        }
       }
     });
 
-    if (Object.keys(globalUpdates).length > 0) {
-      updateSession(globalUpdates);
+    if (missing.length > 0) {
+      const msg = missing.length === 1
+        ? `Campo obrigatório não preenchido: ${missing[0]}`
+        : `${missing.length} campos obrigatórios não preenchidos`;
+      setToastMessage(`⚠ ${msg}`);
+      setTimeout(() => setToastMessage(null), 4000);
+      return;
     }
-    
+
+    // Sync localValues to global state (only step-specific vars; globals are read-only from workspace)
+    const localUpdates: Record<string, string> = { ...documentProperties };
+    stepVars.forEach(v => {
+      localUpdates[v.name] = localValues[v.name] || "";
+    });
+
     updateStepProgress(step, { variables: localUpdates });
     advanceStepState(step, "ContextConfirmed");
     setIsEditing(false);
-    
-    setToastMessage("✓ Contexto confirmado!");
-    setTimeout(() => setToastMessage(null), 3000);
   };
 
-  if (variables.length === 0) return null;
+  // If no step-specific variables, don't render the form at all — context comes from workspace
+  if (stepVars.length === 0) return null;
 
   return (
     <div className={styles.properties}>
@@ -98,9 +121,8 @@ export function DocumentProperties({ variables }: { variables: PromptVariable[] 
 
       {!isEditing ? (
         <div className={styles.ideSummary}>
-          {variables.map(v => {
-            const isGlobal = schema.some((s: any) => s.id === v.name);
-            const value = isGlobal ? (session as any)[v.name] : documentProperties[v.name];
+          {stepVars.map(v => {
+            const value = documentProperties[v.name];
             const label = v.description || v.name;
             return (
               <div key={v.name} className={styles.ideSummaryRow}>
@@ -112,7 +134,7 @@ export function DocumentProperties({ variables }: { variables: PromptVariable[] 
         </div>
       ) : (
         <div className={styles.inspectorFields}>
-          {variables.map((v, idx) => {
+          {stepVars.map((v, idx) => {
             const value = localValues[v.name] || "";
             const label = v.description || v.name;
             const requiredLabel = v.required ? `${label} *` : label;
@@ -155,8 +177,8 @@ export function DocumentProperties({ variables }: { variables: PromptVariable[] 
           })}
           
           <hr style={{ border: 'none', borderTop: '1px solid var(--color-border-subtle)', margin: 'var(--space-4) 0' }} />
-          <Button variant="secondary" onClick={handleSave} className={styles.saveBtn}>
-            Confirmar Contexto
+          <Button variant="secondary" onClick={handleSave} className={styles.saveBtn} disabled={!stepVars.every(v => !v.required || (localValues[v.name] || "").trim())}>
+            Guardar
           </Button>
         </div>
       )}

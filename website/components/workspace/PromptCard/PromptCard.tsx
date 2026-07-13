@@ -35,11 +35,11 @@ export function PromptCard({
 
   return (
     <div className={styles.card}>
-      <PromptHeader />
+      <PromptHeader onCopy={onCopy} />
       
       {!isContextConfirmed ? (
         <div className={styles.unconfirmedPlaceholder}>
-          O Prompt será gerado após confirmares o contexto.
+          A aguardar dados do Workspace…
         </div>
       ) : (
         <>
@@ -48,7 +48,7 @@ export function PromptCard({
           <PromptViewer content={resolvedContent} />
 
           {hasEthicsWarning && criticalRules && criticalRules.length > 0 && (
-             <div style={{ padding: "0 var(--space-inset-lg) var(--space-inset-md) var(--space-inset-lg)" }}>
+             <div style={{ padding: "0 var(--space-4) var(--space-2) var(--space-4)" }}>
                <EthicsNote rules={criticalRules} />
              </div>
           )}
@@ -57,7 +57,6 @@ export function PromptCard({
             toolUrl={toolUrl} 
             toolName={toolName} 
             onExecute={onExecute} 
-            onCopy={onCopy}
             status={status} 
           />
         </>

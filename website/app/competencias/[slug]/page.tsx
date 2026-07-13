@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { ProgressTracker } from "@/components/experience/ProgressTracker";
 import { ProtocolTabs } from "@/components/experience/ProtocolTabs";
+import { StartProtocolButton } from "@/components/workspace/StartProtocolButton";
 import { ProtocolLayout } from "@/components/layouts/Layouts";
 import styles from "./competency.module.css";
 
@@ -82,10 +83,7 @@ export default async function CompetencyPage({
                 stepMinutes={c.steps.map((s) => s.minutes)}
               />
             </div>
-            <Button size="lg" href={`/competencias/${c.slug}/passo/1`}>
-              {ui.actions.startGuide}
-              <Icon name="arrow-right" size={18} />
-            </Button>
+            <StartProtocolButton slug={c.slug} step={1} size="lg" label={ui.actions.startGuide} />
           </div>
         </div>
       </header>
@@ -178,9 +176,14 @@ export default async function CompetencyPage({
                       )}
                     </dl>
                   </div>
-                  <Button variant="secondary" href={`/competencias/${c.slug}/passo/${s.order}`}>
-                    {ui.actions.start}
-                  </Button>
+                  <StartProtocolButton
+                    slug={c.slug}
+                    step={s.order}
+                    variant="secondary"
+                    size="sm"
+                    label={ui.actions.start}
+                    showIcon={false}
+                  />
                 </li>
               ))}
             </ol>

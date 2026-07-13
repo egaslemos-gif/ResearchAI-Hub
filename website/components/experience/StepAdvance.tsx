@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
+import { useWorkspaceStore } from "@/components/workspace/WorkspaceStoreContext";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { ui } from "@/lib/labels";
@@ -21,7 +21,7 @@ export function StepAdvance({
   isLast: boolean;
 }) {
   const router = useRouter();
-  const { updateSession, advanceStepState } = useResearchSession();
+  const { updateSession, advanceStepState } = useWorkspaceStore();
 
   const advance = () => {
     advanceStepState(step, "Completed");

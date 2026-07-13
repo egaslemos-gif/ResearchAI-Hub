@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./CollapsiblePrompt.module.css";
 import { useWorkspace } from "../../WorkspaceContext";
-import { useResearchSession, SessionState } from "../../ResearchSessionContext";
+import { useWorkspaceStore, SessionState } from "../../WorkspaceStoreContext";
 import { EthicsNote } from "@/components/ui/EthicsNote";
 import Link from "next/link";
 
@@ -39,7 +39,7 @@ export function PromptInteractionFlow({
   expectedOutput, 
   checklist 
 }: PromptInteractionFlowProps) {
-  const { session, updateStepProgress, advanceStepState } = useResearchSession();
+  const { session, updateStepProgress, advanceStepState } = useWorkspaceStore();
   const { isPromptExpanded, setPromptExpanded, setToastMessage } = useWorkspace();
   const [localPromptText, setLocalPromptText] = useState<string>("");
 
@@ -107,7 +107,7 @@ export function PromptInteractionFlow({
         
         {!isContextConfirmed ? (
           <div className={styles.unconfirmedPlaceholder}>
-            O Prompt será gerado após confirmares o contexto.
+            A aguardar dados do Workspace…
           </div>
         ) : (
           <>

@@ -8,7 +8,7 @@ Sou um investigador na área de **{{studyArea}}**.
 
 Tenho interesse em estudar o tópico: **{{researchTopic}}**.
 
-O meu nível académico é **{{academicLevel}}** (licenciatura / mestrado / doutoramento).
+O meu nível académico é **{{academicLevel}}**.
 
 ---
 

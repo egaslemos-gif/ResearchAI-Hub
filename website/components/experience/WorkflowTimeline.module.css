@@ -92,12 +92,24 @@
   background: var(--color-brand);
   color: var(--color-brand-contrast);
   border-color: var(--color-brand);
+  animation: stepPulse 2s ease-in-out infinite;
+}
+
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
 }
 
 .stepCompleted .circle {
   background: var(--color-surface-sunken);
   color: var(--color-text);
   border-color: var(--color-border-strong);
+}
+
+.stepLocked .circle {
+  background: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border-subtle);
 }
 
 .content {

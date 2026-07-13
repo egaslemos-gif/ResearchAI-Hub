@@ -14,3 +14,12 @@ next-env.d.ts
 
 .vercel
 .env*
+
+# Artefactos de dev/validação (saídas das ferramentas de qualidade — não vão para produção)
+debug-*.txt
+regression-report.json
+quality/live-*.txt
+quality/consistency-*.json
+quality/quality-baseline*.json
+test-extract*.cjs
+

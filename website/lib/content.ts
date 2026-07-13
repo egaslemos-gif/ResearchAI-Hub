@@ -113,6 +113,7 @@ export interface CompetencyStep {
   promptId: string | null;
   promptSlug: string | null;
   expectedOutput: string | null;
+  artifactType: string | null;
   outputs: string[];
   criteria: string[];
 }
@@ -321,6 +322,7 @@ export function getCompetency(slugOrId: string): CompetencyDetail | null {
           promptId: a.prompt || null,
           promptSlug: a.prompt ? promptSlugs.get(a.prompt) ?? null : null,
           expectedOutput: a.expectedOutput || null,
+          artifactType: a.artifactType || null,
           outputs: Array.isArray(a.outputs) ? a.outputs : [],
           criteria: Array.isArray(a.validation?.criteria) ? a.validation.criteria : [],
         }))

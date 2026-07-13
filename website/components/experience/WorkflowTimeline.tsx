@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import styles from "./WorkflowTimeline.module.css";
-import { Check } from "lucide-react";
+import { Check, Circle } from "lucide-react";
 
 export interface TimelineStep {
   order: number;
@@ -57,7 +57,7 @@ export function WorkflowTimeline({ steps, currentStepIndex }: WorkflowTimelinePr
                 <>
                   <div className={styles.indicator}>
                     <div className={styles.circle}>
-                      {isCompleted ? <Check size={16} /> : step.order}
+                      {isCompleted ? <Check size={16} /> : isActive ? <Circle size={10} fill="currentColor" /> : <Circle size={14} />}
                     </div>
                     <div className={styles.content}>
                       <span className={styles.name}>{step.name}</span>

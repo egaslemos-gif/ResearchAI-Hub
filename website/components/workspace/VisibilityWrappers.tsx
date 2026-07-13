@@ -1,10 +1,10 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { useResearchSession, SessionState } from "./ResearchSessionContext";
+import { useWorkspaceStore, SessionState } from "./WorkspaceStoreContext";
 
 export function RequireContextConfirmed({ children }: { children: ReactNode }) {
-  const { session } = useResearchSession();
+  const { session } = useWorkspaceStore();
   const step = session.currentStep || 1;
   const currentStatus: SessionState = session.progress?.[step]?.status || "Draft";
   const isContextConfirmed = ["ContextConfirmed", "PromptGenerated", "PromptExecuted", "EvidenceValidated", "Completed"].includes(currentStatus);

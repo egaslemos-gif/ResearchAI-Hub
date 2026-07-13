@@ -2,27 +2,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
-import { Home, GraduationCap, Wrench, MessageSquareText, Menu, X } from "lucide-react";
+import { Home, GraduationCap, Wrench, MessageSquareText, Menu, X, Activity } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import { Logo } from "@/components/ui/Logo";
 import { ui } from "@/lib/labels";
-import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
+import { useWorkspaceStore } from "@/components/workspace/WorkspaceStoreContext";
 import { ContextBar } from "@/components/experience/ContextBar";
 import styles from "./Shell.module.css";
-
-// Rotas = estrutura da aplicação (não é conteúdo de domínio). Rótulos vêm de lib/labels.
-const NAV = [
-  { href: "/", label: ui.nav.home, icon: Home, exact: true },
-  { href: "/competencias", label: ui.nav.competencies, icon: GraduationCap },
-  { href: "/ferramentas", label: ui.nav.tools, icon: Wrench },
-  { href: "/prompts", label: ui.nav.prompts, icon: MessageSquareText },
-];
 
 export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false); // Mobile drawer
   const [collapsed, setCollapsed] = useState(false); // Desktop sidebar
-  const { session } = useResearchSession();
+  const { session, ready } = useWorkspaceStore();
 
   // fecha o drawer ao navegar
   useEffect(() => {
@@ -62,22 +54,12 @@ export function Shell({ children }: { children: ReactNode }) {
         <div className={styles.navGroup}>
           <span className={styles.navGroupTitle}>Workspace</span>
           <div className={styles.navGroupContent}>
-            {session.status === "active" && session.researchTopic ? (
+            {ready && (session.status === "READY" || session.status === "COMPLETED") && session.researchTopic ? (
               <div className={styles.contextBlock}>
-                <span className={styles.contextLabel}>Investigação Atual</span>
                 <span className={styles.contextTopic}>{session.researchTopic}</span>
                 <span className={styles.contextArea}>{session.studyArea}</span>
-
-                <div className={styles.contextSeparator} />
-
-                <span className={styles.contextLabel}>Protocolo</span>
-                <span className={styles.contextValue}>{session.currentProtocol || "Revisão da Literatura"}</span>
-
-                <div className={styles.contextSeparator} />
-
-                <span className={styles.contextLabel}>Progresso</span>
-                <span className={styles.contextValue}>{session.currentStep ? `Passo ${session.currentStep} / 10` : "-"}</span>
-                <span className={styles.contextState}>Em progresso</span>
+                <span className={styles.contextValue}>{session.protocolSlug || "Revisão da Literatura"}</span>
+                <span className={styles.contextState}>{session.currentStep ? `Passo ${session.currentStep} / 10` : "—"}</span>
               </div>
             ) : (
               <div className={styles.contextBlock}>
@@ -88,39 +70,44 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
         </div>
 
-        <div className={styles.contextSeparator} style={{ margin: "var(--space-2) 0 var(--space-4) 0" }} />
-
         <div className={styles.navGroup}>
           <span className={styles.navGroupTitle}>Plataforma</span>
           <div className={styles.navGroupContent}>
             <ul className={styles.navList}>
               <li>
-                <Link href="/" className={`${styles.navItem} ${isActive("/", true) ? styles.navItemActive : ""}`}>
+                <Link href="/" aria-current={isActive("/", true) ? "page" : undefined} className={`${styles.navItem} ${isActive("/", true) ? styles.navItemActive : ""}`}>
                   <Home size={18} />
                   <span className={styles.navLabel}>Início</span>
                 </Link>
               </li>
               <li>
-                <Link href="/competencias" className={`${styles.navItem} ${isActive("/competencias", true) || isActive("/competencias/RL-01") ? styles.navItemActive : ""}`}>
+                <Link href="/competencias" aria-current={isActive("/competencias") ? "page" : undefined} className={`${styles.navItem} ${isActive("/competencias") ? styles.navItemActive : ""}`}>
                   <GraduationCap size={18} />
                   <span className={styles.navLabel}>Competências</span>
                 </Link>
               </li>
               <li>
-                <Link href="/ferramentas" className={`${styles.navItem} ${isActive("/ferramentas") ? styles.navItemActive : ""}`}>
+                <Link href="/ferramentas" aria-current={isActive("/ferramentas") ? "page" : undefined} className={`${styles.navItem} ${isActive("/ferramentas") ? styles.navItemActive : ""}`}>
                   <Wrench size={18} />
                   <span className={styles.navLabel}>Ferramentas</span>
                 </Link>
               </li>
               <li>
-                <Link href="/prompts" className={`${styles.navItem} ${isActive("/prompts") ? styles.navItemActive : ""}`}>
+                <Link href="/prompts" aria-current={isActive("/prompts") ? "page" : undefined} className={`${styles.navItem} ${isActive("/prompts") ? styles.navItemActive : ""}`}>
                   <MessageSquareText size={18} />
                   <span className={styles.navLabel}>Prompts</span>
                 </Link>
               </li>
               <li>
-                <span className={`${styles.navItem} ${styles.navItemDisabled}`}>
+                <Link href="/qualidade" aria-current={isActive("/qualidade") ? "page" : undefined} className={`${styles.navItem} ${isActive("/qualidade") ? styles.navItemActive : ""}`}>
+                  <Activity size={18} />
+                  <span className={styles.navLabel}>Qualidade</span>
+                </Link>
+              </li>
+              <li>
+                <span className={`${styles.navItem} ${styles.navItemDisabled}`} title="Disponível em breve" aria-disabled="true">
                   <span className={styles.navLabel}>Academy</span>
+                  <span style={{ marginLeft: "auto", fontSize: "0.7rem", opacity: 0.7 }}>em breve</span>
                 </span>
               </li>
             </ul>

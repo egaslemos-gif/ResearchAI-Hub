@@ -8,7 +8,7 @@ interface PromptActionsProps {
   toolUrl?: string;
   toolName?: string;
   onExecute: () => void;
-  onCopy: () => void;
+  onCopy?: () => void;
   status: string;
 }
 
@@ -17,13 +17,9 @@ export function PromptActions({ toolUrl, toolName, onExecute, onCopy, status }: 
 
   return (
     <div className={styles.actions}>
-      <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onCopy}>
-        <Icon name="copy" size={16} /> Copiar Prompt
-      </button>
-      
       {toolUrl && (
         <a href={toolUrl} target="_blank" rel="noreferrer" className={`${styles.btn} ${styles.btnPrimary}`}>
-          <Icon name="external-link" size={16} /> Abrir {toolName || "IA"}
+          <Icon name="external-link" size={14} /> Abrir {toolName || "IA"}
         </a>
       )}
       
@@ -31,7 +27,7 @@ export function PromptActions({ toolUrl, toolName, onExecute, onCopy, status }: 
         className={`${styles.btn} ${styles.btnSuccess} ${isExecuted ? styles.active : ""}`} 
         onClick={onExecute}
       >
-        <Icon name="check" size={16} /> {isExecuted ? "Executado" : "Marcar como executado"}
+        <Icon name="check" size={14} /> {isExecuted ? "Executado" : "Marcar como executado"}
       </button>
     </div>
   );

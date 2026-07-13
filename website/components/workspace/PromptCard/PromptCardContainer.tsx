@@ -2,7 +2,7 @@
 
 import React, { useMemo, useEffect } from "react";
 import { PromptCard } from "./PromptCard";
-import { useResearchSession } from "../ResearchSessionContext";
+import { useWorkspaceStore } from "../WorkspaceStoreContext";
 import { useWorkspace } from "../WorkspaceContext";
 import { resolvePromptVariables } from "@/lib/promptEngine";
 
@@ -21,7 +21,7 @@ export function PromptCardContainer({
   hasEthicsWarning, 
   criticalRules 
 }: PromptCardContainerProps) {
-  const { session, advanceStepState } = useResearchSession();
+  const { session, advanceStepState } = useWorkspaceStore();
   const { setToastMessage } = useWorkspace();
   
   const step = session.currentStep || 1;

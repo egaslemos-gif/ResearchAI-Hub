@@ -2,32 +2,43 @@
   display: flex;
   flex-direction: column;
   background: var(--color-surface);
-  border: 1px solid var(--color-border-subtle);
-  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .header {
-  padding: var(--space-inset-md) var(--space-inset-lg);
+  padding: var(--space-2) var(--space-4);
   border-bottom: 1px solid var(--color-border-subtle);
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--color-surface-sunken);
+  min-height: 40px;
 }
 
 .title {
   font-weight: 600;
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-subtle);
+}
+
+.headerAction {
+  display: flex;
+  align-items: center;
+  gap: var(--space-inline-xs);
 }
 
 .timeline {
   display: flex;
   gap: var(--space-inline-md);
-  padding: var(--space-inset-md) var(--space-inset-lg);
+  padding: var(--space-2) var(--space-4);
   border-bottom: 1px solid var(--color-border-subtle);
   background: var(--color-surface);
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-text-subtle);
 }
 
@@ -47,25 +58,30 @@
 }
 
 .viewer {
-  padding: var(--space-inset-lg);
-  max-height: 600px;
-  overflow-y: auto;
+  padding: var(--space-4) var(--space-4);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-surface);
+  min-height: 200px;
 }
 
 .actions {
   display: flex;
   gap: var(--space-inline-md);
-  padding: var(--space-inset-md) var(--space-inset-lg);
+  padding: var(--space-2) var(--space-4);
   border-top: 1px solid var(--color-border-subtle);
   background: var(--color-surface-sunken);
   align-items: center;
+  min-height: 44px;
 }
 
 .btn {
-  padding: var(--space-inset-sm) var(--space-inset-md);
+  padding: var(--space-1) var(--space-3);
   border-radius: var(--radius-sm);
   font-weight: 500;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   cursor: pointer;
   border: 1px solid transparent;
   transition: all 0.2s ease;
@@ -107,9 +123,9 @@
 }
 
 .unconfirmedPlaceholder {
-  padding: var(--space-inset-xl);
+  padding: var(--space-8) var(--space-4);
   text-align: center;
   color: var(--color-text-subtle);
-  font-size: var(--font-size-md);
+  font-size: var(--font-size-sm);
   font-style: italic;
 }

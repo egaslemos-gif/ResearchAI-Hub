@@ -3,7 +3,7 @@ import "../styles/tokens.css";
 import "./globals.css";
 import { Shell } from "@/components/shell/Shell";
 import { ui } from "@/lib/labels";
-import { ResearchSessionProvider } from "@/components/workspace/ResearchSessionContext";
+import { WorkspaceStoreProvider } from "@/components/workspace/WorkspaceStoreContext";
 
 export const metadata: Metadata = {
   title: { default: ui.product.name, template: `%s · ${ui.product.name}` },
@@ -28,9 +28,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="theme-color" content="#0f0e0d" media="(prefers-color-scheme: dark)" />
       </head>
       <body suppressHydrationWarning>
-        <ResearchSessionProvider>
+        <WorkspaceStoreProvider>
           <Shell>{children}</Shell>
-        </ResearchSessionProvider>
+        </WorkspaceStoreProvider>
       </body>
     </html>
   );

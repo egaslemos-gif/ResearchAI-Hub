@@ -1,5 +1,5 @@
 import { getTools, getPrompts } from "@/lib/content";
-import { ResearchSessionHeader } from "@/components/experience/ResearchSessionHeader";
+import { WorkspaceManager } from "@/components/home/WorkspaceManager";
 import { EcosystemGrid } from "@/components/home/EcosystemGrid";
 import { ArtifactsPanel } from "@/components/home/ArtifactsPanel";
 import { RecentActivityPanel } from "@/components/home/RecentActivityPanel";
@@ -14,7 +14,7 @@ export default function HomePage() {
   return (
     <ProtocolLayout>
       <div className={styles.pageContent}>
-        <ResearchSessionHeader />
+        <WorkspaceManager />
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>

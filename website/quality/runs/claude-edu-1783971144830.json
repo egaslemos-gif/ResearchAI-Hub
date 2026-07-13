@@ -1,0 +1,649 @@
+{
+  "id": "claude-edu-1783971144830",
+  "protocol": "RL-01",
+  "engine": "claude",
+  "model": "claude",
+  "theme": "Uso de IA generativa no ensino superior em Portugal",
+  "themeKey": "edu",
+  "timestamp": "2026-07-13T19:32:24.830Z",
+  "overall": {
+    "stepsEvaluated": 10,
+    "avgScore": 54,
+    "passedSteps": 3,
+    "consistencyScore": 60,
+    "circulationScore": 76,
+    "varsRequired": 25,
+    "varsUnresolved": 6,
+    "totalTokens": 32841,
+    "totalElapsedMs": 481937,
+    "costUsd": 0.2168,
+    "costEstimated": true,
+    "references": {
+      "total": 0,
+      "reused": 0,
+      "hallucinated": 0
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "stepName": "PR-001",
+      "artifactType": "tema",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "content": 0
+      },
+      "tokens": 1588,
+      "elapsedMs": 26173,
+      "costUsd": 0.0105,
+      "requiredVars": [
+        "studyArea",
+        "researchTopic",
+        "academicLevel"
+      ],
+      "unresolved": [],
+      "criteria": [
+        {
+          "id": "PR-001.C1",
+          "label": "O tema está formulado de forma clara e concisa",
+          "dimension": "delimitation",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "tema em ~2 frase(s)"
+        },
+        {
+          "id": "PR-001.C2",
+          "label": "O tema possui delimitação (temporal, geográfica ou temática)",
+          "dimension": "delimitation",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "delimitação detectada no texto"
+        },
+        {
+          "id": "PR-001.C3",
+          "label": "O tema é relevante para a área de estudo",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "área=\"educação\""
+        },
+        {
+          "id": "PR-001.C4",
+          "label": "O tema é exequível para uma revisão da literatura",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "veredicto explícito"
+        },
+        {
+          "id": "PR-001.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 3 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "stepName": "PR-002",
+      "artifactType": "pergunta",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "content": 0
+      },
+      "tokens": 1454,
+      "elapsedMs": 18960,
+      "costUsd": 0.0096,
+      "requiredVars": [
+        "researchTopic",
+        "studyArea",
+        "academicLevel"
+      ],
+      "unresolved": [],
+      "criteria": [
+        {
+          "id": "PR-002.C1",
+          "label": "A pergunta é específica e não genérica",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "interrogativa=true, 53 palavras"
+        },
+        {
+          "id": "PR-002.C2",
+          "label": "A pergunta é respondível com base na literatura",
+          "dimension": "scientific-rigor",
+          "status": "manual",
+          "blame": "none",
+          "evidence": "requer julgamento (heurística insuficiente)"
+        },
+        {
+          "id": "PR-002.C3",
+          "label": "Os objectivos são mensuráveis e alinhados com a pergunta",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "3 objectivos, 3 começam por verbo de acção"
+        },
+        {
+          "id": "PR-002.C4",
+          "label": "As palavras-chave estão definidas em PT e EN",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "PT=8, EN=8"
+        },
+        {
+          "id": "PR-002.C5",
+          "label": "Existem pelo menos 5 palavras-chave",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "content",
+          "evidence": "16 palavras-chave no total"
+        },
+        {
+          "id": "PR-002.X1",
+          "label": "[consistência] A pergunta deriva do tema delimitado (PR-001)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "16 termos partilhados com o tema"
+        },
+        {
+          "id": "PR-002.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 3 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "stepName": "PR-003",
+      "artifactType": "article-list",
+      "score": 33,
+      "passed": false,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "content": 0
+      },
+      "tokens": 0,
+      "elapsedMs": 2663,
+      "costUsd": 0,
+      "requiredVars": [
+        "research_question_pt",
+        "research_question_en"
+      ],
+      "unresolved": [],
+      "articleCount": 0,
+      "criteria": [
+        {
+          "id": "PR-003.C1",
+          "label": "Foram encontrados pelo menos 10 artigos relevantes",
+          "dimension": "completeness",
+          "status": "fail",
+          "blame": "none",
+          "evidence": "0 artigos"
+        },
+        {
+          "id": "PR-003.C2",
+          "label": "Os artigos são de fontes científicas",
+          "dimension": "scientific-rigor",
+          "status": "warn",
+          "blame": "none",
+          "evidence": "0/0 com fonte"
+        },
+        {
+          "id": "PR-003.C3",
+          "label": "Os artigos possuem abstract (analisáveis)",
+          "dimension": "completeness",
+          "status": "warn",
+          "blame": "none",
+          "evidence": "0/0 com abstract"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "stepName": "PR-004",
+      "artifactType": "selection",
+      "score": 13,
+      "passed": false,
+      "blame": {
+        "prompt": 0,
+        "extractor": 2,
+        "content": 2
+      },
+      "tokens": 1870,
+      "elapsedMs": 21070,
+      "costUsd": 0.0123,
+      "requiredVars": [
+        "research_topic",
+        "research_question",
+        "article_list"
+      ],
+      "unresolved": [
+        "article_list"
+      ],
+      "criteria": [
+        {
+          "id": "PR-004.C1",
+          "label": "Foram definidos critérios de inclusão e exclusão",
+          "dimension": "completeness",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "inclusão=0, exclusão=1"
+        },
+        {
+          "id": "PR-004.C2",
+          "label": "Foram seleccionados entre 5 e 8 artigos",
+          "dimension": "scientific-rigor",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "0 seleccionados de 0"
+        },
+        {
+          "id": "PR-004.C3",
+          "label": "Cada selecção possui justificação",
+          "dimension": "scientific-rigor",
+          "status": "warn",
+          "blame": "extractor",
+          "evidence": "0/0 com justificação"
+        },
+        {
+          "id": "PR-004.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "por resolver: article_list"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "stepName": "PR-005",
+      "artifactType": "reading-cards",
+      "score": 30,
+      "passed": false,
+      "blame": {
+        "prompt": 1,
+        "extractor": 1,
+        "content": 1
+      },
+      "tokens": 701,
+      "elapsedMs": 7126,
+      "costUsd": 0.0046,
+      "requiredVars": [
+        "article_text",
+        "research_question"
+      ],
+      "unresolved": [
+        "article_text"
+      ],
+      "criteria": [
+        {
+          "id": "PR-005.C1",
+          "label": "Cada artigo possui uma ficha de leitura",
+          "dimension": "completeness",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "0 fichas"
+        },
+        {
+          "id": "PR-005.C2",
+          "label": "As fichas contêm objectivo, metodologia, resultados, limitações",
+          "dimension": "completeness",
+          "status": "fail",
+          "blame": "prompt",
+          "evidence": "0/0 fichas completas"
+        },
+        {
+          "id": "PR-005.C3",
+          "label": "Os campos das fichas estão bem segmentados (sem field-bleed)",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "campos limpos"
+        },
+        {
+          "id": "PR-005.X1",
+          "label": "[consistência] Fichas correspondem aos artigos seleccionados (PR-004)",
+          "dimension": "consistency",
+          "status": "warn",
+          "blame": "none",
+          "evidence": "0/0 fichas rastreáveis à selecção"
+        },
+        {
+          "id": "PR-005.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "por resolver: article_text"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "stepName": "PR-006",
+      "artifactType": "comparison-table",
+      "score": 20,
+      "passed": false,
+      "blame": {
+        "prompt": 1,
+        "extractor": 2,
+        "content": 1
+      },
+      "tokens": 1230,
+      "elapsedMs": 17730,
+      "costUsd": 0.0081,
+      "requiredVars": [
+        "research_topic",
+        "reading_cards"
+      ],
+      "unresolved": [
+        "reading_cards"
+      ],
+      "criteria": [
+        {
+          "id": "PR-006.C1",
+          "label": "A tabela comparativa inclui os artigos seleccionados",
+          "dimension": "completeness",
+          "status": "fail",
+          "blame": "prompt",
+          "evidence": "0 linhas na tabela"
+        },
+        {
+          "id": "PR-006.C2",
+          "label": "Convergências entre estudos estão identificadas",
+          "dimension": "scientific-rigor",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "0 convergências"
+        },
+        {
+          "id": "PR-006.C3",
+          "label": "Divergências entre estudos estão identificadas",
+          "dimension": "scientific-rigor",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "0 divergências"
+        },
+        {
+          "id": "PR-006.X1",
+          "label": "[consistência] Linhas da tabela cobrem as fichas (PR-005)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "0 linhas para 0 fichas"
+        },
+        {
+          "id": "PR-006.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "por resolver: reading_cards"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "stepName": "PR-007",
+      "artifactType": "gaps",
+      "score": 0,
+      "passed": false,
+      "blame": {
+        "prompt": 0,
+        "extractor": 1,
+        "content": 2
+      },
+      "tokens": 5240,
+      "elapsedMs": 79309,
+      "costUsd": 0.0346,
+      "requiredVars": [
+        "research_topic",
+        "research_question",
+        "comparative_analysis"
+      ],
+      "unresolved": [
+        "comparative_analysis"
+      ],
+      "criteria": [
+        {
+          "id": "PR-007.C1",
+          "label": "Foram identificadas pelo menos 3 lacunas",
+          "dimension": "scientific-rigor",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "0 lacunas"
+        },
+        {
+          "id": "PR-007.C2",
+          "label": "As lacunas estão descritas/fundamentadas",
+          "dimension": "scientific-rigor",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "0/0 com descrição"
+        },
+        {
+          "id": "PR-007.C3",
+          "label": "Pelo menos uma lacuna é relevante para a pergunta",
+          "dimension": "consistency",
+          "status": "manual",
+          "blame": "none",
+          "evidence": "requer julgamento"
+        },
+        {
+          "id": "PR-007.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "por resolver: comparative_analysis"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "stepName": "PR-008",
+      "artifactType": "synthesis",
+      "score": 80,
+      "passed": false,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "content": 1
+      },
+      "tokens": 8158,
+      "elapsedMs": 145239,
+      "costUsd": 0.0538,
+      "requiredVars": [
+        "research_topic",
+        "all_analysis"
+      ],
+      "unresolved": [
+        "all_analysis"
+      ],
+      "criteria": [
+        {
+          "id": "PR-008.C1",
+          "label": "A síntese está organizada por temas (≥2) e não por artigos",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "9 temas"
+        },
+        {
+          "id": "PR-008.C2",
+          "label": "Os principais temas estão claramente identificados",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "9/9 temas com nome próprio"
+        },
+        {
+          "id": "PR-008.C3",
+          "label": "Tendências e padrões estão explicitados",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "1 tendências"
+        },
+        {
+          "id": "PR-008.C4",
+          "label": "Contradições entre estudos estão identificadas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "1 contradições"
+        },
+        {
+          "id": "PR-008.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "por resolver: all_analysis"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "stepName": "PR-009",
+      "artifactType": "review",
+      "score": 60,
+      "passed": false,
+      "blame": {
+        "prompt": 0,
+        "extractor": 1,
+        "content": 1
+      },
+      "tokens": 6222,
+      "elapsedMs": 76604,
+      "costUsd": 0.0411,
+      "requiredVars": [
+        "research_topic",
+        "research_question",
+        "thematic_synthesis",
+        "gaps"
+      ],
+      "unresolved": [
+        "gaps"
+      ],
+      "criteria": [
+        {
+          "id": "PR-009.C1",
+          "label": "O texto possui introdução, desenvolvimento e conclusão",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "intro=true, corpo=true, conclusão=true"
+        },
+        {
+          "id": "PR-009.C2",
+          "label": "As afirmações são suportadas por referências",
+          "dimension": "scientific-rigor",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "0 referências"
+        },
+        {
+          "id": "PR-009.C3",
+          "label": "Extensão adequada (1500-3000 palavras)",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "content",
+          "evidence": "2175 palavras"
+        },
+        {
+          "id": "PR-009.X1",
+          "label": "[consistência] A revisão integra os temas da síntese (PR-008)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "7/9 temas referidos"
+        },
+        {
+          "id": "PR-009.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "fail",
+          "blame": "content",
+          "evidence": "por resolver: gaps"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "stepName": "PR-010",
+      "artifactType": "export",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "content": 0
+      },
+      "tokens": 6378,
+      "elapsedMs": 87063,
+      "costUsd": 0.0421,
+      "requiredVars": [
+        "research_topic"
+      ],
+      "unresolved": [],
+      "criteria": [
+        {
+          "id": "PR-010.C1",
+          "label": "O checklist final foi produzido e avaliado",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "2555 palavras"
+        },
+        {
+          "id": "PR-010.C2",
+          "label": "Confirmação pessoal de cada item pelo investigador",
+          "dimension": "scientific-rigor",
+          "status": "manual",
+          "blame": "none",
+          "evidence": "acção humana obrigatória"
+        },
+        {
+          "id": "PR-010.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 1 variáveis resolvidas"
+        }
+      ]
+    }
+  ],
+  "circulationFindings": [
+    "PR-004: variável {{article_list}} por resolver (devia vir do PR-003)",
+    "PR-005: variável {{article_text}} por resolver (devia vir do PR-005)",
+    "PR-006: variável {{reading_cards}} por resolver (devia vir do PR-005)",
+    "PR-007: variável {{comparative_analysis}} por resolver (devia vir do PR-006)",
+    "PR-008: variável {{all_analysis}} por resolver (devia vir do PR-008)",
+    "PR-009: variável {{gaps}} por resolver (devia vir do PR-007)"
+  ],
+  "references": {
+    "total": 0,
+    "reused": 0,
+    "hallucinated": 0,
+    "items": []
+  }
+}

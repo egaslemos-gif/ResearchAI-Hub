@@ -1,19 +1,20 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
+import { useWorkspaceStore } from "@/components/workspace/WorkspaceStoreContext";
 import { Button } from "@/components/ui/Button";
 import { ui } from "@/lib/labels";
 
 export function ConclusionActions() {
-  const { session, ready, updateSession } = useResearchSession();
+  const { session, ready, updateSession } = useWorkspaceStore();
   const router = useRouter();
 
   const handleNew = () => {
-    updateSession({ status: "completed" });
-    router.push("/");
+    updateSession({ status: "COMPLETED" });
+    // Leva ao ponto de criação/escolha, para que "Nova Investigação" realmente inicie uma.
+    router.push("/competencias/revisao-da-literatura");
   };
 
-  const hasContext = ready && session?.status === "active";
+  const hasContext = ready && (session?.status === "READY" || session?.status === "COMPLETED");
 
   return (
     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center", marginTop: "24px" }}>

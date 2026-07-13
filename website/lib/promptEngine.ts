@@ -1,16 +1,14 @@
-import { ResearchSessionData } from "@/components/workspace/ResearchSessionContext";
-
 /**
  * Pure function to resolve prompt variables from global and local session states.
  * @param content The raw prompt markdown string with {{variables}}
- * @param session The current ResearchSession state
+ * @param session The current session/workspace state
  * @param step The current step number
  * @param highlight If true, wraps resolved values in a <mark> tag for UI rendering
  * @returns The resolved prompt string
  */
 export function resolvePromptVariables(
   content: string,
-  session: Partial<ResearchSessionData>,
+  session: Record<string, any>,
   step: number,
   highlight: boolean = false
 ): string {

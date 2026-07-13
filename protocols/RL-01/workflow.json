@@ -14,6 +14,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-001",
+      "artifactType": "tema",
       "expectedOutput": "Tema de investigação definido em 1-2 frases, com delimitação temporal, geográfica ou temática.",
       "validation": {
         "criteria": [
@@ -41,6 +42,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-002",
+      "artifactType": "pergunta",
       "expectedOutput": "Pergunta de investigação formulada, objectivos específicos definidos e palavras-chave listadas.",
       "validation": {
         "criteria": [
@@ -73,6 +75,7 @@
       "tool": "consensus",
       "toolAlternatives": [],
       "prompt": "PR-003",
+      "artifactType": "article-list",
       "expectedOutput": "Lista de 10-20 artigos científicos relevantes encontrados no Consensus.",
       "validation": {
         "criteria": [
@@ -100,6 +103,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-004",
+      "artifactType": "selection",
       "expectedOutput": "Lista final de 5-8 artigos seleccionados com justificação da selecção.",
       "validation": {
         "criteria": [
@@ -132,6 +136,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-005",
+      "artifactType": "reading-cards",
       "expectedOutput": "Fichas de leitura individuais para cada artigo seleccionado.",
       "validation": {
         "criteria": [
@@ -159,6 +164,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-006",
+      "artifactType": "comparison-table",
       "expectedOutput": "Tabela comparativa completa com todos os artigos seleccionados.",
       "validation": {
         "criteria": [
@@ -191,6 +197,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-007",
+      "artifactType": "gaps",
       "expectedOutput": "Lista estruturada de lacunas identificadas na literatura.",
       "validation": {
         "criteria": [
@@ -222,6 +229,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-008",
+      "artifactType": "synthesis",
       "expectedOutput": "Síntese temática da literatura organizada por categorias.",
       "validation": {
         "criteria": [
@@ -254,6 +262,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-009",
+      "artifactType": "review",
       "expectedOutput": "Texto da revisão da literatura redigido (1500-3000 palavras).",
       "validation": {
         "criteria": [
@@ -287,6 +296,7 @@
       "tool": "chatgpt",
       "toolAlternatives": ["claude", "gemini"],
       "prompt": "PR-010",
+      "artifactType": "export",
       "expectedOutput": "Checklist completo com todos os itens validados.",
       "validation": {
         "criteria": [

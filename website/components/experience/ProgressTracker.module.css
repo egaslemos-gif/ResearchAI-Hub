@@ -45,14 +45,12 @@
   transition: width var(--duration-slow) var(--ease-out);
 }
 
+/* Timeline visível em todos os tamanhos (scroll horizontal no mobile via WorkflowTimeline). */
 .desktopTimeline {
-  display: none;
+  display: block;
 }
 
 @media (min-width: 1024px) {
-  .desktopTimeline {
-    display: block;
-  }
   .mobileOnly {
     display: none;
   }

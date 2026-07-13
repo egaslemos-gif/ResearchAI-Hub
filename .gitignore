@@ -1,6 +1,9 @@
 # Artefacto gerado pelo Content Runtime Validator
 /validation-report.json
 
+# Artefactos de teste locais
+/test_execution.json
+
 # Node
 node_modules/
 npm-debug.log*

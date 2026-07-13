@@ -1,31 +1,51 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
+import { useWorkspaceStore } from "@/components/workspace/WorkspaceStoreContext";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { MoreHorizontal } from "lucide-react";
 import styles from "./ResearchSessionHeader.module.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function ResearchSessionHeader() {
-  const { session, ready, updateSession } = useResearchSession();
+  const { session, ready, updateSession, archiveWorkspace, duplicateWorkspace, workspaces } = useWorkspaceStore();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  if (!ready || session.status !== "active" || !session.researchTopic) {
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!menuOpen) return;
+    const handleClickOutside = () => setMenuOpen(false);
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [menuOpen]);
+
+  if (!ready || (session.status !== "READY" && session.status !== "COMPLETED") || !session.researchTopic) {
     return null;
   }
 
+  const stepCount = Object.keys(session.progress || {}).length;
+  const completedSteps = Object.values(session.progress || {}).filter(p => p.status === "Completed").length;
+  const progress = Math.round((completedSteps / 10) * 100);
+
   const handleContinue = () => {
-    const url = session.currentProtocol ? `/competencias/${session.currentProtocol}` : "/competencias";
+    const url = session.protocolSlug ? `/competencias/${session.protocolSlug}/passo/${session.currentStep || 1}` : "/competencias";
     router.push(url);
   };
 
   const handleNew = () => {
-    if (confirm("Ao iniciar uma nova investigação, o contexto actual será substituído. Pretende continuar?")) {
-      updateSession({ status: "completed" });
-      router.push("/competencias");
-    }
+    router.push("/");
+  };
+
+  const handleDuplicate = () => {
+    if (session.id) duplicateWorkspace(session.id);
+    setMenuOpen(false);
+  };
+
+  const handleArchive = () => {
+    if (session.id) archiveWorkspace(session.id);
+    setMenuOpen(false);
+    router.push("/");
   };
 
   return (
@@ -47,23 +67,19 @@ export function ResearchSessionHeader() {
           </div>
           <div className={styles.metaItem}>
             <span className={styles.metaLabel}>Progresso</span>
-            <span className={styles.metaValue}>10%</span>
+            <span className={styles.metaValue}>{progress}%</span>
           </div>
           <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Tempo investido</span>
-            <span className={styles.metaValue}>2h</span>
+            <span className={styles.metaLabel}>Passos concluídos</span>
+            <span className={styles.metaValue}>{completedSteps}</span>
           </div>
           <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Tempo estimado restante</span>
-            <span className={styles.metaValue}>18h</span>
+            <span className={styles.metaLabel}>Área</span>
+            <span className={styles.metaValue}>{session.studyArea || "—"}</span>
           </div>
           <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Última evidência</span>
-            <span className={styles.metaValue}>Tema definido</span>
-          </div>
-          <div className={styles.metaItem}>
-            <span className={styles.metaLabel}>Próxima ação</span>
-            <span className={styles.metaValue}>Formular pergunta</span>
+            <span className={styles.metaLabel}>Nível</span>
+            <span className={styles.metaValue}>{session.academicLevel || "—"}</span>
           </div>
         </div>
       </div>
@@ -76,21 +92,21 @@ export function ResearchSessionHeader() {
         <div className={styles.menuWrapper}>
           <button 
             className={styles.contextMenuBtn} 
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={(e) => { e.stopPropagation(); setMenuOpen(!menuOpen); }}
             aria-label="Mais opções"
           >
             <MoreHorizontal size={20} />
           </button>
           
           {menuOpen && (
-            <div className={styles.dropdown}>
+            <div className={styles.dropdown} onClick={(e) => e.stopPropagation()}>
               <button className={styles.dropdownItem} onClick={handleNew}>
                 Nova investigação
               </button>
-              <button className={styles.dropdownItem} disabled>
+              <button className={styles.dropdownItem} onClick={handleDuplicate}>
                 Duplicar investigação
               </button>
-              <button className={styles.dropdownItem} disabled>
+              <button className={styles.dropdownItem} onClick={handleArchive}>
                 Arquivar
               </button>
             </div>

@@ -1,15 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useResearchSession } from "@/components/workspace/ResearchSessionContext";
+import { useWorkspaceStore } from "@/components/workspace/WorkspaceStoreContext";
 import { ChevronRight } from "lucide-react";
 import styles from "./ContextBar.module.css";
 
 export function ContextBar() {
-  const { session, ready } = useResearchSession();
+  const { session, ready } = useWorkspaceStore();
   const pathname = usePathname();
 
-  if (!ready || session.status !== "active" || !session.researchTopic) {
+  if (!ready || (session.status !== "READY" && session.status !== "COMPLETED") || !session.researchTopic) {
     return null;
   }
 

@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Copy, Check } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
-import { useResearchSession } from "./ResearchSessionContext";
+import { useWorkspaceStore } from "./WorkspaceStoreContext";
 import { ui } from "@/lib/labels";
 import styles from "./DocumentViewer.module.css";
 
@@ -15,7 +15,7 @@ const TOKEN = /\{\{\s*([\w.-]+)\s*\}\}/g;
  */
 export function DocumentViewer({ body }: { body: string }) {
   const [copied, setCopied] = useState(false);
-  const { session } = useResearchSession();
+  const { session } = useWorkspaceStore();
   const step = session.currentStep || 1;
   const documentProperties = session.progress?.[step]?.variables || {};
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
-import { useResearchSession } from "../../ResearchSessionContext";
+import { useWorkspaceStore } from "../../WorkspaceStoreContext";
 import { ResearchMarkdown } from "./ResearchMarkdown";
 import { resolvePromptVariables } from "@/lib/promptEngine";
 
@@ -10,7 +10,7 @@ interface DynamicPromptRendererProps {
 }
 
 export function DynamicPromptRenderer({ content }: DynamicPromptRendererProps) {
-  const { session } = useResearchSession();
+  const { session } = useWorkspaceStore();
 
   const processedContent = useMemo(() => {
     const step = session.currentStep || 1;

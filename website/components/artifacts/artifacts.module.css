@@ -1,0 +1,393 @@
+.artifactContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.workspaceContext {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-hover, var(--color-bg));
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.workspaceContextHeader {
+  margin-bottom: var(--space-2);
+}
+
+.workspaceContextTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.workspaceContextGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.workspaceContextItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 120px;
+}
+
+.workspaceContextLabel {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+.workspaceContextValue {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.artifactContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  height: 100%;
+  overflow: auto;
+}
+
+.artifactHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+  flex-shrink: 0;
+}
+
+.artifactTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.artifactSubtitle {
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+.artifactField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.artifactLabel {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.artifactInput {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.artifactInput:focus {
+  border-color: var(--color-accent, #3b82f6);
+}
+
+.artifactTextarea {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+  transition: border-color 0.15s;
+}
+
+.artifactTextarea:focus {
+  border-color: var(--color-accent, #3b82f6);
+}
+
+.artifactSelect {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  cursor: pointer;
+}
+
+.artifactActions {
+  display: flex;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+.artifactButton {
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.artifactButtonPrimary {
+  background: var(--color-accent, #3b82f6);
+  color: white;
+}
+
+.artifactButtonPrimary:hover {
+  opacity: 0.9;
+}
+
+.artifactButtonPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.artifactButtonSecondary {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.artifactButtonSecondary:hover {
+  background: var(--color-surface-sunken);
+}
+
+.artifactResult {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  flex-shrink: 0;
+}
+
+.artifactResultTitle {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.artifactResultText {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.artifactResultList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.artifactResultListItem {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  padding-left: var(--space-3);
+  position: relative;
+}
+
+.artifactResultListItem::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--color-text-muted);
+}
+
+.artifactKeywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.artifactKeywordTag {
+  font-size: 0.625rem;
+  font-family: var(--font-mono, monospace);
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--color-border-subtle);
+  color: var(--color-text-subtle);
+}
+
+.artifactSaved {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: 0.625rem;
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+.artifactSavedDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.artifactPrefilled {
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding: 2px var(--space-2);
+  background: var(--color-surface-sunken);
+  border-radius: 3px;
+}
+
+/* Article list */
+.articleList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.articleItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.articleCheckbox {
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.articleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.articleTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.articleMeta {
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono, monospace);
+}
+
+.articleJustification {
+  font-size: 0.6875rem;
+  color: var(--color-text-subtle);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* Reading cards */
+.readingCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.readingCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.readingCardTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.readingCardField {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readingCardLabel {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+.readingCardValue {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--color-text-subtle);
+}
+
+.readingCardTextarea {
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: 3px;
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  color: var(--color-text);
+  background: var(--color-surface);
+  outline: none;
+  resize: vertical;
+  min-height: 40px;
+  font-family: inherit;
+}
+
+.readingCardTextarea:focus {
+  border-color: var(--color-accent, #3b82f6);
+}
+
+.readingCardDelete {
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 2px 4px;
+}
+
+.readingCardDelete:hover {
+  color: #ef4444;
+}

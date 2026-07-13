@@ -2,20 +2,37 @@
 import { FileText, Download, ChevronRight } from "lucide-react";
 import styles from "./ArtifactsPanel.module.css";
 import Link from "next/link";
+import { useWorkspaceStore } from "@/components/workspace/WorkspaceStoreContext";
 
-const MOCK_ARTIFACTS = [
-  { id: "art-01", title: "Matriz de Extração de Dados", protocol: "Revisão da Literatura", date: "Hoje", size: "12 KB" },
-  { id: "art-02", title: "Equação de Pesquisa Refinada", protocol: "Revisão da Literatura", date: "Ontem", size: "4 KB" },
-  { id: "art-03", title: "Draft da Secção 1", protocol: "Escrita Científica", date: "Há 3 dias", size: "45 KB" },
-];
+const ARTIFACT_LABELS: Record<string, string> = {
+  "tema": "Tema de Investigação",
+  "pergunta": "Pergunta de Investigação",
+  "article-list": "Lista de Artigos",
+  "selection": "Seleção de Estudos",
+  "reading-cards": "Fichas de Leitura",
+  "comparison-table": "Tabela Comparativa",
+  "gaps": "Lacunas Identificadas",
+  "synthesis": "Síntese Temática",
+  "review": "Revisão da Literatura",
+  "export": "Documento Exportado",
+};
 
 export function ArtifactsPanel() {
+  const { activeWorkspace } = useWorkspaceStore();
+
+  const artifacts = activeWorkspace?.artifacts ?? {};
+  const entries = Object.entries(artifacts).sort(([a], [b]) => Number(a) - Number(b));
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <div className={styles.titleBlock}>
           <h2 className={styles.title}>Os meus artefactos</h2>
-          <span className={styles.subtitle}>Ficheiros gerados pelas ferramentas e protocolos</span>
+          <span className={styles.subtitle}>
+            {entries.length > 0
+              ? `${entries.length} artefacto${entries.length === 1 ? "" : "s"} na investigação ativa`
+              : "Nenhum artefacto gerado ainda"}
+          </span>
         </div>
         <Link href="/competencias" className={styles.viewAll}>
           Ver todos <ChevronRight size={14} />
@@ -23,20 +40,30 @@ export function ArtifactsPanel() {
       </div>
 
       <div className={styles.grid}>
-        {MOCK_ARTIFACTS.map((art) => (
-          <div key={art.id} className={styles.card}>
-            <div className={styles.iconWrap}>
-              <FileText size={20} className={styles.icon} />
-            </div>
-            <div className={styles.info}>
-              <span className={styles.artTitle}>{art.title}</span>
-              <span className={styles.artMeta}>{art.protocol} • {art.date}</span>
-            </div>
-            <button className={styles.downloadBtn} aria-label="Descarregar artefacto">
-              <Download size={16} />
-            </button>
+        {entries.length === 0 ? (
+          <div style={{ padding: "var(--space-4)", color: "var(--color-text-muted)", fontSize: "0.8125rem" }}>
+            Inicie um protocolo para gerar artefactos.
           </div>
-        ))}
+        ) : (
+          entries.map(([step, artifact]) => {
+            const label = ARTIFACT_LABELS[artifact.type] || artifact.type;
+            const data = artifact.data as { createdAt?: string };
+            const date = data?.createdAt
+              ? new Date(data.createdAt).toLocaleDateString("pt-PT", { day: "numeric", month: "short" })
+              : "";
+            return (
+              <div key={step} className={styles.card}>
+                <div className={styles.iconWrap}>
+                  <FileText size={20} className={styles.icon} />
+                </div>
+                <div className={styles.info}>
+                  <span className={styles.artTitle}>{label}</span>
+                  <span className={styles.artMeta}>Passo {step} · {date}</span>
+                </div>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,84 @@
+.layoutRoot {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+  overflow: hidden;
+  animation: layoutFadeIn 280ms ease-out;
+}
+
+/*
+ * Mobile: collapse the docked split panels (which use fixed px widths inline)
+ * into a single scrollable column so the workspace never overflows on a phone.
+ * Desktop (>=1024px) is untouched — the inline row/px layout stays exactly as-is.
+ */
+@media (max-width: 1023px) {
+  .layoutRoot {
+    overflow-y: auto;
+  }
+  .split {
+    flex-direction: column !important;
+  }
+  .splitChild {
+    width: 100% !important;
+    height: auto !important;
+    flex: none !important;
+    min-height: 0;
+  }
+}
+
+@keyframes layoutFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.secondaryRegion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-lg);
+  margin-top: var(--space-stack-xl);
+}
+
+.tabsContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+.tabBar {
+  display: flex;
+  gap: var(--space-inline-sm);
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-sunken);
+  flex-shrink: 0;
+}
+
+.tabLabel {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--color-text-subtle);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  cursor: default;
+}
+
+.tabContent {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.floating {
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
