@@ -1,6 +1,0 @@
-{
-  "name": "website",
-  "buildCommand": "cd website && npm run build",
-  "outputDirectory": "website/.next",
-  "framework": "nextjs"
-}
