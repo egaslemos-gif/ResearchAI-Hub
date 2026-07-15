@@ -31,10 +31,10 @@ export function ContextBar() {
   const stepMatch = pathname.match(/passo\/(\d+)/);
   if (stepMatch) {
     segments.push(`Passo ${stepMatch[1]}`);
-    if (protocolLabel === "Revisão da Literatura" && stepMatch[1] === "1") {
-      segments.push("PR-001");
-    } else if (protocolLabel === "Revisão da Literatura" && stepMatch[1] === "2") {
-      segments.push("PR-002");
+    if (protocolLabel === "Revisão da Literatura") {
+      const stepNum = parseInt(stepMatch[1], 10);
+      const prCode = `PR-${String(stepNum).padStart(3, '0')}`;
+      segments.push(prCode);
     }
   } else if (pathname.endsWith("/checklist")) {
     segments.push("Checklist");

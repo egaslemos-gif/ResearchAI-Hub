@@ -31,7 +31,7 @@ export function ExportEditor({ stepOrder }: { stepOrder: number }) {
 
     md += `## Desenvolvimento\n\n${review.body}\n\n`;
 
-    if (synthesis && synthesis.themes.length > 0) {
+    if (synthesis && (synthesis.themes ?? []).length > 0) {
       md += `### Síntese Temática\n\n`;
       synthesis.themes.forEach(t => {
         md += `#### ${t.name}\n\n${t.description}\n\n${t.evidence}\n\n`;
@@ -42,19 +42,19 @@ export function ExportEditor({ stepOrder }: { stepOrder: number }) {
       md += `### Tabela Comparativa\n\n`;
       md += `| Artigo | Objectivo | Metodologia | Amostra | Resultados | Limitações |\n`;
       md += `|--------|-----------|------------|---------|------------|-------------|\n`;
-      comparison.rows.forEach(r => {
+      (comparison.rows ?? []).forEach(r => {
         md += `| ${r.articleTitle} | ${r.objective} | ${r.methodology} | ${r.sample} | ${r.results} | ${r.limitations} |\n`;
       });
       md += `\n**Convergências:**\n`;
-      comparison.convergences.forEach(c => md += `- ${c}\n`);
+      (comparison.convergences ?? []).forEach(c => md += `- ${c}\n`);
       md += `\n**Divergências:**\n`;
-      comparison.divergences.forEach(c => md += `- ${c}\n`);
+      (comparison.divergences ?? []).forEach(c => md += `- ${c}\n`);
       md += `\n`;
     }
 
-    if (gaps && gaps.gaps.length > 0) {
+    if (gaps && (gaps.gaps ?? []).length > 0) {
       md += `### Lacunas Identificadas\n\n`;
-      gaps.gaps.forEach((g, i) => {
+      (gaps.gaps ?? []).forEach((g, i) => {
         md += `${i + 1}. **${g.description}**\n   - Justificação: ${g.justification}\n   - Endereçável: ${g.addressable}\n\n`;
       });
     }
@@ -62,13 +62,13 @@ export function ExportEditor({ stepOrder }: { stepOrder: number }) {
     md += `## Conclusão\n\n${review.conclusion}\n\n`;
 
     md += `## Referências\n\n`;
-    review.references.forEach((r, i) => {
+    (review.references ?? []).forEach((r, i) => {
       md += `${i + 1}. ${r}\n`;
     });
 
-    if (selection && selection.articles.length > 0) {
+    if (selection && (selection.articles ?? []).length > 0) {
       md += `\n## Artigos Analisados\n\n`;
-      selection.articles.forEach((a, i) => {
+      (selection.articles ?? []).forEach((a, i) => {
         md += `${i + 1}. ${a.title} — ${a.authors} (${a.year})${a.doi ? ` DOI: ${a.doi}` : ""}\n`;
       });
     }
@@ -124,7 +124,7 @@ export function ExportEditor({ stepOrder }: { stepOrder: number }) {
     <div className={styles.artifactContainer}>
       <div className={styles.artifactHeader}>
         <span className={styles.artifactTitle}>Exportar Revisão da Literatura</span>
-        <span className={styles.artifactSubtitle}>{review.wordCount} palavras · {review.references.length} referências</span>
+        <span className={styles.artifactSubtitle}>{review.wordCount} palavras · {(review.references ?? []).length} referências</span>
       </div>
 
       <div className={styles.artifactResult}>

@@ -102,7 +102,7 @@
 
 .btnPrimary {
   background: var(--color-brand);
-  color: white;
+  color: var(--color-on-brand);
 }
 .btnPrimary:hover {
   background: var(--color-brand-hover);

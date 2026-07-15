@@ -21,9 +21,11 @@ export function SynthesisEditor({ stepOrder }: { stepOrder: number }) {
 
   useEffect(() => {
     if (existing) {
-      setThemes(existing.themes);
-      setTrends(existing.trends.length >= 2 ? existing.trends : [...existing.trends, "", ""]);
-      setContradictions(existing.contradictions.length >= 1 ? existing.contradictions : [""]);
+      setThemes(existing.themes ?? []);
+      const tr = existing.trends ?? [];
+      setTrends(tr.length >= 2 ? tr : [...tr, "", ""].slice(0, 2));
+      const ct = existing.contradictions ?? [];
+      setContradictions(ct.length >= 1 ? ct : [""]);
     }
   }, [existing]);
 
@@ -72,12 +74,12 @@ export function SynthesisEditor({ stepOrder }: { stepOrder: number }) {
 
       {cards && (
         <div className={styles.artifactPrefilled}>
-          {cards.cards.length} fichas de leitura disponíveis como fonte
+          {(cards.cards ?? []).length} fichas de leitura disponíveis como fonte
         </div>
       )}
       {comparison && (
         <div className={styles.artifactPrefilled}>
-          {comparison.convergences.length} convergências · {comparison.divergences.length} divergências identificadas
+          {(comparison.convergences ?? []).length} convergências · {(comparison.divergences ?? []).length} divergências identificadas
         </div>
       )}
 

@@ -139,6 +139,10 @@
   --color-link: var(--brand-600);
   --color-focus-ring: var(--brand-500);
 
+  --color-accent: var(--color-brand);
+  --color-accent-hover: var(--color-brand-hover);
+  --color-on-accent: var(--color-on-brand);
+
   /* ---- Estados (intenção) — §7.2 ---- */
   --color-success-fg: #047857;
   --color-success-fill: #059669;
@@ -179,6 +183,10 @@
   --color-on-brand: #0e0d0c;
   --color-link: var(--brand-300);
   --color-focus-ring: var(--brand-400);
+
+  --color-accent: var(--color-brand);
+  --color-accent-hover: var(--color-brand-hover);
+  --color-on-accent: var(--color-on-brand);
 
   --color-success-fg: #6ee7b7;
   --color-success-fill: #059669;

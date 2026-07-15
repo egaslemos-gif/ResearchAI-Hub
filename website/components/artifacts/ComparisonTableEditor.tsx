@@ -17,11 +17,13 @@ export function ComparisonTableEditor({ stepOrder }: { stepOrder: number }) {
 
   useEffect(() => {
     if (existing) {
-      setRows(existing.rows);
-      setConvergences(existing.convergences.length >= 2 ? existing.convergences : [...existing.convergences, "", ""]);
-      setDivergences(existing.divergences.length >= 2 ? existing.divergences : [...existing.divergences, "", ""]);
+      setRows(existing.rows ?? []);
+      const conv = existing.convergences ?? [];
+      setConvergences(conv.length >= 2 ? conv : [...conv, "", ""].slice(0, 2));
+      const div = existing.divergences ?? [];
+      setDivergences(div.length >= 2 ? div : [...div, "", ""].slice(0, 2));
     } else if (cards) {
-      setRows(cards.cards.map(c => ({
+      setRows((cards.cards ?? []).map(c => ({
         articleId: c.articleId,
         articleTitle: c.articleTitle,
         objective: c.objective,
@@ -62,7 +64,7 @@ export function ComparisonTableEditor({ stepOrder }: { stepOrder: number }) {
     setSaved(true);
   };
 
-  if (!cards || cards.cards.length === 0) {
+  if (!cards || (cards.cards ?? []).length === 0) {
     return (
       <div className={styles.artifactContainer}>
         <div className={styles.artifactHeader}>

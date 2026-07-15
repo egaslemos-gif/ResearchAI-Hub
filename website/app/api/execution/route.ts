@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface ExecutionRequest {
   prompt: string;
-  engine?: "claude" | "gemini" | "glm" | "openrouter" | "google";
+  engine?: "claude" | "gemini" | "glm" | "openrouter" | "google" | "openai" | "nvidia-glm" | "nvidia-deepseek";
   task?: {
     type?: string;
     objective?: string;
@@ -24,6 +24,7 @@ interface EngineConfig {
   model: string;
   endpoint: string;
   protocol: "anthropic" | "openai" | "gemini";
+  extraParams?: Record<string, any>;
 }
 
 function getEngineConfig(engine: string, profileModel?: string): EngineConfig | null {
@@ -64,6 +65,28 @@ function getEngineConfig(engine: string, profileModel?: string): EngineConfig | 
         apiKey: process.env.OPENROUTER_API_KEY,
         model: profileModel ?? "anthropic/claude-sonnet-4",
         endpoint: "https://openrouter.ai/api/v1/chat/completions",
+        protocol: "openai",
+      };
+    case "nvidia-glm":
+      return {
+        apiKey: process.env.NVIDIA_API_KEY_GLM,
+        model: profileModel ?? "z-ai/glm-5.2",
+        endpoint: "https://integrate.api.nvidia.com/v1/chat/completions",
+        protocol: "openai",
+      };
+    case "nvidia-deepseek":
+      return {
+        apiKey: process.env.NVIDIA_API_KEY_DEEPSEEK,
+        model: profileModel ?? "deepseek-ai/deepseek-v4-pro",
+        endpoint: "https://integrate.api.nvidia.com/v1/chat/completions",
+        protocol: "openai",
+        extraParams: { chat_template_kwargs: { thinking: false } },
+      };
+    case "openai":
+      return {
+        apiKey: process.env.OPENAI_API_KEY,
+        model: profileModel ?? "gpt-4o",
+        endpoint: "https://api.openai.com/v1/chat/completions",
         protocol: "openai",
       };
     default:
@@ -117,6 +140,7 @@ async function callOpenAICompatible(config: EngineConfig, prompt: string, temper
       top_p: 0.95,
       stream: false,
       messages: [{ role: "user", content: prompt }],
+      ...config.extraParams,
     }),
   });
 
@@ -182,7 +206,7 @@ export async function POST(req: NextRequest) {
 
   if (!config) {
     return NextResponse.json(
-      { error: `Unknown engine: ${engine}. Supported: claude, gemini, google, glm, openrouter` },
+      { error: `Unknown engine: ${engine}. Supported: claude, gemini, google, glm, openai, openrouter, nvidia-glm, nvidia-deepseek` },
       { status: 400 }
     );
   }
@@ -195,23 +219,55 @@ export async function POST(req: NextRequest) {
   }
 
   const temperature = body.profile?.temperature ?? 0.2;
-  const maxTokens = body.profile?.maxTokens ?? 4096;
+  let maxTokens = body.profile?.maxTokens ?? 8192;
+
+  // Validate prompt size
+  const estimatedPromptTokens = Math.ceil(body.prompt.length / 4);
+  const modelContextLimit = engine === "claude" ? 200000 : 128000;
+  if (estimatedPromptTokens + maxTokens > modelContextLimit) {
+    maxTokens = Math.max(100, Math.min(maxTokens, modelContextLimit - estimatedPromptTokens - 1000));
+  }
 
   try {
     let result;
 
-    switch (config.protocol) {
-      case "anthropic":
-        result = await callAnthropic(config, body.prompt, temperature, maxTokens);
-        break;
-      case "gemini":
-        result = await callGemini(config, body.prompt, temperature, maxTokens);
-        break;
-      case "openai":
-        result = await callOpenAICompatible(config, body.prompt, temperature, maxTokens);
-        break;
-      default:
-        return NextResponse.json({ error: `Unsupported protocol: ${config.protocol}` }, { status: 500 });
+    try {
+      switch (config.protocol) {
+        case "anthropic":
+          result = await callAnthropic(config, body.prompt, temperature, maxTokens);
+          break;
+        case "gemini":
+          result = await callGemini(config, body.prompt, temperature, maxTokens);
+          break;
+        case "openai":
+          result = await callOpenAICompatible(config, body.prompt, temperature, maxTokens);
+          break;
+        default:
+          return NextResponse.json({ error: `Unsupported protocol: ${config.protocol}` }, { status: 500 });
+      }
+    } catch (primaryErr) {
+      const isRateLimit = primaryErr instanceof Error && (primaryErr.message.includes("429") || primaryErr.message.includes("Quota exceeded") || primaryErr.message.includes("RESOURCE_EXHAUSTED"));
+      
+      // Auto-Failover Strategy: Gemini -> NVIDIA DeepSeek -> NVIDIA GLM
+      if (isRateLimit) {
+        console.warn(`[Failover Activated] Primary engine ${engine} hit rate limit (429). Falling back to nvidia-deepseek...`);
+        const deepseekConfig = getEngineConfig("nvidia-deepseek");
+        
+        try {
+          if (!deepseekConfig?.apiKey) throw new Error("Missing DeepSeek key");
+          result = await callOpenAICompatible(deepseekConfig, body.prompt, temperature, maxTokens);
+          result.model = `[Failover: DeepSeek] ${result.model}`;
+        } catch (fallbackErr) {
+          console.warn(`[Failover Activated] DeepSeek also failed. Falling back to nvidia-glm...`);
+          const glmConfig = getEngineConfig("nvidia-glm");
+          if (!glmConfig?.apiKey) throw primaryErr; // Rethrow original if no GLM key
+          
+          result = await callOpenAICompatible(glmConfig, body.prompt, temperature, maxTokens);
+          result.model = `[Failover: GLM] ${result.model}`;
+        }
+      } else {
+        throw primaryErr; // Not a rate limit error, bubble up
+      }
     }
 
     return NextResponse.json({
@@ -221,6 +277,8 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
+    console.error(`[Execution API Error] Engine: ${engine}, Model: ${config.model}, Prompt Length: ${body.prompt.length}, Estimated Tokens: ${Math.ceil(body.prompt.length / 4)}`);
+    console.error(err);
     return NextResponse.json({ error: message, engine, success: false }, { status: 500 });
   }
 }

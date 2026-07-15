@@ -82,3 +82,41 @@
   border-radius: var(--radius-md);
   overflow: hidden;
 }
+
+.sidebarWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileDrawerToggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: var(--space-3);
+}
+
+.drawerContent {
+  display: none;
+}
+.drawerContent.open {
+  display: block;
+}
+
+@media (min-width: 1200px) {
+  .mobileDrawerToggle {
+    display: none;
+  }
+  .drawerContent {
+    display: block !important;
+  }
+}

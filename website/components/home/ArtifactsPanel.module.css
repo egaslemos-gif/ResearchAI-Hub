@@ -133,3 +133,49 @@
   background: var(--color-surface-sunken);
   color: var(--color-brand);
 }
+
+/* Sidebar Variant Overrides */
+.sidebarVariant {
+  gap: var(--space-3);
+}
+
+.sidebarHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarTitle {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.consultarBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-brand);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  transition: all 150ms ease;
+  white-space: nowrap;
+}
+
+.consultarBtn:hover {
+  background: var(--color-surface-sunken);
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+  text-decoration: none;
+}

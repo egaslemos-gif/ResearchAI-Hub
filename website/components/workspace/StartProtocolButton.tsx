@@ -65,7 +65,7 @@ export function StartProtocolButton({
 
   const handleCreate = () => {
     try {
-      createWorkspace({
+      const newId = createWorkspace({
         title: newTitle,
         protocolSlug: slug,
         studyArea: newArea,
@@ -73,6 +73,7 @@ export function StartProtocolButton({
         researchTopic: newTitle,
         executionProvider: execProvider,
       });
+      setActiveWorkspace(newId);
     } catch (e) {
       console.error("[StartProtocolButton] Failed to create workspace:", e);
       return;

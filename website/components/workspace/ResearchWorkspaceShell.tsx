@@ -1,8 +1,10 @@
 "use client";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useState } from "react";
 import styles from "./ResearchWorkspaceShell.module.css";
-import { ExecutionLayout } from "@/components/layouts/Layouts";
+import { ExecutionLayout, ExecutionGrid } from "@/components/layouts/Layouts";
+import { ArtifactsPanel } from "@/components/home/ArtifactsPanel";
+import { ChevronRight, ChevronDown } from "lucide-react";
 import { useWorkspaceStore } from "./WorkspaceStoreContext";
 import { phaseFromSessionState } from "./WorkspaceCompositionEngine";
 import { resolvePanel } from "./WorkspacePluginRegistry";
@@ -130,6 +132,7 @@ function renderNode(node: LayoutNode): ReactNode {
 
 export function ResearchWorkspaceShell({ header }: ResearchWorkspaceShellProps) {
   const { session } = useWorkspaceStore();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const step = session.currentStep || 1;
   const status = session.progress?.[step]?.status || "Draft";
@@ -141,10 +144,29 @@ export function ResearchWorkspaceShell({ header }: ResearchWorkspaceShellProps) 
     <ExecutionLayout
       header={header}
       content={
-        <>
-          <div className={styles.layoutRoot}>{renderNode(layout.root)}</div>
-          <RuntimeStatusBar />
-        </>
+        <ExecutionGrid
+          variant="sidebar-main"
+          left={
+            <div className={styles.sidebarWrapper}>
+              <button
+                className={styles.mobileDrawerToggle}
+                onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+              >
+                <span>Artefactos Gerados</span>
+                {isDrawerOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+              </button>
+              <div className={`${styles.drawerContent} ${isDrawerOpen ? styles.open : ""}`}>
+                <ArtifactsPanel variant="sidebar" />
+              </div>
+            </div>
+          }
+          right={
+            <>
+              <div className={styles.layoutRoot}>{renderNode(layout.root)}</div>
+              <RuntimeStatusBar />
+            </>
+          }
+        />
       }
     />
   );

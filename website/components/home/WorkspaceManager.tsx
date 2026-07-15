@@ -44,7 +44,7 @@ export function WorkspaceManager() {
 
   const handleCreate = () => {
     try {
-      createWorkspace({
+      const newId = createWorkspace({
         title: newTitle,
         protocolSlug: "revisao-da-literatura",
         studyArea: newArea,
@@ -52,6 +52,7 @@ export function WorkspaceManager() {
         researchTopic: newTitle,
         executionProvider: execProvider,
       });
+      setActiveWorkspace(newId);
     } catch (e) {
       console.error("[WorkspaceManager] Failed to create workspace:", e);
       return;

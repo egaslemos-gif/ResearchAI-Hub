@@ -16,9 +16,9 @@ export function ReadingCardsEditor({ stepOrder }: { stepOrder: number }) {
 
   useEffect(() => {
     if (existing) {
-      setCards(existing.cards);
+      setCards(existing.cards ?? []);
     } else if (selection) {
-      setCards(selection.articles.map(a => ({
+      setCards((selection.articles ?? []).map(a => ({
         articleId: a.id,
         articleTitle: a.title,
         objective: "",
@@ -51,7 +51,7 @@ export function ReadingCardsEditor({ stepOrder }: { stepOrder: number }) {
     setSaved(true);
   };
 
-  if (!selection || selection.articles.length === 0) {
+  if (!selection || (selection.articles ?? []).length === 0) {
     return (
       <div className={styles.artifactContainer}>
         <div className={styles.artifactHeader}>

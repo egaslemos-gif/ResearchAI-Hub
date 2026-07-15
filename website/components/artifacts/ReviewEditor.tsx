@@ -27,7 +27,8 @@ export function ReviewEditor({ stepOrder }: { stepOrder: number }) {
       setIntroduction(existing.introduction);
       setBody(existing.body);
       setConclusion(existing.conclusion);
-      setReferences(existing.references.length >= 1 ? existing.references : [""]);
+      const refs = existing.references ?? [];
+      setReferences(refs.length >= 1 ? refs : [""]);
     }
   }, [existing]);
 
@@ -70,8 +71,8 @@ export function ReviewEditor({ stepOrder }: { stepOrder: number }) {
 
       {tema && <div className={styles.artifactPrefilled}>Tema: {tema.delimited}</div>}
       {pergunta && <div className={styles.artifactPrefilled}>Pergunta: {pergunta.researchQuestion}</div>}
-      {synthesis && <div className={styles.artifactPrefilled}>Síntese: {synthesis.themes.length} temas identificados</div>}
-      {gaps && <div className={styles.artifactPrefilled}>Lacunas: {gaps.gaps.length} identificadas</div>}
+      {synthesis && <div className={styles.artifactPrefilled}>Síntese: {(synthesis.themes ?? []).length} temas identificados</div>}
+      {gaps && <div className={styles.artifactPrefilled}>Lacunas: {(gaps.gaps ?? []).length} identificadas</div>}
 
       <div className={styles.artifactField}>
         <label className={styles.artifactLabel}>Título da revisão</label>

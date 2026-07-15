@@ -20,6 +20,21 @@ import type {
   ReviewArtifact,
 } from "@/components/workspace/WorkspaceStoreContext";
 
+export function extractJsonBlock<T>(text: string): T | null {
+  try {
+    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (match) {
+      return JSON.parse(match[1]) as T;
+    }
+    if (text.trim().startsWith("{") && text.trim().endsWith("}")) {
+      return JSON.parse(text.trim()) as T;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
 /* ---- Helpers ---- */
 
 /**
@@ -357,8 +372,9 @@ export function extractSelectionArtifact(response: string, articles: Article[]):
 export function extractReadingCardsArtifact(response: string, articles: Article[]): ReadingCardsArtifact {
   const cards: ReadingCard[] = [];
 
-  // Split response by "Ficha de Leitura" headings (## Ficha, ### **Ficha**, etc.)
-  const fichaSections = response.split(/\n#{1,4}\s*\*{0,2}\s*(?:Ficha de Leitura|Ficha)\s*[-:]?\s*(?:Artigo\s*)?\d*/i).slice(1);
+  // Split response by per-card headings. Accept both "Ficha de Leitura N"/"Ficha - Artigo N"
+  // AND "Artigo N"/"ARTIGO N" (some engines, e.g. Claude, title each card "## ARTIGO 1").
+  const fichaSections = response.split(/\n#{1,4}\s*\*{0,2}\s*(?:(?:Ficha de Leitura|Ficha)\s*[-:]?\s*(?:Artigo\s*)?\d*|Artigo\s+\d+)/i).slice(1);
 
   const selectedArticles = articles.filter((a) => a.selected);
 

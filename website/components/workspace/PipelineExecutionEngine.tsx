@@ -17,6 +17,21 @@ import {
 } from "@/lib/artifactExtractor";
 import { getProvider, getEngineLabel, getEngineWorkflow, buildExecutionCard, createDefaultProfile, migrateToProfile, TASK_TYPE_LABELS, type ExecutionProfile, type ExecutionProviderConfig, type ProviderType, type WorkflowStep, type ExecutionCardData } from "@/lib/ScientificExecutionEngine";
 
+function safeExtractJsonBlock<T>(text: string): T | null {
+  try {
+    const match = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (match) {
+      return JSON.parse(match[1]) as T;
+    }
+    if (text.trim().startsWith("{") && text.trim().endsWith("}")) {
+      return JSON.parse(text.trim()) as T;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
 /** Map workspace engineId to the /api/execution engine parameter */
 const ENGINE_API_MAP: Record<string, "claude" | "gemini" | "glm" | "openrouter" | "google"> = {
   "researchai-cloud": "google",
@@ -97,6 +112,7 @@ export interface PipelineContext {
   checkpoints: PipelineCheckpoint[];
 
   // Execution profile + provider
+  isManualMode: boolean;
   executionProfile: ExecutionProfile;
   executionProvider: ExecutionProviderConfig;
   providerType: ProviderType;
@@ -112,6 +128,7 @@ export interface PipelineContext {
 
   // Actions
   start: () => void;
+  startManual: () => void;
   reset: () => void;
   submitManualResponse: (response: string) => void;
   acceptArtifact: () => void;
@@ -154,6 +171,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
   const [tokenCount, setTokenCountState] = useState(0);
   const [latencyMs, setLatencyState] = useState(0);
   const [responseContent, setResponseContent] = useState("");
+  const [isManualMode, setIsManualMode] = useState(false);
   const streamIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
 
@@ -198,6 +216,19 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
     { id: "artifact", label: "Artefacto", status: pipelineState === "Completed" ? "done" : "pending" },
   ];
 
+  const startManual = useCallback(() => {
+    if (pipelineState !== "Ready") return;
+    setIsManualMode(true);
+    setPipelineState("Queued");
+    advanceStepState(step, "PromptGenerated");
+    startTimeRef.current = Date.now();
+
+    setTimeout(() => {
+      setPipelineState("Running");
+      runtime.setConnected(true);
+    }, 300);
+  }, [pipelineState, step, advanceStepState, runtime]);
+
   // Start execution — behavior depends on provider type and step
   const start = useCallback(() => {
     if (pipelineState !== "Ready") return;
@@ -230,9 +261,17 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         runtime.setStreamProgress(progress);
       }, 300);
 
-      // Build search query from pergunta artifact
+      // Build search query from pergunta artifact.
+      // Prefer English keywords (OpenAlex is English-centric) and strip wildcard
+      // characters (? and *) — OpenAlex rejects them with HTTP 400 unless an exact
+      // (no-stem) search is requested. The raw pt-PT research question ends in "?",
+      // which broke PR-003 entirely (SAT-001).
       const pergunta = session.artifacts?.[2]?.data as { researchQuestion?: string; keywordsEN?: string[] } | undefined;
-      const searchQuery = pergunta?.researchQuestion || session.researchTopic || "";
+      const rawQuery =
+        pergunta?.keywordsEN && pergunta.keywordsEN.length > 0
+          ? pergunta.keywordsEN.join(" ")
+          : pergunta?.researchQuestion || session.researchTopic || "";
+      const searchQuery = rawQuery.replace(/[?*]/g, " ").replace(/\s+/g, " ").trim();
 
       fetch("/api/search", {
         method: "POST",
@@ -419,6 +458,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
       streamIntervalRef.current = null;
     }
     setPipelineState("Ready");
+    setIsManualMode(false);
     setStreamProgressState(0);
     setTokenCountState(0);
     setLatencyState(0);
@@ -442,7 +482,8 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
 
     switch (step) {
       case 1: {
-        const extracted = extractTemaArtifact(responseContent, {
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractTemaArtifact(responseContent, {
           studyArea: session.studyArea ?? "",
           researchTopic: session.researchTopic ?? "",
           academicLevel: session.academicLevel ?? "",
@@ -460,7 +501,8 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         break;
       }
       case 2: {
-        const extracted = extractPerguntaArtifact(responseContent);
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractPerguntaArtifact(responseContent);
         if (existing?.type === "pergunta") {
           const existingPergunta = existing.data as unknown as Record<string, unknown>;
           artifact = {
@@ -481,10 +523,11 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         break;
       }
       case 4: {
-        const extracted = extractSelectionArtifact(responseContent, articles);
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractSelectionArtifact(responseContent, articles);
         artifact = { type: "selection", data: { ...extracted, content: responseContent } } as unknown as Artifact;
         // Update article repository with selection status
-        updateArticles(extracted.articles.map((a) => ({
+        updateArticles(extracted.articles.map((a: any) => ({
           id: a.id, title: a.title, authors: a.authors, year: a.year, source: a.source,
           doi: a.doi, abstract: a.abstract, selected: a.selected, selectionJustification: a.justification,
           searchQuery: a.searchQuery,
@@ -492,40 +535,80 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         break;
       }
       case 5: {
-        const extracted = extractReadingCardsArtifact(responseContent, articles);
-        artifact = { type: "reading-cards", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractReadingCardsArtifact(responseContent, articles);
+        if (!extracted.cards || extracted.cards.length === 0) {
+          artifact = { type: "raw", data: { content: responseContent, originalType: "reading-cards", createdAt: new Date().toISOString() } } as unknown as Artifact;
+        } else {
+          artifact = { type: "reading-cards", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        }
         break;
       }
       case 6: {
-        const extracted = extractComparisonTableArtifact(responseContent);
-        artifact = { type: "comparison-table", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractComparisonTableArtifact(responseContent);
+        if (!extracted.rows || extracted.rows.length === 0) {
+          artifact = { type: "raw", data: { content: responseContent, originalType: "comparison-table", createdAt: new Date().toISOString() } } as unknown as Artifact;
+        } else {
+          artifact = { type: "comparison-table", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        }
         break;
       }
       case 7: {
-        const extracted = extractGapsArtifact(responseContent);
-        artifact = { type: "gaps", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractGapsArtifact(responseContent);
+        if (!extracted.gaps || extracted.gaps.length === 0) {
+          artifact = { type: "raw", data: { content: responseContent, originalType: "gaps", createdAt: new Date().toISOString() } } as unknown as Artifact;
+        } else {
+          artifact = { type: "gaps", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        }
         break;
       }
       case 8: {
-        const extracted = extractSynthesisArtifact(responseContent);
-        artifact = { type: "synthesis", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractSynthesisArtifact(responseContent);
+        if (!extracted.themes || extracted.themes.length === 0) {
+          artifact = { type: "raw", data: { content: responseContent, originalType: "synthesis", createdAt: new Date().toISOString() } } as unknown as Artifact;
+        } else {
+          artifact = { type: "synthesis", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        }
         break;
       }
       case 9: {
-        const extracted = extractReviewArtifact(responseContent);
-        artifact = { type: "review", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        let t = safeExtractJsonBlock<any>(responseContent);
+        const extracted = t || extractReviewArtifact(responseContent);
+        if (!extracted.body || extracted.body.length < 50) {
+          artifact = { type: "raw", data: { content: responseContent, originalType: "review", createdAt: new Date().toISOString() } } as unknown as Artifact;
+        } else {
+          artifact = { type: "review", data: { ...extracted, content: responseContent } } as unknown as Artifact;
+        }
         break;
       }
       case 10: {
+        const dateStr = new Date().toISOString().slice(0,10).replace(/-/g, '');
+        const filename = `RL01_Revisao_Literatura_${dateStr}.md`;
         artifact = {
           type: "export",
           data: {
             format: "markdown" as const,
             content: responseContent,
-            filename: `revisao-literatura-${Date.now()}.md`,
+            filename: filename,
             exportedAt: new Date().toISOString(),
           },
         } as unknown as Artifact;
+
+        // Trigger download
+        if (typeof window !== "undefined") {
+          const blob = new Blob([responseContent], { type: "text/markdown" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }
         break;
       }
       default: {
@@ -563,6 +646,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         hasFailed,
         resolvedPrompt,
         selectedModel,
+        isManualMode,
         checkpoints,
         executionProfile,
         executionProvider,
@@ -575,6 +659,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         latencyMs,
         responseContent,
         start,
+        startManual,
         reset,
         submitManualResponse,
         acceptArtifact,

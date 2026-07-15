@@ -155,7 +155,7 @@
 
 .artifactButtonPrimary {
   background: var(--color-accent, #3b82f6);
-  color: white;
+  color: var(--color-on-accent, white);
 }
 
 .artifactButtonPrimary:hover {

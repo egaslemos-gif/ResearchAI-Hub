@@ -11,7 +11,11 @@ export function ArticleListEditor({ stepOrder }: { stepOrder: number }) {
   const existing = getArticleList();
 
   const [articles, setArticles] = useState<Article[]>(existing?.articles ?? []);
-  const [searchQueries, setSearchQueries] = useState<string[]>(existing?.searchQueries ?? ["", ""]);
+  const [searchQueries, setSearchQueries] = useState<string[]>(
+    existing?.searchQueries && existing.searchQueries.length >= 2 
+      ? existing.searchQueries 
+      : [...(existing?.searchQueries ?? []), "", ""].slice(0, 2)
+  );
   const [saved, setSaved] = useState(!!existing);
 
   const [newTitle, setNewTitle] = useState("");
@@ -22,8 +26,9 @@ export function ArticleListEditor({ stepOrder }: { stepOrder: number }) {
 
   useEffect(() => {
     if (existing) {
-      setArticles(existing.articles);
-      setSearchQueries(existing.searchQueries.length >= 2 ? existing.searchQueries : [...existing.searchQueries, "", ""]);
+      setArticles(existing.articles ?? []);
+      const qs = existing.searchQueries ?? [];
+      setSearchQueries(qs.length >= 2 ? qs : [...qs, "", ""].slice(0, 2));
     }
   }, [existing]);
 

@@ -19,7 +19,7 @@ export function GapsEditor({ stepOrder }: { stepOrder: number }) {
   const [saved, setSaved] = useState(!!existing);
 
   useEffect(() => {
-    if (existing) setGaps(existing.gaps);
+    if (existing) setGaps(existing.gaps ?? []);
   }, [existing]);
 
   const updateGap = (id: string, field: keyof ResearchGap, value: string) => {
@@ -65,7 +65,7 @@ export function GapsEditor({ stepOrder }: { stepOrder: number }) {
 
       {comparison && (
         <div className={styles.artifactPrefilled}>
-          Convergências: {comparison.convergences.length} · Divergências: {comparison.divergences.length}
+          Convergências: {(comparison.convergences ?? []).length} · Divergências: {(comparison.divergences ?? []).length}
         </div>
       )}
 

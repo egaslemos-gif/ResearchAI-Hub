@@ -5,7 +5,7 @@ import { useWorkspaceStore, type SelectionArtifact, type SelectedArticle } from 
 import styles from "./artifacts.module.css";
 
 export function SelectionEditor({ stepOrder }: { stepOrder: number }) {
-  const { saveArtifact, getSelection, getArticleList, advanceStepState } = useWorkspaceStore();
+  const { saveArtifact, getSelection, getArticleList, advanceStepState, updateArticles } = useWorkspaceStore();
 
   const articleList = getArticleList();
   const existing = getSelection();
@@ -17,11 +17,13 @@ export function SelectionEditor({ stepOrder }: { stepOrder: number }) {
 
   useEffect(() => {
     if (existing) {
-      setInclusionCriteria(existing.inclusionCriteria.length >= 2 ? existing.inclusionCriteria : [...existing.inclusionCriteria, "", ""]);
-      setExclusionCriteria(existing.exclusionCriteria.length >= 2 ? existing.exclusionCriteria : [...existing.exclusionCriteria, "", ""]);
-      setArticles(existing.articles);
+      const inc = existing.inclusionCriteria ?? [];
+      setInclusionCriteria(inc.length >= 2 ? inc : [...inc, "", ""].slice(0, 2));
+      const exc = existing.exclusionCriteria ?? [];
+      setExclusionCriteria(exc.length >= 2 ? exc : [...exc, "", ""].slice(0, 2));
+      setArticles(existing.articles ?? []);
     } else if (articleList) {
-      setArticles(articleList.articles.map(a => ({ ...a, selected: false, justification: "" })));
+      setArticles((articleList.articles ?? []).map(a => ({ ...a, selected: false, justification: "" })));
     }
   }, [existing, articleList]);
 
@@ -56,11 +58,16 @@ export function SelectionEditor({ stepOrder }: { stepOrder: number }) {
       createdAt: new Date().toISOString(),
     };
     saveArtifact(4, { type: "selection", data: artifact });
+    // Sync the article repository so downstream steps see the selection.
+    // PR-005's reading-cards extractor filters articles by `selected`; without this
+    // the repository stays unmarked → 0 cards → the whole PR-006..009 chain drifts
+    // off-corpus and hallucinates (SAT-003). The LLM selection path already does this.
+    updateArticles(articles);
     advanceStepState(stepOrder, "ContextConfirmed");
     setSaved(true);
   };
 
-  if (!articleList || articleList.articles.length === 0) {
+  if (!articleList || (articleList.articles ?? []).length === 0) {
     return (
       <div className={styles.artifactContainer}>
         <div className={styles.artifactHeader}>

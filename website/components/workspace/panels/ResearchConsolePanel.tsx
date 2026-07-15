@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useStepData } from "../StepDataContext";
 import { useWorkspaceStore } from "../WorkspaceStoreContext";
+import { useWorkspace } from "../WorkspaceContext";
 import { usePipeline, type PipelineStage } from "../PipelineExecutionEngine";
 import { getEngineUrl, getEngine, ENGINE_CATEGORY_LABELS, EXECUTION_CATALOG, getEngineActionLabel, type ProviderType } from "@/lib/ScientificExecutionEngine";
 import { ArtifactEditorDispatcher } from "../../artifacts/ArtifactEditorDispatcher";
@@ -93,9 +94,27 @@ function PipelineReady() {
   const card = pipeline.executionCard;
   const engine = getEngine(pipeline.executionProvider.assistantId);
 
-  // Provider-specific primary action
-  const primaryAction: React.ReactNode =
-    pipeline.providerType === "cloud" ? (
+  let primaryAction: React.ReactNode;
+  
+  if (data.stepOrder === 3) {
+    primaryAction = (
+      <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center", width: "100%" }}>
+        <button className={styles.pipelineExecuteBtn} onClick={pipeline.start}>
+          ▶ Pesquisar automaticamente
+        </button>
+        <button className={styles.pipelineExecuteBtnSecondary} onClick={() => {
+          handleCopy();
+          pipeline.startManual();
+        }}>
+          Pesquisar manualmente
+        </button>
+        <button className={styles.pipelineExecuteBtnSecondary} onClick={pipeline.startManual}>
+          Importar lista existente
+        </button>
+      </div>
+    );
+  } else {
+    primaryAction = pipeline.providerType === "cloud" ? (
       <button className={styles.pipelineExecuteBtn} onClick={pipeline.start}>
         ▶ Executar
       </button>
@@ -108,6 +127,7 @@ function PipelineReady() {
         ▶ Executar no {pipeline.assistantLabel}
       </button>
     );
+  }
 
   return (
     <div className={styles.pipelineReady}>
@@ -115,6 +135,14 @@ function PipelineReady() {
         <span className={styles.pipelineReadyTitle}>Pipeline Científico</span>
         <span className={styles.pipelineReadyState}>🟢 Pronto</span>
       </div>
+
+      {data.stepOrder > 1 && (
+        <div style={{ marginBottom: "16px" }}>
+          <a href={`./${data.stepOrder - 1}`} className={styles.pipelineResetBtn} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '6px 12px', fontSize: '0.85rem', textDecoration: 'none' }}>
+            ← Consultar Passo {data.stepOrder - 1}
+          </a>
+        </div>
+      )}
 
       {/* Scientific checkpoints */}
       <div className={styles.pipelineChecklist}>
@@ -399,8 +427,8 @@ function PipelineRunning() {
   const protocolId = data.slug.slice(0, 8).toUpperCase();
   const stepId = `PR-${String(data.stepOrder).padStart(3, "0")}`;
 
-  // External provider: show paste-response UI with workflow steps
-  if (pipeline.providerType === "external" && pipeline.pipelineState === "Running") {
+  // External provider or manual mode: show paste-response UI with workflow steps
+  if ((pipeline.providerType === "external" || pipeline.isManualMode) && pipeline.pipelineState === "Running") {
     return (
       <div className={styles.pipelineRunning}>
         <div className={styles.pipelineRunningHeader}>
@@ -576,12 +604,19 @@ function PipelineResults() {
   const pipeline = usePipeline();
   const data = useStepData();
   const { getArtifact } = useWorkspaceStore();
+  const { setToastMessage } = useWorkspace();
 
   const protocolId = data.slug.slice(0, 8).toUpperCase();
   const stepId = `PR-${String(data.stepOrder).padStart(3, "0")}`;
   const step = data.stepOrder;
   const savedArtifact = getArtifact(step);
   const hasArtifact = !!savedArtifact;
+
+  const handleAccept = () => {
+    pipeline.acceptArtifact();
+    setToastMessage(`✓ Artefacto guardado com sucesso`);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   return (
     <div className={styles.pipelineReady}>
@@ -643,7 +678,7 @@ function PipelineResults() {
           <div className={styles.pipelineExecuteCenter}>
             <button
               className={styles.pipelineExecuteBtn}
-              onClick={pipeline.acceptArtifact}
+              onClick={handleAccept}
             >
               ✓ Aceitar e Guardar
             </button>
@@ -670,6 +705,17 @@ function PipelineResults() {
             <pre className={styles.artifactContent}>
               {JSON.stringify(savedArtifact?.data, null, 2)}
             </pre>
+            
+            <div className={styles.pipelineExecuteCenter} style={{ marginTop: "16px" }}>
+              <button
+                className={styles.pipelineExecuteBtn}
+                onClick={() => pipeline.setPipelineState("Editing")}
+                style={{ backgroundColor: "var(--color-bg-elevated)", color: "var(--color-text)", border: "1px solid var(--color-border)" }}
+              >
+                ✏️ Editar Artefacto
+              </button>
+            </div>
+
             {data.nextHref && (
               <a href={data.nextHref} className={styles.artifactNextLink}>
                 Avançar para o próximo passo →

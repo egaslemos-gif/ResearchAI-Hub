@@ -47,18 +47,15 @@ O Runtime Engine interpreta cinco componentes fundamentais durante a execução:
 
 ## 4. Ciclo de Vida de um Step
 
-Cada etapa (`Step`) do protocolo obedece a um ciclo de vida rigoroso, sendo obrigado a assumir um dos seguintes **8 Estados**:
+Cada etapa (`Step`) do protocolo obedece a um ciclo de vida rigoroso, sendo obrigado a assumir um dos seguintes **5 Estados** (simplificação introduzida no MVP face à especificação teórica original):
 
-### 4.1 Estados Obrigatórios
+### 4.1 Estados (MVP)
 
-1. **`Pending`**: O Step está bloqueado, aguardando a conclusão de etapas anteriores ou o início explícito do protocolo.
-2. **`Running`**: O Step está activo, executando lógica interna ou orquestrando integrações sistémicas invisíveis ao utilizador.
-3. **`WaitingUser`**: O Step está em pausa, requerendo input explícito, revisão ou decisão por parte do utilizador.
-4. **`Validating`**: O output gerado foi submetido e está a ser avaliado face aos critérios de qualidade/validação.
-5. **`Completed`**: O Step concluiu com sucesso e gerou um Output validado. Desbloqueia dependências.
-6. **`Skipped`**: O Step foi ignorado intencionalmente (por norma através de um `Decision Node`).
-7. **`Cancelled`**: O processo foi cancelado antes de terminar (por intenção do utilizador ou erro grave).
-8. **`Error`**: O Step encontrou um bloqueio ou falha (ex: timeout de rede) e requer resolução.
+1. **`Draft`**: Estado inicial. O investigador está a consultar a documentação metodológica, a instrução e o contexto do passo, preparando a execução ou editando o editor manual.
+2. **`ContextConfirmed`**: O investigador compreendeu o objectivo do passo e confirmou a sua preparação, estando pronto para iniciar a orquestração ou execução.
+3. **`PromptGenerated`**: O Workspace avaliou o manifesto, substituiu as variáveis de contexto (`{{article_text}}`, `{{research_question}}`, etc.) e instanciou um prompt determinístico pronto a ser executado.
+4. **`PromptExecuted`**: A instrução foi executada pelo agente de IA (via integração directa ou externa). A resposta bruta foi gerada e, se aplicável, processada pelos extractores de artefactos.
+5. **`EvidenceValidated`**: O utilizador aceitou o artefacto gerado (ou editou o mesmo) e este foi persistido no `WorkspaceStore`. Este estado desbloqueia os passos subsequentes.
 
 ### 4.2 Matriz de Transições de Estado
 
@@ -66,36 +63,31 @@ O diagrama seguinte ilustra as transições válidas no ciclo de vida de um Step
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Pending
-    Pending --> Running : Iniciar
-    Pending --> Skipped : Ignorar (Decisão)
+    [*] --> Draft
+    Draft --> ContextConfirmed : Preparação Concluída
     
-    Running --> WaitingUser : Pedir Input
-    Running --> Error : Falha
+    ContextConfirmed --> PromptGenerated : Gerar Instrução
     
-    WaitingUser --> Running : Input Recebido
-    WaitingUser --> Cancelled : Cancelar
+    PromptGenerated --> PromptExecuted : Executar IA
+    PromptGenerated --> Draft : Voltar Atrás / Editar
     
-    Running --> Validating : Submeter Output
+    PromptExecuted --> EvidenceValidated : Aceitar & Guardar
+    PromptExecuted --> PromptGenerated : Nova Execução (Retry)
     
-    Validating --> Completed : Validação OK
-    Validating --> WaitingUser : Validação Falhou
-    Validating --> Error : Falha Interna
-    
-    Completed --> [*]
-    Skipped --> [*]
-    Cancelled --> [*]
+    EvidenceValidated --> [*]
 ```
 
-**Exemplo Prático de Fluxo:**
+**Exemplo Prático de Fluxo (MVP):**
 ```
-Pending → (utilizador clica 'Iniciar') 
-Running → (interface pede preenchimento da pergunta de investigação) 
-WaitingUser → (utilizador clica 'Submeter') 
-Running → (o sistema encaminha para validação) 
-Validating → (validação passa com sucesso) 
-Completed
+Draft → (lê a teoria e valida as variáveis) 
+ContextConfirmed → (clica em preparar) 
+PromptGenerated → (lê o prompt avançado e clica em Executar) 
+PromptExecuted → (recebe a resposta, lê o JSON) 
+EvidenceValidated → (clica em Aceitar e Guardar) 
+Completed (avança de passo)
 ```
+
+> **Nota Arquitetural:** O modelo original prevê 8 estados (incluindo `Skipped` e `Cancelled`), necessários para `Decision Nodes` e branching (V2). A implementação MVP foca-se exclusivamente na pipeline sequencial (Linear Flow).
 
 ---
 

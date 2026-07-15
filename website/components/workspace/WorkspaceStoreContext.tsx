@@ -175,7 +175,8 @@ export type Artifact =
   | { type: "gaps"; data: GapsArtifact }
   | { type: "synthesis"; data: SynthesisArtifact }
   | { type: "review"; data: ReviewArtifact }
-  | { type: "export"; data: ExportArtifact };
+  | { type: "export"; data: ExportArtifact }
+  | { type: "raw"; data: { content: string; originalType: string; createdAt: string } };
 
 // ---- Workspace entity ----
 export interface Workspace {

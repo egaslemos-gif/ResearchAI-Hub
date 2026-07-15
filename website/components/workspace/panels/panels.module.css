@@ -1354,7 +1354,7 @@
   border: none;
   border-radius: var(--radius-sm);
   background: var(--color-accent);
-  color: white;
+  color: var(--color-on-accent);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -1523,7 +1523,7 @@
   border: none;
   border-radius: var(--radius-sm);
   background: var(--color-accent);
-  color: white;
+  color: var(--color-on-accent);
   font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
@@ -1532,6 +1532,25 @@
 
 .pipelineExecuteBtn:hover {
   opacity: 0.9;
+}
+
+.pipelineExecuteBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0.75rem 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised, var(--color-surface));
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pipelineExecuteBtnSecondary:hover {
+  background: var(--color-surface-hover, var(--color-surface-sunken));
 }
 
 /* --- Pipeline Running --- */
