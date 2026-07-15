@@ -130,6 +130,23 @@ visíveis**; **bloqueio operacional no handoff PR-003 → PR-004** (**UX-005**) 
 artigo encontrado". **Veredicto: MVP ainda NÃO operacionalmente apto em BYIA** até resolver UX-005. Relatório:
 `website/.evidence/SAT-DEMO/SAT-DEMO-report.md`.
 
-**Prioridade atual:** UX-005 (handoff PR-003→PR-004 em BYIA). **Suspenso** (não bloqueia risco operacional): fechar
-PR-005 80→100; `extractListItems` sobre-conta gaps em fixtures Gemini/GLM; store não persiste artefactos vazios;
-`maxTokens`/fichas-por-artigo do PR-005 (EV-006).
+**SAT-DEMO FINAL — encerramento (conteúdo real):** ensaio do dia da formação como utilizador (browser limpo,
+sessão nova, **modo BYIA**, tema "malária em Moçambique", **sem seeding, sem placeholders, sem DevTools**), com
+**conteúdo real**: PR-001/PR-002 colando respostas reais do Claude (API), PR-003 com pesquisa OpenAlex/artigos reais,
+PR-005–PR-009 preenchidos com conteúdo científico real, PR-009 revisão substancial, **PR-010 exportação concluída**
+(artefacto EXPORT = documento markdown real). Resultado: **PR-001 → PR-010 → Exportação, 10/10 artefactos**, **NENHUM
+bloqueio**, **0 erros de runtime**, sem ecrãs brancos, sem mensagens técnicas, sem perda de estado/artefactos, sem
+intervenção por código/consola/DevTools. Evidências: `website/.evidence/SAT-DEMO/` (`demo-real2.mjs`,
+`r2-step10.png`, `demo-real2-log.txt`, `r2-PR-00{1,2}-{prompt,response}.txt`).
+
+## ✅ MVP: **Operationally Ready for Training** (Validation Sprint concluída, 2026-07-15)
+
+**Achado deferido para Pós-MVP (UX-006, não-bloqueante):** o fluxo BYIA de colar-resposta (estado `Ready`) só
+aparece de forma uniforme no PR-001/PR-002; PR-003–PR-009 chegam frequentemente em estado `Editing` (editores
+manuais estruturados). São **completáveis com conteúdo real** (não impedem a conclusão — critério de bloqueio não
+satisfeito), mas a experiência é inconsistente. As mensagens de aviso do PR-010 ("verifique o output da IA",
+"apenas artigos peer-reviewed", "referências devem corresponder a artigos reais") são **lembretes pedagógicos de
+integridade científica**, não mensagens técnicas.
+
+**Suspensos (Pós-MVP, não bloqueiam a formação):** UX-006 (uniformizar Ready/Editing); PR-005 80→100; `extractListItems`
+sobre-conta gaps em fixtures Gemini/GLM; store não persiste artefactos vazios; `maxTokens`/fichas-por-artigo (EV-006).
