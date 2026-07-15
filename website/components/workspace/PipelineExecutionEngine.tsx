@@ -126,6 +126,10 @@ export interface PipelineContext {
   latencyMs: number;
   responseContent: string;
 
+  // User-facing validation notice (e.g. PR-003 produced no usable articles).
+  // Non-technical, pedagogical message; null when there is nothing to warn about.
+  validationNotice: string | null;
+
   // Actions
   start: () => void;
   startManual: () => void;
@@ -172,6 +176,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
   const [latencyMs, setLatencyState] = useState(0);
   const [responseContent, setResponseContent] = useState("");
   const [isManualMode, setIsManualMode] = useState(false);
+  const [validationNotice, setValidationNotice] = useState<string | null>(null);
   const streamIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
 
@@ -237,7 +242,12 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
     advanceStepState(step, "PromptGenerated");
     startTimeRef.current = Date.now();
 
-    if (providerType === "external") {
+    // PR-003 literature search uses the platform's academic database (OpenAlex),
+    // NOT the researcher's chosen AI — so it must run for every provider, including
+    // external/BYIA. (Previously external returned early here and skipped the search,
+    // leaving PR-003 with zero articles.) Manual paste ("Pesquisar manualmente") still
+    // goes through startManual/isManualMode.
+    if (providerType === "external" && step !== 3) {
       // External (ChatGPT, Gemini, Claude, etc.): skip streaming, await manual response
       setTimeout(() => {
         setPipelineState("Running");
@@ -459,6 +469,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
     }
     setPipelineState("Ready");
     setIsManualMode(false);
+    setValidationNotice(null);
     setStreamProgressState(0);
     setTokenCountState(0);
     setLatencyState(0);
@@ -473,6 +484,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
   // Accept artifact — extract structured artifact from LLM response
   const acceptArtifact = useCallback(() => {
     if (!responseContent) return;
+    setValidationNotice(null);
     const artifactType = data.expectedArtifactType || "tema";
     const existing = getArtifact(step);
     const existingData = (existing?.data ?? {}) as Record<string, unknown>;
@@ -515,7 +527,19 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         break;
       }
       case 3: {
-        // PR-003 already saved articles during execution; just add content
+        // Validation gate: PR-003 can NEVER be completed without at least one usable
+        // article. Articles are populated during execution (OpenAlex search) or via the
+        // manual article editor. If none exist, stay on PR-003 and show a pedagogical
+        // message instead of saving an empty artifact (which would break PR-004).
+        const existingArticles = Array.isArray((existingData as { articles?: unknown[] }).articles)
+          ? ((existingData as { articles?: unknown[] }).articles as unknown[])
+          : [];
+        if (existingArticles.length === 0) {
+          setValidationNotice(
+            "Não foi possível identificar artigos científicos na resposta fornecida. Reveja a resposta do motor de IA ou utilize a Pesquisa Manual."
+          );
+          return; // do not save, do not advance — user remains on PR-003
+        }
         artifact = {
           type: "article-list",
           data: { ...existingData, content: responseContent },
@@ -658,6 +682,7 @@ export function PipelineExecutionProvider({ children }: { children: ReactNode })
         tokenCount,
         latencyMs,
         responseContent,
+        validationNotice,
         start,
         startManual,
         reset,

@@ -58,7 +58,8 @@ Evidências: `website/.evidence/SAT-001/`.
 
 | ID | Prioridade | Achado | Impacto | Decisão |
 |----|-----------|--------|---------|---------|
-| **UX-004** | **Média** | A **ação principal** do PR-003 ("Pesquisar automaticamente") **não está visível na primeira entrada** do passo. Na chegada (`Draft`) mostra-se o editor manual; o botão automático só surge em `Ready`/`ContextConfirmed`, hoje só alcançável guardando o editor manual (que exige ≥1 artigo à mão). | O investigador vem "para pesquisar artigos" e não encontra a ação de imediato. | 🗓️ **Registado, não corrigido** — não bloqueia (o caminho manual conclui o passo). Recomendação: expor a pesquisa automática logo na entrada do PR-003 (estado inicial `Ready` para o passo 3, ou botão de pesquisa dentro do `ArticleListEditor`). |
+| **UX-004** | **Média** | A **ação principal** do PR-003 ("Pesquisar automaticamente") **não está visível na primeira entrada** do passo. Na chegada (`Draft`) mostra-se o editor manual; o botão automático só surge em `Ready`/`ContextConfirmed`. | O investigador vem "para pesquisar artigos" e não encontra a ação de imediato. | 🗓️ Registado. **Nota SAT-DEMO:** no **fluxo natural** (clicar "Avançar" desde PR-002) o PR-003 chega em `Ready` e **mostra** "▶ Pesquisar automaticamente" — o sintoma só ocorria por navegação por URL / estado semeado. Menos grave do que se pensava para utilizadores naturais. |
+| **UX-005** | **✅ Corrigido** | **Handoff PR-003 → PR-004 em modo BYIA.** Em BYIA, o `start()` fazia *early-return* para providers externos e **saltava a pesquisa OpenAlex do PR-003**; a colagem não era parseada → **PR-003 marcado ✓ com 0 artigos** e o **PR-004 contradizia** (*"Nenhum artigo encontrado… Complete o passo 3"*). | Formando preso no PR-003→PR-004 com mensagem contraditória. | ✅ **Corrigido (correção cirúrgica):** (1) a pesquisa OpenAlex do PR-003 passa a correr em **todos os modos** (é serviço da plataforma, não do IA do utilizador); (2) **gate de validação** — `acceptArtifact` nunca conclui o PR-003 com 0 artigos: fica no passo + aviso pedagógico *"Não foi possível identificar artigos científicos… Reveja a resposta ou utilize a Pesquisa Manual."* (sem "Avançar"); (3) removida a lógica defensiva de lista vazia do PR-004 (validação pertence ao PR-003). Ficheiros: `PipelineExecutionEngine.tsx`, `panels/ResearchConsolePanel.tsx`, `artifacts/SelectionEditor.tsx`. `tsc` 0. **Re-SAT-DEMO:** PR-003→PR-004 atravessado sem contradição; PR-001→PR-010 percorrido (10/10) sem becos/erros/mensagens técnicas. |
 
 ---
 
@@ -122,6 +123,13 @@ extractores corrigidos). **Ganho medido vs. baseline (2026-07-13):**
 positivos da auditoria), corrigido no mesmo SAT. Evidências: `quality/consistency-claude-edu.json`,
 `quality/runs/claude-edu-*.json`, `quality/live-claude-edu-PR-0NN.txt`.
 
-**Próximo SAT (SAT-008):** fechar o PR-005 (fichas de leitura — 80/100, `extractor=1`). Achados pré-existentes: `extractListItems`
-sobre-conta gaps em fixtures Gemini/GLM (16–34 vs. 3–5); a store não persiste artefactos vazios (esconde falhas). Deferidos:
+**SAT-DEMO (concluído — nova prioridade: risco operacional, não métricas):** ensaio do dia da formação como
+utilizador (browser limpo, sessão nova, **modo BYIA/ChatGPT**, tema novo "malária em Moçambique"; sem
+DevTools/seeding/inspeção de código). Entrada, PR-001, PR-002 e a mecânica BYIA são sólidas e **sem erros técnicos
+visíveis**; **bloqueio operacional no handoff PR-003 → PR-004** (**UX-005**) — PR-003 marca ✓ mas PR-004 diz "nenhum
+artigo encontrado". **Veredicto: MVP ainda NÃO operacionalmente apto em BYIA** até resolver UX-005. Relatório:
+`website/.evidence/SAT-DEMO/SAT-DEMO-report.md`.
+
+**Prioridade atual:** UX-005 (handoff PR-003→PR-004 em BYIA). **Suspenso** (não bloqueia risco operacional): fechar
+PR-005 80→100; `extractListItems` sobre-conta gaps em fixtures Gemini/GLM; store não persiste artefactos vazios;
 `maxTokens`/fichas-por-artigo do PR-005 (EV-006).

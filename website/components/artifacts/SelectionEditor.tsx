@@ -67,18 +67,9 @@ export function SelectionEditor({ stepOrder }: { stepOrder: number }) {
     setSaved(true);
   };
 
-  if (!articleList || (articleList.articles ?? []).length === 0) {
-    return (
-      <div className={styles.artifactContainer}>
-        <div className={styles.artifactHeader}>
-          <span className={styles.artifactTitle}>Seleccionar Artigos</span>
-        </div>
-        <div className={styles.artifactPrefilled}>
-          Nenhum artigo encontrado no passo anterior. Complete o passo 3 primeiro.
-        </div>
-      </div>
-    );
-  }
+  // Validation is owned exclusively by PR-003 — the article list reaching PR-004 is
+  // guaranteed non-empty (PR-003 cannot complete otherwise). No defensive empty-list
+  // branch here.
 
   return (
     <div className={styles.artifactContainer}>

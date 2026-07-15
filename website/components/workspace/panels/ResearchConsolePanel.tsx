@@ -427,8 +427,10 @@ function PipelineRunning() {
   const protocolId = data.slug.slice(0, 8).toUpperCase();
   const stepId = `PR-${String(data.stepOrder).padStart(3, "0")}`;
 
-  // External provider or manual mode: show paste-response UI with workflow steps
-  if ((pipeline.providerType === "external" || pipeline.isManualMode) && pipeline.pipelineState === "Running") {
+  // Paste-response UI: for manual mode (any step) and for external LLM steps.
+  // PR-003 auto-search (external, not manual) runs the platform's OpenAlex search
+  // instead, so it must NOT show the paste UI — it shows the streaming/progress view.
+  if ((pipeline.isManualMode || (pipeline.providerType === "external" && data.stepOrder !== 3)) && pipeline.pipelineState === "Running") {
     return (
       <div className={styles.pipelineRunning}>
         <div className={styles.pipelineRunningHeader}>
@@ -675,6 +677,21 @@ function PipelineResults() {
       {!hasArtifact && (
         <div className={styles.narrativeBlock}>
           <span className={styles.narrativeBlockTitle}>Ações</span>
+          {pipeline.validationNotice && (
+            <div
+              role="alert"
+              style={{
+                display: "flex", gap: "10px", alignItems: "flex-start",
+                padding: "12px 16px", marginBottom: "12px", borderRadius: "8px",
+                background: "var(--color-warning-bg, #fff7e6)",
+                border: "1px solid var(--color-warning, #e0a800)",
+                color: "var(--color-text, #333)", fontSize: "0.9rem", lineHeight: 1.5,
+              }}
+            >
+              <span aria-hidden>⚠️</span>
+              <span>{pipeline.validationNotice}</span>
+            </div>
+          )}
           <div className={styles.pipelineExecuteCenter}>
             <button
               className={styles.pipelineExecuteBtn}
