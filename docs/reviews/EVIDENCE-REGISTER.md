@@ -26,6 +26,7 @@
 | EV-006 | Deferred | Infrastructure | SAT-002 | PR-005 com 6 fichas numa só chamada **truncou** (~5 artigos) — `maxTokens` do route = **4096** (default). | — (decisão metodológica futura, ver abaixo) | Registado; não bloqueia a formação. |
 | **EV-007** | **Fixed (raiz)** | **Scientific** | **SAT-003** (before/after live) | **Causa-raiz da alucinação no PR-009**: o prompt ordena *"usa APENAS as referências dos artigos que analisei; não inventes"* mas o bloco "Materiais disponíveis" só recebia `{{thematic_synthesis}}` (temas de-identificados) + `{{gaps}}` — **nunca as referências reais** (autor/ano vivem em `selected_articles`; achados por artigo em `reading_cards`). Modelo instruído a citar só reais mas sem lista → inventa (Hodges, Marinoni) ou escreve sem citações. | **Prompt-only**: injectar `{{selected_articles}}` + `{{reading_cards}}` no PR-009, exigir secção `## 5. Referências` e reforçar a regra anti-invenção. Resolver já computava ambas as variáveis (0 mudanças no resolver). | **OLD**: 0 citações fundamentadas, 0/3 títulos. **NEW** (mesmo contexto a montante): **3/3** artigos reais citados (20× no total), **0 inventadas**, secção Referências com os 3, + nota que recusa fundamentar sem fonte. `tsc` 0. |
 | **EV-008** | **Fixed** | **Infrastructure** | **SAT-003** | O extractor da revisão (`extractReviewArtifact`) lê referências via `extractListItems` → só apanha listas com marcador (`-`/`1.`); referências académicas (APA) são **parágrafos simples** → `refs=0` mesmo com secção Referências presente. Escondia a alucinação (0 refs = nada para o provenance verificar). | **Aditivo**: `extractReferenceList` (fallback quando list-items=0) divide por parágrafos, exige ano, ignora separadores/notas. | Revisão NEW: **0 → 3** refs. Fixtures: **10/22** passam a extrair refs (antes menos); expõe refs inventadas do GLM → alucinação agora **mensurável**. Sem regressão (fallback só dispara a 0). |
+| **EV-010** | **Fixed** | **Scientific** | **SAT-007** (dashboard `/qualidade`) | A auditoria de alucinação dava **falsos positivos**: `auditReviewCitations`/`auditReferences` só comparavam com o **1.º autor** e não normalizavam hífenes unicode/diacríticos. Ex.: `Mesquita & Carnaz (2024)` (citado por co-autores de *Batista et al.*) e `Michel‐Villarreal` (hífen U+2010) davam "inventadas" → **3 falsas alucinações** no run claude/edu. | `normName` (NFD + strip diacríticos/hífenes) + `authorSurnames` (todos os autores); match por qualquer apelido + ano. `analyze.mjs` **re-deriva** citações do raw do PR-009 (sem re-chamar LLM). | claude/edu: **3→0 inventadas** (7 usadas, 7 no repositório; 6 refs, 6 reused, 0 hallucinated). Dashboard deixa de "gritar lobo". `tsc` 0; resolver.test 9/9. |
 | **EV-009** | **Fixed** | **Infrastructure** | **SAT-005/006** (raws reais Claude) | Três extractores falhavam no formato do Claude (headings/parágrafos): (a) **PR-009 `body`** — `extractSection` parava no 1.º `###` → guardava só o tema 2.1 (2.2–2.5 perdidos); (b) **PR-007 `gaps`=0** — Claude usa subtítulos por lacuna, não listas; `gapSection` truncava no 1.º `**Descrição:**` (SECTION_STOP); (c) **PR-006 conv/div=0** — sub-pontos em `**N.N Título**` + parágrafos. | (a) `extractSectionDeep` + corte antes de Referências/Conclusão; (b) *split* do **response completo** pelos títulos de lacuna — **tolerante a emoji (`### 🔴 LACUNA 1 —`) e numeração decimal (`Lacuna 1.1`)** (o SAT-006 revelou que a versão só-inteiros do SAT-005 falhava em fluxo); (c) `extractRawSection` (ignora SECTION_STOP) + sub-títulos a negrito. Fallbacks **aditivos** (só disparam a 0). | Raws reais: `body` **→5/5 temas**, `gaps` **0→5/6/8** (4 formatos), conv **0→4**, div **0→3**. **SAT-006 em fluxo: `pass`** — gaps=8 e artefacto do PR-007 **volta a persistir** (o `null` era efeito da guarda de artefacto vazio + gaps=0). Fixtures sem regressão; `tsc` 0. |
 
 **Prova de circulação EV-003→resolvida (SAT-002, determinística):** prompt resolvido do PR-005 = 12 005 chars,
@@ -104,8 +105,23 @@ re-corri: **`pass` total** — cards=3, rows=5, conv=4, div=3, **gaps=8 e PR-007
 2662 palavras com **3/3 refs fundamentadas, 0 inventadas**. Evidências: `website/.evidence/SAT-006/`
 (`sat6-driver.mjs`, `sample-pr007.mjs`, `raw-PR-007-s{1,2,3}.txt`, `sat6-log.txt`, `pr009-review.txt`, screenshots).
 
-**Próximo SAT (SAT-007):** re-medir tudo no dashboard `/qualidade` com estes artefactos completos (score/passo,
-circulação, consistência, culpa) e comparar com o baseline. Achado pré-existente a decidir: `extractListItems`
-sobre-conta gaps em fixtures Gemini/GLM (16–34 itens vs. 3–5 esperados). Deferidos: `maxTokens`/fichas-por-artigo
-do PR-005 (EV-006); persistência de artefactos vazios (a guarda que apagava o PR-007 esconde falhas — considerar
-guardar sempre o bruto).
+**SAT-007 (concluído):** re-medição completa no `/qualidade` (`quality/run-pipeline.mjs` + `analyze.mjs`, claude/edu,
+extractores corrigidos). **Ganho medido vs. baseline (2026-07-13):**
+
+| Métrica | Baseline | SAT-007 | Δ |
+|---|---|---|---|
+| Score médio | 81 | **98** | +17 |
+| Passos que passam | 7/10 | **9/10** | +2 |
+| Consistência | 67% | **83%** | +16 |
+| Circulação | 96% | **100%** (27/27) | +4 |
+| Citações | 0 usadas *(não mensurável)* | **7 usadas · 7 no repo · 0 inventadas** | mensurável |
+| Referências | 0 | **6 · 6 reused · 0 hallucinated** | +6 |
+| Culpa extractor / runtime | 2 / 1 | **1 / 0** | −1 / −1 |
+
+Único passo que não passa: **PR-005** (80/100, culpa `extractor=1`) — próximo alvo. A medição expôs **EV-010** (falsos
+positivos da auditoria), corrigido no mesmo SAT. Evidências: `quality/consistency-claude-edu.json`,
+`quality/runs/claude-edu-*.json`, `quality/live-claude-edu-PR-0NN.txt`.
+
+**Próximo SAT (SAT-008):** fechar o PR-005 (fichas de leitura — 80/100, `extractor=1`). Achados pré-existentes: `extractListItems`
+sobre-conta gaps em fixtures Gemini/GLM (16–34 vs. 3–5); a store não persiste artefactos vazios (esconde falhas). Deferidos:
+`maxTokens`/fichas-por-artigo do PR-005 (EV-006).

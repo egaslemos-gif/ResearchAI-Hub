@@ -772,6 +772,19 @@ function surname(authors: string): string {
   const tokens = first.split(/\s+/);
   return (tokens[tokens.length - 1] || "").toLowerCase();
 }
+/** Normalise a name token for matching: strip diacritics, unicode hyphens and
+ * any non a–z char, lowercase. So "Michel‐Villarreal" (U+2010) == "michelvillarreal". */
+function normName(s: string): string {
+  return (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z]/g, "");
+}
+/** All author surnames of an article, normalised — so a citation by a co-author
+ * (not just the first) still traces back to the source. */
+function authorSurnames(authors: string): string[] {
+  return (authors || "")
+    .split(/[,;&]|\be\b/i)
+    .map((a) => { const t = a.trim().split(/\s+/).filter(Boolean); return normName(t[t.length - 1] || ""); })
+    .filter((s) => s.length > 2);
+}
 const STOP = new Set(["the", "and", "for", "with", "from", "generative", "artificial", "intelligence", "study", "análise", "using", "based", "review"]);
 function titleWords(t: string): Set<string> {
   return new Set(
@@ -796,11 +809,12 @@ export function auditReferences(
 ): ReferenceAudit {
   const items = references.map((ref) => {
     const refLower = ref.toLowerCase();
+    const refNorm = normName(ref); // diacritic/hyphen-insensitive surname matching
     let matchedTitle: string | undefined;
     for (const art of articles) {
-      const sn = surname(String(art.authors ?? ""));
+      const surs = authorSurnames(String(art.authors ?? ""));
       const yr = String(art.year ?? "");
-      const bySurnameYear = sn.length > 2 && refLower.includes(sn) && (!yr || refLower.includes(yr));
+      const bySurnameYear = surs.some((sn) => refNorm.includes(sn)) && (!yr || refLower.includes(yr));
       let byTitle = false;
       if (!bySurnameYear && art.title) {
         const tw = titleWords(String(art.title));
@@ -895,24 +909,23 @@ export function auditReviewCitations(
   const re = /([A-ZÀ-Ý][A-Za-zÀ-ÿ'’.-]+(?:\s+(?:et al\.?|e\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’.-]+|&\s+[A-ZÀ-Ý][A-Za-zÀ-ÿ'’.-]+))?)\s*[,(]\s*(\d{4})/g;
   let m: RegExpExecArray | null;
   while ((m = re.exec(reviewRaw)) !== null) {
-    const surname = m[1].split(/\s+/)[0].toLowerCase().replace(/[^a-zà-ÿ]/g, "");
-    if (surname.length > 2) cites.set(`${surname}|${m[2]}`, `${m[1]} (${m[2]})`);
+    const sn = normName(m[1].split(/\s+/)[0]);
+    if (sn.length > 2) cites.set(`${sn}|${m[2]}`, `${m[1]} (${m[2]})`);
   }
   // Reference-list entries also count as "used"
   for (const ref of referenceList) {
     const ym = ref.match(/\b(19|20)\d{2}\b/);
     const sm = ref.match(/[A-ZÀ-Ý][A-Za-zÀ-ÿ'’.-]{2,}/);
-    if (ym && sm) cites.set(`${sm[0].toLowerCase()}|${ym[0]}`, ref.slice(0, 90));
+    if (ym && sm) cites.set(`${normName(sm[0])}|${ym[0]}`, ref.slice(0, 90));
   }
 
   const items = [...cites.entries()].map(([key, display]) => {
     const [sn, yr] = key.split("|");
+    // Traceable if the citation surname matches ANY author of a retrieved article
+    // (co-author citations count) with a matching year.
     const present = articles.some((a) => {
-      const asn = String(a.authors ?? "").split(/[,;]/)[0]?.trim().split(/\s+/).pop()?.toLowerCase() ?? "";
       const ay = String(a.year ?? "");
-      if (asn.length > 2 && asn === sn && (!ay || ay === yr)) return true;
-      // title fallback: surname appears in title words is unreliable; skip
-      return false;
+      return authorSurnames(String(a.authors ?? "")).includes(sn) && (!ay || ay === yr);
     });
     return { citation: display, present };
   });

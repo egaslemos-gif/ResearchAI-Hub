@@ -11,7 +11,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { extractReviewArtifact } from "../lib/artifactExtractor.ts";
-import { auditReferences } from "../lib/scientificCriteria.ts";
+import { auditReferences, auditReviewCitations } from "../lib/scientificCriteria.ts";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const RUNS = path.join(HERE, "runs");
@@ -39,12 +39,17 @@ if (!fs.existsSync(srcPath)) {
 const src = JSON.parse(fs.readFileSync(srcPath, "utf8"));
 const rate = PRICING[engine] ?? 0;
 
-// references audit (uses saved PR-009 raw + retrieved articles from the report)
+// references + in-text citations audit (re-derived from the saved PR-009 raw +
+// retrieved articles, using the CURRENT audit code — no LLM re-call). This keeps
+// the dashboard's hallucination metric in sync with audit fixes.
 let references = { total: 0, reused: 0, hallucinated: 0, items: [] };
+let citations = src.citations ?? { used: 0, inRepository: 0, invented: 0, items: [] };
 const reviewRawPath = path.join(HERE, `live-${engine}-${themeKey}-PR-009.txt`);
 if (fs.existsSync(reviewRawPath)) {
-  const refs = extractReviewArtifact(fs.readFileSync(reviewRawPath, "utf8")).references ?? [];
+  const raw = fs.readFileSync(reviewRawPath, "utf8");
+  const refs = extractReviewArtifact(raw).references ?? [];
   references = auditReferences(refs, src.articles ?? []);
+  citations = auditReviewCitations(raw, refs, src.articles ?? []);
 } else if (Array.isArray(src.reviewReferences)) {
   references = auditReferences(src.reviewReferences, src.articles ?? []);
 }
@@ -92,13 +97,14 @@ const record = {
     totalElapsedMs,
     costUsd: +(totalTokens / 1e6 * rate).toFixed(4),
     costEstimated: rate > 0,
+    citations: { used: citations.used, inRepository: citations.inRepository, invented: citations.invented },
     references: { total: references.total, reused: references.reused, hallucinated: references.hallucinated },
   },
   steps,
   circulationFindings: src.circulationFindings ?? [],
   wiringIssues: src.wiringIssues ?? [],
   blameByCategory: src.blameByCategory ?? { prompt: 0, extractor: 0, runtime: 0, modelo: 0 },
-  citations: src.citations ?? { used: 0, inRepository: 0, invented: 0, items: [] },
+  citations,
   references,
 };
 

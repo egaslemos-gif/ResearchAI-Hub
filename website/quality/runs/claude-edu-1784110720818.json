@@ -1,0 +1,1213 @@
+{
+  "id": "claude-edu-1784110720818",
+  "protocol": "RL-01",
+  "engine": "claude",
+  "model": "claude-sonnet-4-6",
+  "theme": "Uso de IA generativa no ensino superior em Portugal",
+  "themeKey": "edu",
+  "timestamp": "2026-07-15T10:18:40.818Z",
+  "overall": {
+    "stepsEvaluated": 10,
+    "avgScore": 98,
+    "passedSteps": 9,
+    "consistencyScore": 83,
+    "circulationScore": 100,
+    "varsRequired": 27,
+    "varsUnresolved": 0,
+    "citations": {
+      "used": 7,
+      "inRepository": 7,
+      "invented": 0
+    },
+    "blameByCategory": {
+      "prompt": 0,
+      "extractor": 1,
+      "runtime": 0,
+      "modelo": 0
+    },
+    "totalTokens": 62000,
+    "totalElapsedMs": 676295,
+    "costUsd": 0.4092,
+    "costEstimated": true,
+    "references": {
+      "total": 6,
+      "reused": 6,
+      "hallucinated": 0
+    }
+  },
+  "steps": [
+    {
+      "step": 1,
+      "stepName": "PR-001",
+      "artifactType": "tema",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 1330,
+      "elapsedMs": 24141,
+      "costUsd": 0.0088,
+      "requiredVars": [
+        "studyArea",
+        "researchTopic",
+        "academicLevel"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Tema",
+          "type": "TemaArtifact"
+        },
+        "inputs": [
+          {
+            "label": "Área + Tópico",
+            "type": "Workspace",
+            "fromStep": 0,
+            "var": null,
+            "resolved": true,
+            "misWired": false,
+            "value": "—",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "studyArea",
+          "origin": "PR-000",
+          "value": "8 car.",
+          "resolved": true
+        },
+        {
+          "var": "researchTopic",
+          "origin": "PR-000",
+          "value": "51 car.",
+          "resolved": true
+        },
+        {
+          "var": "academicLevel",
+          "origin": "PR-000",
+          "value": "8 car.",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-000",
+          "type": "Workspace",
+          "label": "Área + Tópico"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-001.C1",
+          "label": "O tema está formulado de forma clara e concisa",
+          "dimension": "delimitation",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "tema em ~1 frase(s)"
+        },
+        {
+          "id": "PR-001.C2",
+          "label": "O tema possui delimitação (temporal, geográfica ou temática)",
+          "dimension": "delimitation",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "delimitação detectada no texto"
+        },
+        {
+          "id": "PR-001.C3",
+          "label": "O tema é relevante para a área de estudo",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "área=\"educação\""
+        },
+        {
+          "id": "PR-001.C4",
+          "label": "O tema é exequível para uma revisão da literatura",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "veredicto explícito"
+        },
+        {
+          "id": "PR-001.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 3 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 2,
+      "stepName": "PR-002",
+      "artifactType": "pergunta",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 1403,
+      "elapsedMs": 18771,
+      "costUsd": 0.0093,
+      "requiredVars": [
+        "researchTopic",
+        "studyArea",
+        "academicLevel"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Pergunta + Objectivos + Keywords",
+          "type": "PerguntaArtifact"
+        },
+        "inputs": [
+          {
+            "label": "Tema",
+            "type": "TemaArtifact",
+            "fromStep": 1,
+            "var": "research_topic",
+            "resolved": true,
+            "misWired": false,
+            "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "researchTopic",
+          "origin": "PR-000",
+          "value": "51 car.",
+          "resolved": true
+        },
+        {
+          "var": "studyArea",
+          "origin": "PR-000",
+          "value": "8 car.",
+          "resolved": true
+        },
+        {
+          "var": "academicLevel",
+          "origin": "PR-000",
+          "value": "8 car.",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-001",
+          "type": "TemaArtifact",
+          "label": "Tema"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-002.C1",
+          "label": "A pergunta é específica e não genérica",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "interrogativa=true, 40 palavras"
+        },
+        {
+          "id": "PR-002.C2",
+          "label": "A pergunta é respondível com base na literatura",
+          "dimension": "scientific-rigor",
+          "status": "manual",
+          "blame": "none",
+          "evidence": "requer julgamento (heurística insuficiente)"
+        },
+        {
+          "id": "PR-002.C3",
+          "label": "Os objectivos são mensuráveis e alinhados com a pergunta",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "3 objectivos, 3 começam por verbo de acção"
+        },
+        {
+          "id": "PR-002.C4",
+          "label": "As palavras-chave estão definidas em PT e EN",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "PT=7, EN=8"
+        },
+        {
+          "id": "PR-002.C5",
+          "label": "Existem pelo menos 5 palavras-chave",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "modelo",
+          "evidence": "15 palavras-chave no total"
+        },
+        {
+          "id": "PR-002.X1",
+          "label": "[consistência] A pergunta deriva do tema delimitado (PR-001)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "10 termos partilhados com o tema"
+        },
+        {
+          "id": "PR-002.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 3 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 3,
+      "stepName": "PR-003",
+      "artifactType": "article-list",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 0,
+      "elapsedMs": 2980,
+      "costUsd": 0,
+      "requiredVars": [
+        "research_question_pt",
+        "research_question_en"
+      ],
+      "unresolved": [],
+      "articleCount": 20,
+      "continuity": {
+        "output": {
+          "label": "Lista de artigos",
+          "type": "ArticleRepository"
+        },
+        "inputs": [
+          {
+            "label": "Keywords (EN)",
+            "type": "PerguntaArtifact",
+            "fromStep": 2,
+            "var": "research_question_en",
+            "resolved": true,
+            "misWired": false,
+            "value": "Generative artificial intelligence, Higher education, Teachi",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_question_pt",
+          "origin": "PR-002",
+          "value": "\"**Como percepcionam os docentes do ensino superior público p…\"",
+          "resolved": true
+        },
+        {
+          "var": "research_question_en",
+          "origin": "PR-002",
+          "value": "Generative artificial intelligence, Higher education, Teachi",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-002",
+          "type": "PerguntaArtifact",
+          "label": "Keywords (EN)"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-003.C1",
+          "label": "Foram encontrados pelo menos 10 artigos relevantes",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "20 artigos"
+        },
+        {
+          "id": "PR-003.C2",
+          "label": "Os artigos são de fontes científicas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "20/20 com fonte"
+        },
+        {
+          "id": "PR-003.C3",
+          "label": "Os artigos possuem abstract (analisáveis)",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "20/20 com abstract"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "stepName": "PR-004",
+      "artifactType": "selection",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 8208,
+      "elapsedMs": 68301,
+      "costUsd": 0.0542,
+      "requiredVars": [
+        "research_topic",
+        "research_question",
+        "article_list"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Seleção + Critérios",
+          "type": "SelectionArtifact"
+        },
+        "inputs": [
+          {
+            "label": "Lista de artigos",
+            "type": "ArticleRepository",
+            "fromStep": 3,
+            "var": "article_list",
+            "resolved": true,
+            "misWired": false,
+            "value": "20 artigos",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_topic",
+          "origin": "PR-001",
+          "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+          "resolved": true
+        },
+        {
+          "var": "research_question",
+          "origin": "PR-002",
+          "value": "\"**Como percepcionam os docentes do ensino superior público p…\"",
+          "resolved": true
+        },
+        {
+          "var": "article_list",
+          "origin": "PR-003",
+          "value": "20 artigos",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-003",
+          "type": "ArticleRepository",
+          "label": "Lista de artigos"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-004.C1",
+          "label": "Foram definidos critérios de inclusão e exclusão",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "inclusão=6, exclusão=3"
+        },
+        {
+          "id": "PR-004.C2",
+          "label": "Foram seleccionados entre 5 e 8 artigos",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "modelo",
+          "evidence": "6 seleccionados de 20"
+        },
+        {
+          "id": "PR-004.C3",
+          "label": "Cada selecção possui justificação",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "6/6 com justificação"
+        },
+        {
+          "id": "PR-004.X1",
+          "label": "[consistência] Artigos seleccionados vêm da lista de PR-003",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todos rastreáveis à busca"
+        },
+        {
+          "id": "PR-004.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 3 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "stepName": "PR-005",
+      "artifactType": "reading-cards",
+      "score": 80,
+      "passed": false,
+      "blame": {
+        "prompt": 0,
+        "extractor": 1,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 9491,
+      "elapsedMs": 124681,
+      "costUsd": 0.0626,
+      "requiredVars": [
+        "article_text",
+        "research_question"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Fichas de leitura",
+          "type": "ReadingCards"
+        },
+        "inputs": [
+          {
+            "label": "Artigos seleccionados",
+            "type": "ArticleRepository(selected)",
+            "fromStep": 4,
+            "var": "article_text",
+            "resolved": true,
+            "misWired": false,
+            "value": "texto (10101 car.)",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "article_text",
+          "origin": "PR-004",
+          "value": "texto (10101 car.)",
+          "resolved": true
+        },
+        {
+          "var": "research_question",
+          "origin": "PR-002",
+          "value": "\"**Como percepcionam os docentes do ensino superior público p…\"",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-004",
+          "type": "ArticleRepository(selected)",
+          "label": "Artigos seleccionados"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "extractor",
+      "criteria": [
+        {
+          "id": "PR-005.C1",
+          "label": "Cada artigo possui uma ficha de leitura",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "6 fichas"
+        },
+        {
+          "id": "PR-005.C2",
+          "label": "As fichas contêm objectivo, metodologia, resultados, limitações",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "6/6 fichas completas"
+        },
+        {
+          "id": "PR-005.C3",
+          "label": "Os campos das fichas estão bem segmentados (sem field-bleed)",
+          "dimension": "completeness",
+          "status": "fail",
+          "blame": "extractor",
+          "evidence": "1 fichas com objectivo a absorver outros campos"
+        },
+        {
+          "id": "PR-005.X1",
+          "label": "[consistência] Fichas correspondem aos artigos seleccionados (PR-004)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "6/6 fichas rastreáveis à selecção"
+        },
+        {
+          "id": "PR-005.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 2 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "stepName": "PR-006",
+      "artifactType": "comparison-table",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 9966,
+      "elapsedMs": 79770,
+      "costUsd": 0.0658,
+      "requiredVars": [
+        "research_topic",
+        "reading_cards"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Tabela comparativa",
+          "type": "ComparativeAnalysis"
+        },
+        "inputs": [
+          {
+            "label": "Fichas de leitura",
+            "type": "ReadingCards",
+            "fromStep": 5,
+            "var": "reading_cards",
+            "resolved": true,
+            "misWired": false,
+            "value": "6 fichas",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_topic",
+          "origin": "PR-001",
+          "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+          "resolved": true
+        },
+        {
+          "var": "reading_cards",
+          "origin": "PR-005",
+          "value": "6 fichas",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-005",
+          "type": "ReadingCards",
+          "label": "Fichas de leitura"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-006.C1",
+          "label": "A tabela comparativa inclui os artigos seleccionados",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "5 linhas na tabela"
+        },
+        {
+          "id": "PR-006.C2",
+          "label": "Convergências entre estudos estão identificadas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "4 convergências"
+        },
+        {
+          "id": "PR-006.C3",
+          "label": "Divergências entre estudos estão identificadas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "3 divergências"
+        },
+        {
+          "id": "PR-006.X1",
+          "label": "[consistência] Linhas da tabela cobrem as fichas (PR-005)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "5 linhas para 6 fichas"
+        },
+        {
+          "id": "PR-006.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 2 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "stepName": "PR-007",
+      "artifactType": "gaps",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 5040,
+      "elapsedMs": 57506,
+      "costUsd": 0.0333,
+      "requiredVars": [
+        "research_topic",
+        "research_question",
+        "comparative_analysis"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Lacunas",
+          "type": "Gaps"
+        },
+        "inputs": [
+          {
+            "label": "Análise comparativa",
+            "type": "ComparativeAnalysis",
+            "fromStep": 6,
+            "var": "comparative_analysis",
+            "resolved": true,
+            "misWired": false,
+            "value": "tabela 5 linhas",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_topic",
+          "origin": "PR-001",
+          "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+          "resolved": true
+        },
+        {
+          "var": "research_question",
+          "origin": "PR-002",
+          "value": "\"**Como percepcionam os docentes do ensino superior público p…\"",
+          "resolved": true
+        },
+        {
+          "var": "comparative_analysis",
+          "origin": "PR-006",
+          "value": "tabela 5 linhas",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-006",
+          "type": "ComparativeAnalysis",
+          "label": "Análise comparativa"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-007.C1",
+          "label": "Foram identificadas pelo menos 3 lacunas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "6 lacunas"
+        },
+        {
+          "id": "PR-007.C2",
+          "label": "As lacunas estão descritas/fundamentadas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "modelo",
+          "evidence": "6/6 com descrição"
+        },
+        {
+          "id": "PR-007.C3",
+          "label": "Pelo menos uma lacuna é relevante para a pergunta",
+          "dimension": "consistency",
+          "status": "manual",
+          "blame": "none",
+          "evidence": "requer julgamento"
+        },
+        {
+          "id": "PR-007.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 3 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "stepName": "PR-008",
+      "artifactType": "synthesis",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 7217,
+      "elapsedMs": 101649,
+      "costUsd": 0.0476,
+      "requiredVars": [
+        "research_topic",
+        "all_analysis"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Síntese temática",
+          "type": "Synthesis"
+        },
+        "inputs": [
+          {
+            "label": "Análise comparativa",
+            "type": "ComparativeAnalysis",
+            "fromStep": 6,
+            "var": "all_analysis",
+            "resolved": true,
+            "misWired": false,
+            "value": "5 temas",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_topic",
+          "origin": "PR-001",
+          "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+          "resolved": true
+        },
+        {
+          "var": "all_analysis",
+          "origin": "PR-006",
+          "value": "5 temas",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-006",
+          "type": "ComparativeAnalysis",
+          "label": "Análise comparativa"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-008.C1",
+          "label": "A síntese está organizada por temas (≥2) e não por artigos",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "5 temas"
+        },
+        {
+          "id": "PR-008.C2",
+          "label": "Os principais temas estão claramente identificados",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "5/5 temas com nome próprio"
+        },
+        {
+          "id": "PR-008.C3",
+          "label": "Tendências e padrões estão explicitados",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "1 tendências"
+        },
+        {
+          "id": "PR-008.C4",
+          "label": "Contradições entre estudos estão identificadas",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "1 contradições"
+        },
+        {
+          "id": "PR-008.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 2 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "stepName": "PR-009",
+      "artifactType": "review",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 12595,
+      "elapsedMs": 92565,
+      "costUsd": 0.0831,
+      "requiredVars": [
+        "research_topic",
+        "research_question",
+        "selected_articles",
+        "reading_cards",
+        "thematic_synthesis",
+        "gaps"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Revisão da Literatura",
+          "type": "Review"
+        },
+        "inputs": [
+          {
+            "label": "Síntese",
+            "type": "Synthesis",
+            "fromStep": 8,
+            "var": "thematic_synthesis",
+            "resolved": true,
+            "misWired": false,
+            "value": "5 temas",
+            "break": ""
+          },
+          {
+            "label": "Lacunas",
+            "type": "Gaps",
+            "fromStep": 7,
+            "var": "gaps",
+            "resolved": true,
+            "misWired": false,
+            "value": "6 lacunas",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_topic",
+          "origin": "PR-001",
+          "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+          "resolved": true
+        },
+        {
+          "var": "research_question",
+          "origin": "PR-002",
+          "value": "\"**Como percepcionam os docentes do ensino superior público p…\"",
+          "resolved": true
+        },
+        {
+          "var": "selected_articles",
+          "origin": "PR-004",
+          "value": "6 seleccionados",
+          "resolved": true
+        },
+        {
+          "var": "reading_cards",
+          "origin": "PR-005",
+          "value": "6 fichas",
+          "resolved": true
+        },
+        {
+          "var": "thematic_synthesis",
+          "origin": "PR-008",
+          "value": "5 temas",
+          "resolved": true
+        },
+        {
+          "var": "gaps",
+          "origin": "PR-007",
+          "value": "6 lacunas",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-008",
+          "type": "Synthesis",
+          "label": "Síntese"
+        },
+        {
+          "step": "PR-007",
+          "type": "Gaps",
+          "label": "Lacunas"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-009.C1",
+          "label": "O texto possui introdução, desenvolvimento e conclusão",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "intro=true, corpo=true, conclusão=true"
+        },
+        {
+          "id": "PR-009.C2",
+          "label": "As afirmações são suportadas por referências",
+          "dimension": "scientific-rigor",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "6 referências"
+        },
+        {
+          "id": "PR-009.C3",
+          "label": "Extensão adequada (1500-3000 palavras)",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "modelo",
+          "evidence": "2571 palavras"
+        },
+        {
+          "id": "PR-009.X1",
+          "label": "[consistência] A revisão integra os temas da síntese (PR-008)",
+          "dimension": "consistency",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "5/5 temas referidos"
+        },
+        {
+          "id": "PR-009.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 6 variáveis resolvidas"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "stepName": "PR-010",
+      "artifactType": "export",
+      "score": 100,
+      "passed": true,
+      "blame": {
+        "prompt": 0,
+        "extractor": 0,
+        "runtime": 0,
+        "modelo": 0
+      },
+      "tokens": 6750,
+      "elapsedMs": 105931,
+      "costUsd": 0.0445,
+      "requiredVars": [
+        "research_topic"
+      ],
+      "unresolved": [],
+      "continuity": {
+        "output": {
+          "label": "Checklist / Export",
+          "type": "Export"
+        },
+        "inputs": [
+          {
+            "label": "Revisão",
+            "type": "Review",
+            "fromStep": 9,
+            "var": "literature_review",
+            "resolved": true,
+            "misWired": false,
+            "value": "10259 car.",
+            "break": ""
+          }
+        ],
+        "state": "ok"
+      },
+      "variables": [
+        {
+          "var": "research_topic",
+          "origin": "PR-001",
+          "value": "\"> **\"O impacto da utilização de ferramentas de int…\"",
+          "resolved": true
+        }
+      ],
+      "derivedFrom": [
+        {
+          "step": "PR-009",
+          "type": "Review",
+          "label": "Revisão"
+        }
+      ],
+      "starved": false,
+      "dominantBlame": "none",
+      "criteria": [
+        {
+          "id": "PR-010.C1",
+          "label": "O checklist final foi produzido e avaliado",
+          "dimension": "completeness",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "2710 palavras"
+        },
+        {
+          "id": "PR-010.C2",
+          "label": "Confirmação pessoal de cada item pelo investigador",
+          "dimension": "scientific-rigor",
+          "status": "manual",
+          "blame": "none",
+          "evidence": "acção humana obrigatória"
+        },
+        {
+          "id": "PR-010.R1",
+          "label": "[circulação] O passo recebeu todo o contexto dos passos anteriores",
+          "dimension": "reuse",
+          "status": "pass",
+          "blame": "none",
+          "evidence": "todas as 1 variáveis resolvidas"
+        }
+      ]
+    }
+  ],
+  "circulationFindings": [
+    "PR-003: a query que a APP envia está poluída com markdown/pt (\"**Como percepcionam os docentes do ensin…\"); o runner usou keywords EN limpas."
+  ],
+  "wiringIssues": [],
+  "blameByCategory": {
+    "prompt": 0,
+    "extractor": 1,
+    "runtime": 0,
+    "modelo": 0
+  },
+  "citations": {
+    "used": 7,
+    "inRepository": 7,
+    "invented": 0,
+    "items": [
+      {
+        "citation": "Michel-Villarreal, R., Vilalta-Perdomo, E. L., Salinas-Navarro, D. E., Thierry-Aguilera, R",
+        "present": true
+      },
+      {
+        "citation": "Mesquita & Carnaz (2024)",
+        "present": true
+      },
+      {
+        "citation": "Jin, Y., Yan, L., Echeverría, V., Gašević, D., & Martínez-Maldonado, R. (2024). Generative",
+        "present": true
+      },
+      {
+        "citation": "Perkins, M., Furze, L., Roe, J., & MacVaugh, J. (2024). The Artificial Intelligence Assess",
+        "present": true
+      },
+      {
+        "citation": "Chan, C. K. Y. (2023). A comprehensive AI policy education framework for university teachi",
+        "present": true
+      },
+      {
+        "citation": "Baig, M. I., & Yadegaridehkordi, E. (2025). Factors influencing academic staff satisfactio",
+        "present": true
+      },
+      {
+        "citation": "Batista, J., Mesquita, A., & Carnaz, G. (2024). Generative AI and higher education: Trends",
+        "present": true
+      }
+    ]
+  },
+  "references": {
+    "total": 6,
+    "reused": 6,
+    "hallucinated": 0,
+    "items": [
+      {
+        "reference": "Baig, M. I., & Yadegaridehkordi, E. (2025). Factors influencing academic staff satisfaction and continuous usage of generative artificial intelligence (GenAI) in higher education.",
+        "reused": true,
+        "matchedTitle": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education"
+      },
+      {
+        "reference": "Batista, J., Mesquita, A., & Carnaz, G. (2024). Generative AI and higher education: Trends, challenges, and future directions from a systematic literature review.",
+        "reused": true,
+        "matchedTitle": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education"
+      },
+      {
+        "reference": "Chan, C. K. Y. (2023). A comprehensive AI policy education framework for university teaching and learning.",
+        "reused": true,
+        "matchedTitle": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education"
+      },
+      {
+        "reference": "Jin, Y., Yan, L., Echeverría, V., Gašević, D., & Martínez-Maldonado, R. (2024). Generative AI in higher education: A global perspective of institutional adoption policies and guidelines.",
+        "reused": true,
+        "matchedTitle": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education"
+      },
+      {
+        "reference": "Michel-Villarreal, R., Vilalta-Perdomo, E. L., Salinas-Navarro, D. E., Thierry-Aguilera, R., & Gerardou, F. S. (2023). Challenges and opportunities of generative AI for higher education as explained by ChatGPT.",
+        "reused": true,
+        "matchedTitle": "Students’ voices on generative AI: perceptions, benefits, and challenges in higher education"
+      },
+      {
+        "reference": "Perkins, M., Furze, L., Roe, J., & MacVaugh, J. (2024). The Artificial Intelligence Assessment Scale (AIAS): A framework for ethical integration of generative AI in educational assessment.",
+        "reused": true,
+        "matchedTitle": "The Artificial Intelligence Assessment Scale (AIAS): A Framework for Ethical Integration of Generative AI in Educational Assessment"
+      }
+    ]
+  }
+}
