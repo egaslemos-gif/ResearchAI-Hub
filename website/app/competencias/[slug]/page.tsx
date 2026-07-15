@@ -12,8 +12,6 @@ import { StartProtocolButton } from "@/components/workspace/StartProtocolButton"
 import { ProtocolLayout } from "@/components/layouts/Layouts";
 import styles from "./competency.module.css";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return allCompetencySlugs().map((slug) => ({ slug }));
 }

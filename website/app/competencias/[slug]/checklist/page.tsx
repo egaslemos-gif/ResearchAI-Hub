@@ -7,8 +7,6 @@ import { Icon } from "@/components/ui/Icon";
 import { ChecklistTracker } from "@/components/experience/ChecklistTracker";
 import styles from "./checklist.module.css";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return allCompetencySlugs().map((slug) => ({ slug }));
 }

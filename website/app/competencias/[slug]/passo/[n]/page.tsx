@@ -8,8 +8,6 @@ import { ResearchStepHeader } from "@/components/experience/ResearchStepHeader";
 import { WorkspaceBootstrap } from "@/components/workspace/WorkspaceBootstrap";
 import type { StepData } from "@/components/workspace/StepDataContext";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   const out: { slug: string; n: string }[] = [];
   for (const c of getCompetencies()) {

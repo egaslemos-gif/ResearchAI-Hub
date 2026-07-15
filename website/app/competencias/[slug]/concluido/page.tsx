@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/Button";
 import { ConclusionActions } from "@/components/experience/ConclusionActions";
 import styles from "./done.module.css";
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return allCompetencySlugs().map((slug) => ({ slug }));
 }

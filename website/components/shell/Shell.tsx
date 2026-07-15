@@ -14,7 +14,7 @@ export function Shell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false); // Mobile drawer
   const [collapsed, setCollapsed] = useState(false); // Desktop sidebar
-  const { session, ready } = useWorkspaceStore();
+  const { session, ready, researcherId } = useWorkspaceStore();
 
   // fecha o drawer ao navegar
   useEffect(() => {
@@ -66,6 +66,11 @@ export function Shell({ children }: { children: ReactNode }) {
                 <span className={styles.contextLabel}>Nenhuma investigação</span>
                 <span className={styles.contextArea}>Inicia um protocolo para ver o contexto.</span>
               </div>
+            )}
+            {ready && researcherId && (
+              <span className={styles.contextArea} style={{ fontFamily: "var(--font-mono)", display: "block", marginTop: "1rem", opacity: 0.7 }}>
+                Researcher ID: {researcherId}
+              </span>
             )}
           </div>
         </div>

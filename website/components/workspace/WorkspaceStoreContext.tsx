@@ -178,6 +178,8 @@ export type Artifact =
   | { type: "export"; data: ExportArtifact }
   | { type: "raw"; data: { content: string; originalType: string; createdAt: string } };
 
+export type StoredArtifact = Artifact & { researcher_id?: string; workspace_id?: string; session_id?: string };
+
 // ---- Workspace entity ----
 export interface Workspace {
   id: string;
@@ -193,17 +195,53 @@ export interface Workspace {
   status: WorkspaceStatus;
   createdAt: string;
   updatedAt: string;
-  artifacts: Record<number, Artifact>;
+  artifacts: Record<number, StoredArtifact>;
   progress: Record<number, StepProgress>;
   articleRepository?: Article[];
+  researcher_id?: string;
+  workspace_id?: string;
+  session_id?: string;
 }
 
 // ---- Repository ----
 const STORAGE_KEY = "raihub:v2:workspaces";
 const ACTIVE_KEY = "raihub:v2:active_workspace";
+const RESEARCHER_ID_KEY = "researchai.researcher_id";
+const SESSION_ID_KEY = "researchai.session_id";
+const SESSION_STARTED_AT_KEY = "researchai.session_started_at";
 
 function generateId(): string {
   return `ws-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+}
+
+function genId(prefix: string): string {
+  const hex = typeof crypto !== "undefined" && crypto.randomUUID
+    ? crypto.randomUUID().replace(/-/g, "").substring(0, 8).toUpperCase()
+    : Math.random().toString(16).substring(2, 10).toUpperCase();
+  return `${prefix}-${hex}`;
+}
+
+function getOrCreateResearcherId(): string | null {
+  if (typeof window === "undefined") return null;
+  let rid = localStorage.getItem(RESEARCHER_ID_KEY);
+  if (!rid) {
+    rid = genId("RID");
+    localStorage.setItem(RESEARCHER_ID_KEY, rid);
+  }
+  return rid;
+}
+
+function getOrCreateSession() {
+  if (typeof window === "undefined") return { sessionId: null, sessionStartedAt: null };
+  let sid = sessionStorage.getItem(SESSION_ID_KEY);
+  let startedAt = sessionStorage.getItem(SESSION_STARTED_AT_KEY);
+  if (!sid) {
+    sid = genId("SID");
+    startedAt = new Date().toISOString();
+    sessionStorage.setItem(SESSION_ID_KEY, sid);
+    sessionStorage.setItem(SESSION_STARTED_AT_KEY, startedAt);
+  }
+  return { sessionId: sid, sessionStartedAt: startedAt };
 }
 
 function loadAll(): Workspace[] {
@@ -269,6 +307,7 @@ interface WorkspaceStoreContextType {
   workspaces: Workspace[];
   activeWorkspace: Workspace | null;
   ready: boolean;
+  researcherId: string | null;
 
   // Workspace lifecycle
   createWorkspace: (data: Partial<Pick<Workspace, "title" | "protocolSlug" | "studyArea" | "researchTopic" | "academicLevel" | "language" | "executionProvider">>) => string;
@@ -308,6 +347,9 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
+  const [researcherId, setResearcherId] = useState<string | null>(null);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [sessionStartedAt, setSessionStartedAt] = useState<string | null>(null);
 
   useEffect(() => {
     const all = loadAll();
@@ -323,6 +365,12 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
       }
     }
     setReady(true);
+
+    const rid = getOrCreateResearcherId();
+    const { sessionId: sid, sessionStartedAt: startedAt } = getOrCreateSession();
+    setResearcherId(rid);
+    setSessionId(sid);
+    setSessionStartedAt(startedAt);
   }, []);
 
   // Persist to localStorage whenever workspaces change (after initial load)
@@ -358,6 +406,9 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
       ...entity,
       artifacts: {},
       progress: {},
+      researcher_id: researcherId ?? undefined,
+      workspace_id: genId("WSP"),
+      session_id: sessionId ?? undefined,
     };
 
     // Persist immediately (don't rely on updater side-effects)
@@ -365,7 +416,7 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
     setActiveId(ws.id);
     saveActiveId(ws.id);
     return ws.id;
-  }, []);
+  }, [researcherId, sessionId]);
 
   const setActiveWorkspace = useCallback((id: string) => {
     setActiveId(id);
@@ -408,10 +459,13 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
       updatedAt: now,
       artifacts: { ...ws.artifacts },
       progress: { ...ws.progress },
+      workspace_id: genId("WSP"),
+      researcher_id: researcherId ?? undefined,
+      session_id: sessionId ?? undefined,
     };
     setWorkspaces(prev => [...prev, copy]);
     return copy.id;
-  }, [workspaces]);
+  }, [workspaces, researcherId, sessionId]);
 
   // ---- Session-like interface (operates on active workspace) ----
   const session: Partial<Workspace> = activeWorkspace ?? {};
@@ -453,12 +507,18 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
   const saveArtifact = useCallback((step: number, artifact: Artifact) => {
     if (!activeId) return;
     setWorkspaces(prev =>
-      prev.map(w => w.id === activeId
-        ? { ...w, artifacts: { ...w.artifacts, [step]: artifact }, updatedAt: new Date().toISOString() }
-        : w
-      )
+      prev.map(w => {
+        if (w.id !== activeId) return w;
+        const storedArtifact: StoredArtifact = {
+          ...artifact,
+          researcher_id: researcherId ?? undefined,
+          workspace_id: w.workspace_id ?? activeId,
+          session_id: sessionId ?? undefined,
+        };
+        return { ...w, artifacts: { ...w.artifacts, [step]: storedArtifact }, updatedAt: new Date().toISOString() };
+      })
     );
-  }, [activeId]);
+  }, [activeId, researcherId, sessionId]);
 
   const getArtifact = useCallback((step: number): Artifact | undefined => {
     return activeWorkspace?.artifacts?.[step];
@@ -500,6 +560,7 @@ export function WorkspaceStoreProvider({ children }: { children: ReactNode }) {
         workspaces,
         activeWorkspace,
         ready,
+        researcherId,
         createWorkspace,
         setActiveWorkspace,
         updateWorkspace,
