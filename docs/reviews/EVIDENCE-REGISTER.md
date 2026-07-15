@@ -20,7 +20,7 @@
 |----|------|-----------|--------|-----------|----------|-----------|
 | EV-001 | Fixed | Infrastructure | quality tooling | PR-005 *field-bleed*: o extractor (Gemini) transbordava campos entre secções da ficha. | Lookahead com dois-pontos em `SECTION_STOP`. | Campos deixam de transbordar (fixtures). |
 | EV-002 | Confirmed | Method | quality tooling (live) | O contexto **não circulava** entre os 10 passos (baseline: 54/100, 3/10 passam, circulação 76%). | Causas-raiz em EV-004/EV-005 + resolver. | Diagnóstico tipado por culpa; circulação PR-003→PR-005 agora provada. |
-| EV-003 | Fixed (end-to-end) | Scientific | corrida live (revisão) | **Alucinação**: revisão citou 4 fontes, 0 no repositório (4 inventadas) — `article_text` nunca chegava ao PR-005. | `article_text` ← PR-004 (`variableResolver`, EV-004) **+ referências reais no PR-009 (EV-007)**. | **Resolvida end-to-end** (SAT-003): com o prompt do PR-009 corrigido, a revisão cita os **3/3** artigos reais (Chan & Hu 2023; Baidoo-Anu & Owusu Ansah 2023; Cooper 2023), **0 inventadas**, e lista-os em "Referências". Ver EV-007/EV-008. |
+| EV-003 | Fixed (end-to-end) | Scientific | corrida live (revisão) | **Alucinação**: revisão citou 4 fontes, 0 no repositório (4 inventadas) — `article_text` nunca chegava ao PR-005. | `article_text` ← PR-004 (`variableResolver`, EV-004) **+ referências reais no PR-009 (EV-007)**. | **Resolvida end-to-end** (SAT-003 isolado + **SAT-004 em fluxo real**): revisão cita **3/3** artigos reais (Chan & Hu 2023; Baidoo-Anu & Owusu Ansah 2023; Cooper 2023), **0 inventadas**, listados em "Referências". SAT-004 (browser, PR-003→PR-010, tudo 200): `hallucinationFree: true`, refs **3/3 grounded**. Ver EV-007/EV-008. |
 | **EV-004** | **Fixed** | **Method** | **SAT-001** (browser real) | Pesquisa PR-003 enviava a **pergunta pt-PT (com `?`)** como query OpenAlex → **HTTP 400** → 0 artigos → PR-004 vazio. | **keywords EN** como query + remover wildcards `?`/`*` (`PipelineExecutionEngine.tsx`). | **20 artigos; PR-003 concluído; continuidade PR-003→PR-004 restaurada.** |
 | **EV-005** | **Fixed** | **Infrastructure** | **SAT-002** (browser real) | Extractor de fichas dividia por "Ficha"; Claude titula `## ARTIGO N` → **0 fichas** apesar de conteúdo fundamentado. | Acrescentar `ARTIGO N` como separador (aditivo; "Ficha" preservado). | **0 → 6 fichas** (4 completas); sem regressão Gemini; `tsc` 0. |
 | EV-006 | Deferred | Infrastructure | SAT-002 | PR-005 com 6 fichas numa só chamada **truncou** (~5 artigos) — `maxTokens` do route = **4096** (default). | — (decisão metodológica futura, ver abaixo) | Registado; não bloqueia a formação. |
@@ -82,6 +82,12 @@ citados, **0 inventadas**. Evidências: `website/.evidence/SAT-003/` (`verify-pr
 > fontes); na corrida live original (run1) **inventava** nomes famosos (Hodges, Marinoni). Duas faces do mesmo
 > defeito. O NEW resolve ambas.
 
-**Próximo SAT (SAT-004):** re-correr a cadeia completa PR-003→PR-010 no browser real com o prompt do PR-009
-corrigido (validar em fluxo, não só isolado) e re-medir consistência/circulação no dashboard `/qualidade`.
-Alvos secundários por decidir: `maxTokens`/fichas-por-artigo do PR-005 (EV-006) e extractor inline-bold do Gemini.
+**SAT-004 (concluído):** re-corrida da cadeia completa **PR-003 → PR-010 no browser real** com o PR-009
+corrigido, para validar **em fluxo** (não só isolado). Resultado: todos os passos a **200**; PR-005=3 fichas,
+PR-006=5 linhas, PR-008=5 temas, PR-009=2538 palavras. **Provenance do PR-009: 3/3 referências fundamentadas no
+repositório, 0 inventadas, 3/3 autores citados no corpo → `hallucinationFree: true`.** Evidências:
+`website/.evidence/SAT-004/` (`sat4-driver.mjs`, `sat4-log.txt`, `pr009-review.txt`, screenshots PR-005..PR-010).
+
+**Próximo SAT (SAT-005):** limpar os achados de extractor secundários agora visíveis em fluxo — PR-007 `gaps`=0 e
+PR-006 convergências/divergências=0 (não bloqueiam, mas empobrecem a rastreabilidade). Alvos deferidos:
+`maxTokens`/fichas-por-artigo do PR-005 (EV-006), extractor inline-bold do Gemini, e re-medição no `/qualidade`.
