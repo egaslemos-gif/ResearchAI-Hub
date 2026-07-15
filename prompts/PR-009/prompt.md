@@ -8,6 +8,10 @@ Com base em toda a análise e síntese realizada sobre o tema **{{research_topic
 
 Materiais disponíveis:
 - Pergunta de investigação: {{research_question}}
+- Artigos analisados — usa APENAS estes como referências (Autor, Ano, Título):
+{{selected_articles}}
+- Fichas de leitura dos artigos analisados (evidências por artigo):
+{{reading_cards}}
 - Síntese temática: {{thematic_synthesis}}
 - Lacunas identificadas: {{gaps}}
 
@@ -22,6 +26,7 @@ A revisão deverá ter a seguinte estrutura:
 ## 2. Desenvolvimento Temático (800-1500 palavras)
 - Organizado por temas (NÃO por artigos individuais)
 - Cada tema com evidências de múltiplos estudos
+- Atribui cada evidência/afirmação ao artigo correspondente da lista "Artigos analisados" através de citação (Autor, Ano)
 - Convergências e divergências entre autores
 - Transições claras entre temas
 
@@ -35,8 +40,13 @@ A revisão deverá ter a seguinte estrutura:
 - Relevância para a pergunta de investigação
 - Contribuição para o conhecimento na área
 
+## 5. Referências
+- Lista completa, em formato académico, de TODAS as referências citadas no texto
+- Inclui APENAS artigos presentes na lista "Artigos analisados" acima
+- Não acrescentes nenhuma referência que não conste dessa lista
+
 Regras obrigatórias:
-- Todas as afirmações devem ser suportadas por referências (Autor, Ano)
+- Todas as afirmações devem ser suportadas por referências (Autor, Ano) que constem da lista "Artigos analisados"
 - Linguagem académica clara e objectiva
 - Não utilizar primeira pessoa
 - Cada parágrafo deve contribuir para a argumentação
@@ -44,4 +54,4 @@ Regras obrigatórias:
 
 Responde em português.
 
-⚠️ ATENÇÃO: Utiliza APENAS as referências dos artigos que eu analisei. Não inventes referências.
+⚠️ ATENÇÃO: Utiliza APENAS as referências dos artigos listados em "Artigos analisados". NÃO inventes autores, anos, títulos, revistas ou quaisquer outras fontes. Se a informação disponível não for suficiente para fundamentar uma afirmação, declara-o explicitamente em vez de inventar uma referência.

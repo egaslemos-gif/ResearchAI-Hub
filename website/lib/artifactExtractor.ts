@@ -562,6 +562,33 @@ export function extractSynthesisArtifact(response: string): SynthesisArtifact {
   };
 }
 
+/**
+ * Parse a bibliography/references section. Academic references are typically plain
+ * paragraphs (APA style), not bullet/number lists — so extractListItems misses them.
+ * Split by blank-line paragraphs (falling back to per-line when several refs share a
+ * block), drop separators/headings/italic notes, and keep entries carrying a year.
+ */
+function extractReferenceList(section: string): string[] {
+  if (!section || !section.trim()) return [];
+  const chunks = section.split(/\n\s*\n/).flatMap((p) => {
+    const t = p.trim();
+    // Several single-line refs with no blank line between → split per line
+    return t.includes("\n") && /\((?:19|20)\d{2}\)/.test(t) && !/^[-•*]/.test(t)
+      ? t.split(/\n/)
+      : [t];
+  });
+  const refs: string[] = [];
+  for (const raw of chunks) {
+    const line = raw.replace(/^(?:\d+[.)]|[-•*])\s*/, "").replace(/\*+/g, "").trim();
+    if (line.length < 15) continue;
+    if (/^[-–—_=]{2,}$/.test(line) || line.startsWith("#")) continue; // separators/headings
+    if (/^nota\b/i.test(line)) continue; // methodological notes
+    if (!/\b(?:19|20)\d{2}\b/.test(line)) continue; // a reference carries a year
+    refs.push(line);
+  }
+  return refs;
+}
+
 export function extractReviewArtifact(response: string): ReviewArtifact {
   const introduction =
     extractSection(response, "Introdução") ||
@@ -588,11 +615,15 @@ export function extractReviewArtifact(response: string): ReviewArtifact {
     extractSection(response, "Resumo Geral") ||
     extractSection(response, "Resumo") ||
     extractSection(response, "Avaliação Final") || "";
-  const references = extractListItems(
+  const refsSection =
     extractSection(response, "Referên") ||
     extractSection(response, "References") ||
     extractSection(response, "Bibliografia") ||
-    "", 1);
+    "";
+  // Prefer bullet/numbered lists (some engines); fall back to plain-paragraph
+  // (APA-style) references, which extractListItems cannot see.
+  let references = extractListItems(refsSection, 1);
+  if (references.length === 0) references = extractReferenceList(refsSection);
 
   const wordCount = response.split(/\s+/).length;
 

@@ -20,10 +20,12 @@
 |----|------|-----------|--------|-----------|----------|-----------|
 | EV-001 | Fixed | Infrastructure | quality tooling | PR-005 *field-bleed*: o extractor (Gemini) transbordava campos entre secções da ficha. | Lookahead com dois-pontos em `SECTION_STOP`. | Campos deixam de transbordar (fixtures). |
 | EV-002 | Confirmed | Method | quality tooling (live) | O contexto **não circulava** entre os 10 passos (baseline: 54/100, 3/10 passam, circulação 76%). | Causas-raiz em EV-004/EV-005 + resolver. | Diagnóstico tipado por culpa; circulação PR-003→PR-005 agora provada. |
-| EV-003 | Fixed (raiz) | Scientific | corrida live (revisão) | **Alucinação**: revisão citou 4 fontes, 0 no repositório (4 inventadas) — `article_text` nunca chegava ao PR-005. | `article_text` ← artigos seleccionados no PR-004 (`variableResolver`) + EV-004. | **Raiz resolvida** (SAT-002): PR-005 recebe *abstracts* reais e produz análise fundamentada. **End-to-end no PR-009 por re-medir (SAT-003).** |
+| EV-003 | Fixed (end-to-end) | Scientific | corrida live (revisão) | **Alucinação**: revisão citou 4 fontes, 0 no repositório (4 inventadas) — `article_text` nunca chegava ao PR-005. | `article_text` ← PR-004 (`variableResolver`, EV-004) **+ referências reais no PR-009 (EV-007)**. | **Resolvida end-to-end** (SAT-003): com o prompt do PR-009 corrigido, a revisão cita os **3/3** artigos reais (Chan & Hu 2023; Baidoo-Anu & Owusu Ansah 2023; Cooper 2023), **0 inventadas**, e lista-os em "Referências". Ver EV-007/EV-008. |
 | **EV-004** | **Fixed** | **Method** | **SAT-001** (browser real) | Pesquisa PR-003 enviava a **pergunta pt-PT (com `?`)** como query OpenAlex → **HTTP 400** → 0 artigos → PR-004 vazio. | **keywords EN** como query + remover wildcards `?`/`*` (`PipelineExecutionEngine.tsx`). | **20 artigos; PR-003 concluído; continuidade PR-003→PR-004 restaurada.** |
 | **EV-005** | **Fixed** | **Infrastructure** | **SAT-002** (browser real) | Extractor de fichas dividia por "Ficha"; Claude titula `## ARTIGO N` → **0 fichas** apesar de conteúdo fundamentado. | Acrescentar `ARTIGO N` como separador (aditivo; "Ficha" preservado). | **0 → 6 fichas** (4 completas); sem regressão Gemini; `tsc` 0. |
 | EV-006 | Deferred | Infrastructure | SAT-002 | PR-005 com 6 fichas numa só chamada **truncou** (~5 artigos) — `maxTokens` do route = **4096** (default). | — (decisão metodológica futura, ver abaixo) | Registado; não bloqueia a formação. |
+| **EV-007** | **Fixed (raiz)** | **Scientific** | **SAT-003** (before/after live) | **Causa-raiz da alucinação no PR-009**: o prompt ordena *"usa APENAS as referências dos artigos que analisei; não inventes"* mas o bloco "Materiais disponíveis" só recebia `{{thematic_synthesis}}` (temas de-identificados) + `{{gaps}}` — **nunca as referências reais** (autor/ano vivem em `selected_articles`; achados por artigo em `reading_cards`). Modelo instruído a citar só reais mas sem lista → inventa (Hodges, Marinoni) ou escreve sem citações. | **Prompt-only**: injectar `{{selected_articles}}` + `{{reading_cards}}` no PR-009, exigir secção `## 5. Referências` e reforçar a regra anti-invenção. Resolver já computava ambas as variáveis (0 mudanças no resolver). | **OLD**: 0 citações fundamentadas, 0/3 títulos. **NEW** (mesmo contexto a montante): **3/3** artigos reais citados (20× no total), **0 inventadas**, secção Referências com os 3, + nota que recusa fundamentar sem fonte. `tsc` 0. |
+| **EV-008** | **Fixed** | **Infrastructure** | **SAT-003** | O extractor da revisão (`extractReviewArtifact`) lê referências via `extractListItems` → só apanha listas com marcador (`-`/`1.`); referências académicas (APA) são **parágrafos simples** → `refs=0` mesmo com secção Referências presente. Escondia a alucinação (0 refs = nada para o provenance verificar). | **Aditivo**: `extractReferenceList` (fallback quando list-items=0) divide por parágrafos, exige ano, ignora separadores/notas. | Revisão NEW: **0 → 3** refs. Fixtures: **10/22** passam a extrair refs (antes menos); expõe refs inventadas do GLM → alucinação agora **mensurável**. Sem regressão (fallback só dispara a 0). |
 
 **Prova de circulação EV-003→resolvida (SAT-002, determinística):** prompt resolvido do PR-005 = 12 005 chars,
 `{{article_text}}` resolvido, **6 blocos "Resumo:"**, **6/6** títulos seleccionados presentes. Execução real (Claude,
@@ -70,6 +72,16 @@ Evidências: `website/.evidence/SAT-001/`.
 (6/6) e a análise é fundamentada (Claude, sem alucinação). Novo bloqueio de extractor (EV-005) encontrado e
 corrigido. Relatório: `website/.evidence/SAT-002/SAT-002-report.md`.
 
-**Próximo SAT (SAT-003):** completar a cadeia até **PR-009/PR-010** e **re-medir a alucinação end-to-end** (EV-003)
-na revisão final — verificar que as referências citadas correspondem a artigos reais do repositório. Alvos
-secundários: `maxTokens` do PR-005 (EV-006) e extractor inline-bold do Gemini.
+**SAT-003 (concluído):** foco no PR-009 (revisão final) e na **alucinação end-to-end** (EV-003). Método
+*before/after* determinístico + live, isolando o **prompt do PR-009** como única variável (contexto a montante
+idêntico). Achados: **EV-007** (causa-raiz — o prompt nunca recebia as referências reais) e **EV-008** (extractor
+não lia referências em parágrafo). Ambos corrigidos e verificados: a revisão passa de **0 → 3/3** artigos reais
+citados, **0 inventadas**. Evidências: `website/.evidence/SAT-003/` (`verify-pr009-grounding.mjs`,
+`verify-review-extractor.mjs`, `pr009-old-review.txt` vs `pr009-new-review.txt`).
+> Nota de método: no teste controlado, com síntese de-identificada, o prompt OLD **omite** citações (ensaio sem
+> fontes); na corrida live original (run1) **inventava** nomes famosos (Hodges, Marinoni). Duas faces do mesmo
+> defeito. O NEW resolve ambas.
+
+**Próximo SAT (SAT-004):** re-correr a cadeia completa PR-003→PR-010 no browser real com o prompt do PR-009
+corrigido (validar em fluxo, não só isolado) e re-medir consistência/circulação no dashboard `/qualidade`.
+Alvos secundários por decidir: `maxTokens`/fichas-por-artigo do PR-005 (EV-006) e extractor inline-bold do Gemini.
