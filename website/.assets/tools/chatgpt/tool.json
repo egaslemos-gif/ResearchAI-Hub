@@ -1,0 +1,81 @@
+{
+  "id": "TOL-001",
+  "name": "ChatGPT",
+  "type": "Tool",
+  "version": "1.0.0",
+  "state": "PUBLISHED",
+  "provider": "OpenAI",
+  "category": "production",
+  "toolType": "ai",
+  "url": "https://chat.openai.com",
+  "description": "Assistente de IA conversacional baseado em modelos de linguagem de grande dimensão (LLM). No contexto do ResearchAI Hub, o ChatGPT é utilizado como ferramenta de análise, comparação e produção de texto científico — nunca como fonte de informação.",
+  "capabilities": [
+    "Análise e estruturação de texto",
+    "Comparação entre múltiplos textos",
+    "Geração de sínteses e resumos",
+    "Formatação e organização de informação",
+    "Apoio à redação académica",
+    "Tradução de termos técnicos",
+    "Criação de tabelas comparativas"
+  ],
+  "bestPractices": [
+    "Nunca utilizar o ChatGPT como fonte de informação científica — ele pode inventar referências",
+    "Fornecer sempre o contexto completo antes de pedir uma tarefa",
+    "Especificar o formato de resposta desejado (tabela, lista, texto corrido)",
+    "Indicar o nível académico e a área de estudo no prompt",
+    "Validar pessoalmente toda a informação gerada antes de a utilizar",
+    "Copiar e colar o texto dos artigos reais para que o ChatGPT analise — não pedir que ele 'procure' artigos",
+    "Pedir que o ChatGPT justifique as suas respostas com base no texto fornecido",
+    "Utilizar prompts estruturados com instruções claras e numeradas",
+    "Iterar: se o primeiro resultado não for satisfatório, refinar o prompt e pedir novamente"
+  ],
+  "limitations": [
+    "Pode inventar referências bibliográficas (alucinações) — verificar sempre",
+    "Não tem acesso a bases de dados científicas em tempo real (na versão gratuita)",
+    "Pode reproduzir vieses presentes nos dados de treino",
+    "O conhecimento tem um corte temporal — pode não conhecer artigos muito recentes",
+    "Não substitui a leitura crítica dos artigos pelo investigador",
+    "Textos longos podem perder coerência — dividir tarefas complexas em partes",
+    "A qualidade do output depende directamente da qualidade do prompt"
+  ],
+  "useCases": [
+    {
+      "name": "Formulação do problema de investigação",
+      "description": "Auxiliar na definição e delimitação do tema, formulação da pergunta e identificação de objectivos.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-001, ACT-002"
+    },
+    {
+      "name": "Análise de artigos",
+      "description": "Extrair informação estruturada de artigos científicos (objectivo, metodologia, resultados, limitações).",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-005"
+    },
+    {
+      "name": "Comparação entre estudos",
+      "description": "Gerar tabelas comparativas e identificar convergências e divergências entre artigos.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-006"
+    },
+    {
+      "name": "Identificação de lacunas",
+      "description": "Detectar perguntas não respondidas e áreas sub-exploradas na literatura.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-007"
+    },
+    {
+      "name": "Produção de texto académico",
+      "description": "Auxiliar na redação da revisão da literatura com estrutura e linguagem académica.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-009"
+    }
+  ],
+  "alternatives": ["TOL-002", "TOL-003"],
+  "pricing": {
+    "free": true,
+    "freeLimitations": "Modelo GPT-3.5 na versão gratuita. GPT-4 requer assinatura Plus.",
+    "paidPlans": "ChatGPT Plus (GPT-4, GPT-4o) — acesso a modelos mais avançados"
+  },
+  "byoa": true,
+  "byot": false
+}

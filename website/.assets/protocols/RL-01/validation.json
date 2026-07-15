@@ -1,0 +1,102 @@
+{
+  "id": "PRT-001.VAL-001",
+  "name": "Regras de Validação — Revisão da Literatura",
+  "version": "1.0.0",
+  "globalRules": [
+    {
+      "id": "VAL-G01",
+      "name": "Verificação humana obrigatória",
+      "description": "Todo output gerado por IA deverá ser verificado pessoalmente pelo investigador antes de ser aceite.",
+      "applies": "all",
+      "severity": "critical"
+    },
+    {
+      "id": "VAL-G02",
+      "name": "Fontes primárias obrigatórias",
+      "description": "Apenas artigos de fontes peer-reviewed são aceites como referências. Blogs, wikis e conteúdo não-académico não são válidos.",
+      "applies": "all",
+      "severity": "critical"
+    },
+    {
+      "id": "VAL-G03",
+      "name": "Proibição de alucinações",
+      "description": "Cada referência citada no texto final deverá corresponder a um artigo real e verificável. Referências inventadas pela IA devem ser eliminadas.",
+      "applies": "all",
+      "severity": "critical"
+    }
+  ],
+  "activityRules": [
+    {
+      "activity": "ACT-001",
+      "rules": [
+        { "id": "VAL-A01-01", "text": "O tema possui delimitação", "type": "required" },
+        { "id": "VAL-A01-02", "text": "O tema é exequível para uma revisão da literatura", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-002",
+      "rules": [
+        { "id": "VAL-A02-01", "text": "A pergunta segue estrutura PICo, PICO ou similar", "type": "recommended" },
+        { "id": "VAL-A02-02", "text": "Os objectivos são mensuráveis", "type": "required" },
+        { "id": "VAL-A02-03", "text": "Existem palavras-chave em dois idiomas", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-003",
+      "rules": [
+        { "id": "VAL-A03-01", "text": "Mínimo de 10 artigos candidatos encontrados", "type": "required" },
+        { "id": "VAL-A03-02", "text": "Pesquisa realizada em inglês para máxima abrangência", "type": "recommended" }
+      ]
+    },
+    {
+      "activity": "ACT-004",
+      "rules": [
+        { "id": "VAL-A04-01", "text": "Critérios de inclusão e exclusão documentados", "type": "required" },
+        { "id": "VAL-A04-02", "text": "Entre 5 e 8 artigos seleccionados", "type": "required" },
+        { "id": "VAL-A04-03", "text": "Cada exclusão tem justificação", "type": "recommended" }
+      ]
+    },
+    {
+      "activity": "ACT-005",
+      "rules": [
+        { "id": "VAL-A05-01", "text": "Uma ficha de leitura por artigo", "type": "required" },
+        { "id": "VAL-A05-02", "text": "Ficha contém objectivo, metodologia, resultados e limitações", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-006",
+      "rules": [
+        { "id": "VAL-A06-01", "text": "Tabela comparativa inclui todos os artigos seleccionados", "type": "required" },
+        { "id": "VAL-A06-02", "text": "Dimensões de comparação são consistentes", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-007",
+      "rules": [
+        { "id": "VAL-A07-01", "text": "Mínimo de 3 lacunas identificadas", "type": "required" },
+        { "id": "VAL-A07-02", "text": "Lacunas fundamentadas nos artigos analisados", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-008",
+      "rules": [
+        { "id": "VAL-A08-01", "text": "Síntese organizada por temas, não por artigo", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-009",
+      "rules": [
+        { "id": "VAL-A09-01", "text": "Texto entre 1500 e 3000 palavras", "type": "recommended" },
+        { "id": "VAL-A09-02", "text": "Todas as citações verificadas pelo investigador", "type": "critical" },
+        { "id": "VAL-A09-03", "text": "Nenhuma passagem sem suporte bibliográfico", "type": "required" }
+      ]
+    },
+    {
+      "activity": "ACT-010",
+      "rules": [
+        { "id": "VAL-A10-01", "text": "Checklist avaliado a 100%", "type": "required" },
+        { "id": "VAL-A10-02", "text": "Mínimo de 90% dos itens cumpridos", "type": "required" }
+      ]
+    }
+  ]
+}

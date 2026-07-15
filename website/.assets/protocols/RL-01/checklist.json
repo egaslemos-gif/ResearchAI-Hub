@@ -1,0 +1,56 @@
+{
+  "id": "PRT-001.CKL-001",
+  "name": "Checklist de Qualidade — Revisão da Literatura",
+  "version": "1.0.0",
+  "description": "Lista de verificação para confirmar a qualidade e completude da revisão da literatura produzida.",
+  "passingThreshold": 0.9,
+  "sections": [
+    {
+      "name": "Definição do Problema",
+      "items": [
+        { "id": "CKL-001", "text": "O tema de investigação está claramente definido e delimitado", "activity": "ACT-001" },
+        { "id": "CKL-002", "text": "A pergunta de investigação é específica, clara e respondível", "activity": "ACT-002" },
+        { "id": "CKL-003", "text": "Os objectivos específicos são mensuráveis e coerentes com a pergunta", "activity": "ACT-002" },
+        { "id": "CKL-004", "text": "As palavras-chave estão definidas em português e inglês", "activity": "ACT-002" }
+      ]
+    },
+    {
+      "name": "Pesquisa da Literatura",
+      "items": [
+        { "id": "CKL-005", "text": "Foi utilizada pelo menos uma ferramenta de descoberta científica", "activity": "ACT-003" },
+        { "id": "CKL-006", "text": "Foram testadas múltiplas formulações de pesquisa", "activity": "ACT-003" },
+        { "id": "CKL-007", "text": "Os artigos encontrados são de fontes peer-reviewed", "activity": "ACT-003" },
+        { "id": "CKL-008", "text": "Foram definidos critérios de inclusão e exclusão", "activity": "ACT-004" },
+        { "id": "CKL-009", "text": "Foram seleccionados entre 5 e 8 artigos relevantes", "activity": "ACT-004" }
+      ]
+    },
+    {
+      "name": "Análise e Comparação",
+      "items": [
+        { "id": "CKL-010", "text": "Cada artigo possui uma ficha de leitura estruturada", "activity": "ACT-005" },
+        { "id": "CKL-011", "text": "As fichas contêm objectivo, metodologia, resultados e limitações", "activity": "ACT-005" },
+        { "id": "CKL-012", "text": "Foi produzida uma tabela comparativa entre os estudos", "activity": "ACT-006" },
+        { "id": "CKL-013", "text": "Convergências e divergências entre estudos estão identificadas", "activity": "ACT-006" }
+      ]
+    },
+    {
+      "name": "Síntese e Produção",
+      "items": [
+        { "id": "CKL-014", "text": "Foram identificadas pelo menos 3 lacunas na literatura", "activity": "ACT-007" },
+        { "id": "CKL-015", "text": "A síntese está organizada por temas e não por artigos individuais", "activity": "ACT-008" },
+        { "id": "CKL-016", "text": "A revisão possui introdução, desenvolvimento e conclusão", "activity": "ACT-009" },
+        { "id": "CKL-017", "text": "Todas as afirmações são suportadas por referências bibliográficas", "activity": "ACT-009" },
+        { "id": "CKL-018", "text": "O texto está redigido em linguagem académica clara e coerente", "activity": "ACT-009" }
+      ]
+    },
+    {
+      "name": "Rigor e Ética",
+      "items": [
+        { "id": "CKL-019", "text": "O investigador verificou pessoalmente todas as citações geradas pela IA", "activity": "ACT-009" },
+        { "id": "CKL-020", "text": "Não existem passagens copiadas literalmente sem citação adequada", "activity": "ACT-009" },
+        { "id": "CKL-021", "text": "O texto final reflecte a análise do investigador e não apenas output da IA", "activity": "ACT-009" },
+        { "id": "CKL-022", "text": "O investigador é capaz de explicar e defender cada afirmação do texto", "activity": "ACT-009" }
+      ]
+    }
+  ]
+}

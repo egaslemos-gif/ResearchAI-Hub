@@ -4,6 +4,7 @@
   "private": true,
   "description": "Frontend MVP do ResearchAI Hub — consome exclusivamente os activos Content-First. Sem conteúdo hardcoded.",
   "scripts": {
+    "prebuild": "node scripts/copy-assets.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"

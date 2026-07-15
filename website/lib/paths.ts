@@ -10,7 +10,15 @@ import path from "node:path";
 export function repoRoot(): string {
   const cwd = process.cwd();
   
-  // 1. Try parent of cwd (Standard Next.js execution where cwd is 'website/')
+  // 1. Check local .assets (used in Vercel build)
+  if (
+    fs.existsSync(path.join(cwd, ".assets", "protocols")) &&
+    fs.existsSync(path.join(cwd, ".assets", "tools"))
+  ) {
+    return path.join(cwd, ".assets");
+  }
+
+  // 2. Try parent of cwd (Standard Next.js execution where cwd is 'website/')
   const parentOfCwd = path.join(cwd, "..");
   if (
     fs.existsSync(path.join(parentOfCwd, "protocols")) &&
@@ -19,7 +27,7 @@ export function repoRoot(): string {
     return parentOfCwd;
   }
 
-  // 2. Try cwd itself (If execution is happening from the monorepo root)
+  // 3. Try cwd itself (If execution is happening from the monorepo root)
   if (
     fs.existsSync(path.join(cwd, "protocols")) &&
     fs.existsSync(path.join(cwd, "tools"))
@@ -27,7 +35,7 @@ export function repoRoot(): string {
     return cwd;
   }
 
-  // 3. Fallback to searching upwards up to 8 levels (deeply nested scripts)
+  // 4. Fallback to searching upwards up to 8 levels (deeply nested scripts)
   let dir = cwd;
   for (let i = 0; i < 8; i++) {
     if (

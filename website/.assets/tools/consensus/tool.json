@@ -1,0 +1,64 @@
+{
+  "id": "TOL-004",
+  "name": "Consensus",
+  "type": "Tool",
+  "version": "1.0.0",
+  "state": "PUBLISHED",
+  "provider": "Consensus NLP, Inc.",
+  "category": "discovery",
+  "toolType": "ai",
+  "url": "https://consensus.app",
+  "description": "Motor de pesquisa científica que utiliza IA para encontrar e sintetizar evidências directamente a partir de artigos peer-reviewed. Ao contrário do Google Scholar, o Consensus lê os artigos e apresenta respostas baseadas em evidências com indicação de consenso científico.",
+  "capabilities": [
+    "Pesquisa semântica de artigos científicos",
+    "Síntese automática de evidências",
+    "Indicador de consenso entre estudos",
+    "Acesso directo a artigos peer-reviewed",
+    "Pesquisa por pergunta em linguagem natural"
+  ],
+  "bestPractices": [
+    "Formular a pesquisa como uma pergunta em inglês para melhores resultados",
+    "Testar diferentes formulações da mesma pergunta para encontrar mais artigos",
+    "Utilizar termos específicos e técnicos da área de estudo",
+    "Verificar o indicador de consenso: YES, POSSIBLY, NO, MIXED",
+    "Copiar as referências dos artigos relevantes para o gestor bibliográfico",
+    "Utilizar os filtros de data para limitar a pesquisa aos últimos 5-10 anos",
+    "Ler os abstracts completos antes de aceitar a síntese do Consensus"
+  ],
+  "limitations": [
+    "Disponível apenas em inglês",
+    "Base de dados mais limitada que Scopus ou Web of Science",
+    "A versão gratuita possui limite de pesquisas diárias",
+    "Não substitui uma pesquisa bibliográfica completa em bases de dados especializadas",
+    "O indicador de consenso é algorítmico — deve ser validado pelo investigador",
+    "Não indexa todos os journals — podem existir artigos relevantes não cobertos"
+  ],
+  "useCases": [
+    {
+      "name": "Exploração inicial de um tema",
+      "description": "Antes de ir para bases de dados especializadas, usar o Consensus para ter uma visão geral rápida sobre o que a ciência diz sobre um tópico.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-003"
+    },
+    {
+      "name": "Verificação de consenso científico",
+      "description": "Quando precisa saber se a comunidade científica concorda ou discorda sobre uma afirmação específica.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-003"
+    },
+    {
+      "name": "Encontrar artigos recentes",
+      "description": "Pesquisar rapidamente os artigos mais recentes sobre um sub-tema específico.",
+      "protocol": "LIT-RL-01",
+      "activity": "ACT-003"
+    }
+  ],
+  "alternatives": ["TOL-005"],
+  "pricing": {
+    "free": true,
+    "freeLimitations": "Número limitado de pesquisas por dia",
+    "paidPlans": "Consensus Premium com pesquisas ilimitadas"
+  },
+  "byoa": false,
+  "byot": true
+}
