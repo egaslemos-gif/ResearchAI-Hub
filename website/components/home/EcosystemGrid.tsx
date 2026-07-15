@@ -20,17 +20,33 @@ export function EcosystemGrid() {
             
             <div className={styles.cardFooter}>
               <div className={styles.cardMeta}>
-                <span className={styles.metaBadge}>4 competências</span>
-                <span className={styles.metaBadge}>~12 horas</span>
+                <span className={styles.metaBadge}>DISPONÍVEL</span>
               </div>
               <span className={styles.cardAction}>
-                Abrir protocolo <Icon name="arrow-right" size={15} />
+                Iniciar <Icon name="arrow-right" size={15} />
               </span>
             </div>
           </Link>
         ))}
       </div>
 
+      <div className={styles.upcomingGrid}>
+        {upcoming.map((need) => (
+          <div key={need.id} className={styles.upcomingCard}>
+            <div className={styles.cardHeader}>
+              <Icon name={need.iconName as any} size={20} className={styles.cardIconMuted} />
+              <h3 className={styles.cardTitle}>{need.title}</h3>
+            </div>
+            <p className={styles.cardDescriptionMuted}>{need.description}</p>
+            
+            <div className={styles.cardFooter}>
+              <div className={styles.cardMeta}>
+                <span className={styles.metaBadgePlanned}>PLANEADO</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,0 +1,103 @@
+.pageContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-xl);
+}
+
+/* ---- Secções ---- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.sectionHead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  line-height: 1.875rem;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+  margin-top: var(--space-1);
+}
+.sectionSub {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.viewAll:hover {
+  color: var(--color-brand);
+  text-decoration: none;
+}
+
+/* ---- Grelhas ---- */
+.resourcesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-block);
+  margin-top: var(--gap-component);
+}
+
+@media (min-width: 1024px) {
+  .resourcesGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.resourceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background: var(--color-surface-sunken);
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.resourceBlockHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.resourceBlockTitle {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.resourceList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (max-width: 1023px) {
+  .grid3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pageContent {
+    gap: var(--space-stack-lg);
+  }
+}
+@media (max-width: 639px) {
+  .grid3 {
+    grid-template-columns: 1fr;
+  }
+}

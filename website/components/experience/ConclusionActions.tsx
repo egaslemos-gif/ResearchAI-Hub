@@ -18,7 +18,7 @@ export function ConclusionActions() {
 
   return (
     <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", justifyContent: "center", marginTop: "24px" }}>
-      <Button href="/" size="lg">
+      <Button href="/dashboard" size="lg">
         {ui.actions.backHome}
       </Button>
       {hasContext ? (

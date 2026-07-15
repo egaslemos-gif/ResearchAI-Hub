@@ -92,51 +92,46 @@
   transform: translateX(0);
 }
 
-.roadmapSection {
-  margin-top: var(--space-4);
+.upcomingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-8);
 }
 
-.roadmapTitle {
-  font-family: var(--font-sans);
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-subtle);
-  margin-bottom: var(--space-4);
-  border-bottom: 1px solid var(--color-border-subtle);
-  padding-bottom: var(--space-2);
-  cursor: pointer;
-}
-.roadmapTitle:hover {
-  color: var(--color-text-muted);
-}
-
-.roadmapList {
+.upcomingCard {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  list-style: none;
-  padding: 0;
+  padding: var(--space-5);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--color-border);
+  background: var(--color-surface-sunken);
+  opacity: 0.8;
+  transition: all 0.2s ease;
 }
 
-.roadmapList li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--space-3) 0;
-  border-bottom: 1px dashed var(--color-border-subtle);
+.upcomingCard:hover {
+  opacity: 1;
 }
 
-.roadmapName {
+.cardIconMuted {
+  color: var(--color-text-subtle);
+}
+
+.cardDescriptionMuted {
   font-size: 0.9375rem;
   color: var(--color-text-muted);
-  font-weight: 500;
+  line-height: 1.5;
 }
 
-.roadmapStatus {
+.metaBadgePlanned {
   font-size: 0.75rem;
-  color: var(--color-text-subtle);
-  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px dashed var(--color-border-subtle);
+  font-weight: 600;
   letter-spacing: 0.05em;
 }

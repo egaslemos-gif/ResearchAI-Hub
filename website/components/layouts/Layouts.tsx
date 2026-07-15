@@ -21,6 +21,10 @@ export function WideLayout({ children }: { children: ReactNode }) {
   return <div className={styles.wide}>{children}</div>;
 }
 
+export function PublicLayout({ children }: { children: ReactNode }) {
+  return <div className={styles.public}>{children}</div>;
+}
+
 // ---------------------------------------------------------
 // Execution Layout & Regions
 // ---------------------------------------------------------

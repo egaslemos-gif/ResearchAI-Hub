@@ -24,6 +24,10 @@ export function Shell({ children }: { children: ReactNode }) {
   const isActive = (href: string, exact?: boolean) =>
     exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
 
+  if (pathname === "/") {
+    return <>{children}</>;
+  }
+
   return (
     <div className={`${styles.shell} ${collapsed ? styles.shellCollapsed : ""}`}>
       <header className={styles.topbar}>
@@ -37,7 +41,7 @@ export function Shell({ children }: { children: ReactNode }) {
           {open ? <X size={20} /> : <Menu size={20} />}
         </button>
 
-        <Link href="/" className={styles.brand}>
+        <Link href="/dashboard" className={styles.brand}>
           <Logo className={styles.brandMark} />
           <span className={styles.brandName}>{ui.product.name}</span>
         </Link>
@@ -80,7 +84,7 @@ export function Shell({ children }: { children: ReactNode }) {
           <div className={styles.navGroupContent}>
             <ul className={styles.navList}>
               <li>
-                <Link href="/" aria-current={isActive("/", true) ? "page" : undefined} className={`${styles.navItem} ${isActive("/", true) ? styles.navItemActive : ""}`}>
+                <Link href="/dashboard" aria-current={isActive("/dashboard", true) ? "page" : undefined} className={`${styles.navItem} ${isActive("/dashboard", true) ? styles.navItemActive : ""}`}>
                   <Home size={18} />
                   <span className={styles.navLabel}>Início</span>
                 </Link>

@@ -19,6 +19,17 @@
   padding: 0 var(--space-stack-lg);
 }
 
+.wide {
+  width: 100%;
+  padding: 2rem;
+}
+
+.public {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .execution {
   max-width: 1400px;
   margin: 0 auto;
