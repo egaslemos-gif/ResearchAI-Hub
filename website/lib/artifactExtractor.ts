@@ -515,11 +515,14 @@ export function extractGapsArtifact(response: string): GapsArtifact {
     ? extractListItems(gapSection, 1)
     : extractListItems(response, 3); // fallback: need at least 3 items from full response
 
-  // Some engines (Claude) render each gap as a subheading ("### Lacuna N — título")
-  // instead of a list item. gapSection gets truncated by SECTION_STOP at the first
-  // "**Descrição:**" bold line, so split the FULL response by the gap headings.
+  // Some engines (Claude) render each gap as a subheading instead of a list item, in
+  // varied forms: "### Lacuna N — título", "### 🔴 LACUNA 1 — …" (emoji prefix),
+  // "### Lacuna 1.1 — …" (decimal numbering). gapSection also gets truncated by
+  // SECTION_STOP at the first "**Descrição:**", so split the FULL response by the
+  // gap headings (emoji-tolerant, integer or decimal index).
   if (items.length === 0) {
-    const blocks = response.split(/\n#{1,4}\s*\*{0,2}\s*(?:Lacuna|Gap)\s*\d*\s*[—:–\-]\s*/i);
+    const gapHead = /\n#{1,4}\s*(?:[\u{1F000}-\u{1FFFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]\s*)?\*{0,2}\s*(?:Lacuna|Gap)\s*[\d.]*\s*[—:–\-]\s*/iu;
+    const blocks = response.split(gapHead);
     for (let k = 1; k < blocks.length; k++) {
       const title = (blocks[k].match(/^([^\n*]+)/)?.[1] || "").replace(/\*+/g, "").trim();
       if (title.length > 5) items.push(title);
