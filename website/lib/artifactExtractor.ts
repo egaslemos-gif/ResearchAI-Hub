@@ -402,17 +402,48 @@ export function extractReadingCardsArtifact(response: string, articles: Article[
   };
 }
 
+/**
+ * Capture a section body until the next markdown heading, WITHOUT the bold-line
+ * SECTION_STOP boundary — so "**N.N Título**" sub-labels are kept as content
+ * (extractSection would truncate at the first one).
+ */
+function extractRawSection(text: string, heading: string): string {
+  const h = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(`#{1,4}\\s*(?:[^\\n#]*?\\s)?${h}[^\\n]*\\n([\\s\\S]*?)(?=\\n#{1,4}\\s|$)`, "i");
+  return text.match(re)?.[1]?.trim() ?? "";
+}
+
+/**
+ * Pull sub-points from a convergences/divergences block: line-start bold
+ * sub-headings ("**1.1 Título**") > list items > paragraphs.
+ */
+function extractComparisonPoints(response: string, headings: string[]): string[] {
+  let block = "";
+  for (const h of headings) { block = extractRawSection(response, h); if (block) break; }
+  if (!block) return [];
+  const bold = [...block.matchAll(/^\s*\*\*\s*([^\n*]{6,})\*\*\s*$/gm)].map((m) => m[1].replace(/[:：]\s*$/, "").trim());
+  if (bold.length > 0) return bold;
+  const items = extractListItems(block, 1);
+  if (items.length > 0) return items;
+  return extractParagraphs(block);
+}
+
 export function extractComparisonTableArtifact(response: string): ComparisonTableArtifact {
-  const convergences = extractListItems(
+  // Primary: numbered/bulleted list under the heading (SECTION_STOP-bounded).
+  // Fallback: Claude writes "### N. Convergências" with "**N.N Título**" sub-headings
+  // and narrative paragraphs, which the primary path can't see — recover via raw block.
+  const convSection =
     extractSection(response, "Convergências") ||
     extractSection(response, "Converg") ||
-    extractSection(response, "Concord") ||
-    "", 1);
-  const divergences = extractListItems(
+    extractSection(response, "Concord") || "";
+  let convergences = extractListItems(convSection, 1);
+  if (convergences.length === 0) convergences = extractComparisonPoints(response, ["Convergências", "Converg", "Concord"]);
+  const divSection =
     extractSection(response, "Divergências") ||
     extractSection(response, "Diverg") ||
-    extractSection(response, "Discord") ||
-    "", 1);
+    extractSection(response, "Discord") || "";
+  let divergences = extractListItems(divSection, 1);
+  if (divergences.length === 0) divergences = extractComparisonPoints(response, ["Divergências", "Diverg", "Discord"]);
 
   const rows: ComparisonRow[] = [];
   // Match all markdown tables in the response
@@ -480,9 +511,20 @@ export function extractGapsArtifact(response: string): GapsArtifact {
 
   // If we found a gaps section, extract list items from it
   // Otherwise, scan the full response for numbered lists after any gap-related heading
-  const items = gapSection
+  let items = gapSection
     ? extractListItems(gapSection, 1)
     : extractListItems(response, 3); // fallback: need at least 3 items from full response
+
+  // Some engines (Claude) render each gap as a subheading ("### Lacuna N — título")
+  // instead of a list item. gapSection gets truncated by SECTION_STOP at the first
+  // "**Descrição:**" bold line, so split the FULL response by the gap headings.
+  if (items.length === 0) {
+    const blocks = response.split(/\n#{1,4}\s*\*{0,2}\s*(?:Lacuna|Gap)\s*\d*\s*[—:–\-]\s*/i);
+    for (let k = 1; k < blocks.length; k++) {
+      const title = (blocks[k].match(/^([^\n*]+)/)?.[1] || "").replace(/\*+/g, "").trim();
+      if (title.length > 5) items.push(title);
+    }
+  }
 
   for (let i = 0; i < items.length; i++) {
     gaps.push({
@@ -596,8 +638,10 @@ export function extractReviewArtifact(response: string): ReviewArtifact {
     extractSection(response, "1\\.") ||
     extractSection(response, "Definição do Problema") ||
     extractSection(response, "Defini") || "";
-  const body =
-    extractSection(response, "Desenvolvimento") ||
+  const bodyRaw =
+    // Deep: the thematic development has ### 2.1..2.5 subheadings; a shallow
+    // extractSection would stop at the first ### and drop themes 2.2..2.5.
+    extractSectionDeep(response, "Desenvolvimento") ||
     extractSection(response, "Corpo") ||
     extractSection(response, "Análise") ||
     extractSection(response, "2\\.") ||
@@ -606,6 +650,10 @@ export function extractReviewArtifact(response: string): ReviewArtifact {
     extractSection(response, "Síntese") ||
     extractSection(response, "Checklist") ||
     extractSection(response, "Avaliação") || "";
+  // Safety net: when the conclusion/references aren't separated from the development
+  // by a ## heading, the deep capture can swallow them. Cut at that boundary heading.
+  const bodyCut = bodyRaw.search(/\n#{1,4}\s*(?:\d+[.)]\s*)?\*{0,2}\s*(?:Refer[êe]ncias|Bibliografia|Considera[çc][õo]es|Conclus)/i);
+  const body = bodyCut > 0 ? bodyRaw.slice(0, bodyCut).trim() : bodyRaw;
   const conclusion =
     extractSection(response, "Considera") ||
     extractSection(response, "Conclus") ||

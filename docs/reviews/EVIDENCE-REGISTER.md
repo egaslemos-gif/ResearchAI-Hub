@@ -26,6 +26,7 @@
 | EV-006 | Deferred | Infrastructure | SAT-002 | PR-005 com 6 fichas numa só chamada **truncou** (~5 artigos) — `maxTokens` do route = **4096** (default). | — (decisão metodológica futura, ver abaixo) | Registado; não bloqueia a formação. |
 | **EV-007** | **Fixed (raiz)** | **Scientific** | **SAT-003** (before/after live) | **Causa-raiz da alucinação no PR-009**: o prompt ordena *"usa APENAS as referências dos artigos que analisei; não inventes"* mas o bloco "Materiais disponíveis" só recebia `{{thematic_synthesis}}` (temas de-identificados) + `{{gaps}}` — **nunca as referências reais** (autor/ano vivem em `selected_articles`; achados por artigo em `reading_cards`). Modelo instruído a citar só reais mas sem lista → inventa (Hodges, Marinoni) ou escreve sem citações. | **Prompt-only**: injectar `{{selected_articles}}` + `{{reading_cards}}` no PR-009, exigir secção `## 5. Referências` e reforçar a regra anti-invenção. Resolver já computava ambas as variáveis (0 mudanças no resolver). | **OLD**: 0 citações fundamentadas, 0/3 títulos. **NEW** (mesmo contexto a montante): **3/3** artigos reais citados (20× no total), **0 inventadas**, secção Referências com os 3, + nota que recusa fundamentar sem fonte. `tsc` 0. |
 | **EV-008** | **Fixed** | **Infrastructure** | **SAT-003** | O extractor da revisão (`extractReviewArtifact`) lê referências via `extractListItems` → só apanha listas com marcador (`-`/`1.`); referências académicas (APA) são **parágrafos simples** → `refs=0` mesmo com secção Referências presente. Escondia a alucinação (0 refs = nada para o provenance verificar). | **Aditivo**: `extractReferenceList` (fallback quando list-items=0) divide por parágrafos, exige ano, ignora separadores/notas. | Revisão NEW: **0 → 3** refs. Fixtures: **10/22** passam a extrair refs (antes menos); expõe refs inventadas do GLM → alucinação agora **mensurável**. Sem regressão (fallback só dispara a 0). |
+| **EV-009** | **Fixed** | **Infrastructure** | **SAT-005** (raws reais Claude) | Três extractores falhavam no formato do Claude (headings/parágrafos): (a) **PR-009 `body`** — `extractSection` parava no 1.º `###` → guardava só o tema 2.1 (2.2–2.5 perdidos); (b) **PR-007 `gaps`=0** — Claude usa `### Lacuna N — título`, não listas; `gapSection` truncava no 1.º `**Descrição:**` (SECTION_STOP); (c) **PR-006 conv/div=0** — sub-pontos em `**N.N Título**` + parágrafos, não listas. | (a) `extractSectionDeep` + corte antes de Referências/Conclusão; (b) *split* do **response completo** por `### Lacuna N`; (c) `extractRawSection` (ignora SECTION_STOP) + sub-títulos a negrito. Fallbacks **aditivos** (só disparam a 0). | Sobre os raws reais do SAT-004: `body` **2.1→2.1–2.5** (5/5 temas, 9851 chars), `gaps` **0→5**, conv **0→4**, div **0→3**. Fixtures sem regressão (2 "avisos" = falsos positivos: "p*referências*"). `tsc` 0. |
 
 **Prova de circulação EV-003→resolvida (SAT-002, determinística):** prompt resolvido do PR-005 = 12 005 chars,
 `{{article_text}}` resolvido, **6 blocos "Resumo:"**, **6/6** títulos seleccionados presentes. Execução real (Claude,
@@ -88,6 +89,15 @@ PR-006=5 linhas, PR-008=5 temas, PR-009=2538 palavras. **Provenance do PR-009: 3
 repositório, 0 inventadas, 3/3 autores citados no corpo → `hallucinationFree: true`.** Evidências:
 `website/.evidence/SAT-004/` (`sat4-driver.mjs`, `sat4-log.txt`, `pr009-review.txt`, screenshots PR-005..PR-010).
 
-**Próximo SAT (SAT-005):** limpar os achados de extractor secundários agora visíveis em fluxo — PR-007 `gaps`=0 e
-PR-006 convergências/divergências=0 (não bloqueiam, mas empobrecem a rastreabilidade). Alvos deferidos:
-`maxTokens`/fichas-por-artigo do PR-005 (EV-006), extractor inline-bold do Gemini, e re-medição no `/qualidade`.
+**SAT-005 (concluído):** limpeza dos três achados de extractor visíveis no SAT-004 — `body` do PR-009 truncado,
+`gaps`=0 e conv/div=0 (**EV-009**). Método: diagnosticar e corrigir contra os **outputs brutos reais** do SAT-004
+(PR-006/PR-009 do `content` guardado; PR-007 recapturado por API), fallbacks aditivos, regressão sobre 22 fixtures
+por passo. Resultado: `body` 5/5 temas, `gaps` 0→5, conv 0→4, div 0→3; sem regressão; `tsc` 0. Evidências:
+`website/.evidence/SAT-005/` (`capture-pr007.mjs`, `verify-fixes.mjs`, `regress-all.mjs`, `raw-PR-007.txt`).
+> Nota: PR-007 não persistia o artefacto quando `gaps`=0 (guarda de artefacto vazio) — daí `artifacts[7]=null` no
+> SAT-004. Com `gaps`>0 deve voltar a persistir; **confirmar num re-run em fluxo (SAT-006)**.
+
+**Próximo SAT (SAT-006):** re-run completo em fluxo real com os extractores corrigidos — confirmar que PR-006/007/008/009
+persistem artefactos **completos** (gaps≥3, conv/div≥2, body com todos os temas) e re-medir no `/qualidade`. Achado
+pré-existente a decidir: `extractListItems` sobre-conta gaps em fixtures Gemini/GLM (16–34 itens vs. 3–5 esperados).
+Deferidos: `maxTokens`/fichas-por-artigo do PR-005 (EV-006).
